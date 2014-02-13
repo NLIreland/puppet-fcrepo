@@ -14,8 +14,8 @@ Prerequisites:  puppet, ruby, gem, and the bundler gem.
 1. Clone this project:
 
 ```
-    git clone git://github.com/sprater/fcrepo-puppet
-    cd fcrepo-puppet
+    git clone git://github.com/sprater/puppet-fcrepo
+    cd puppet-fcrepo
 ```
 
 
@@ -55,7 +55,7 @@ Build the module as a tar-gzipped package, ready for install into puppet:
 
 Install the module, ignoring any upstream Puppet Forge dependencies:
 
-    puppet module install fcrepo-puppet-<version>.tar.gz --ignore-dependencies
+    puppet module install fcrepo-<version>.tar.gz --ignore-dependencies
 
 ##Other useful commands
 
