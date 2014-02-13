@@ -13,19 +13,24 @@ Prerequisites:  puppet, ruby, gem, and the bundler gem.
 
 1. Clone this project:
 
-
+```
     git clone git://github.com/sprater/fcrepo-puppet
     cd fcrepo-puppet
+```
 
 
 2. Set your environment variables:
 
+```
     BUNDLE_GEMFILE=.gemfile
     export BUNDLE_GEMFILE
+```
 
-2. Install the gems needed for development and testing:
+3. Install the gems needed for development and testing:
 
+```
     bundle install --gemfile .gemfile
+```
 
 
 ##Check the formatting
