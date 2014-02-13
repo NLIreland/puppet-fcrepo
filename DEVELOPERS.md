@@ -61,9 +61,9 @@ Install the module, ignoring any upstream Puppet Forge dependencies:
 
 ###Clean the built module package
 
-    bundle exec rake clean
+    rake clean
 
 ###Check your test coverage
 
-    bundle exec rake coverage
+    rake coverage
 
