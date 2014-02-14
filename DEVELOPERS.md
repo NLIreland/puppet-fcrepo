@@ -9,7 +9,8 @@
 
 ##Set Up the Environment
 
-Prerequisites:  puppet, ruby, gem, and the bundler gem.
+Prerequisites:  puppet, ruby, gem, and the bundler and rcov (for code coverage 
+checks) gems.
 
 1. Clone this project:
 
