@@ -38,19 +38,19 @@ checks) gems.
 
 Make sure the module conforms to the [Puppet Labs Style Guide](http://docs.puppetlabs.com/guides/style_guide.html):
 
-    rake lint
+    bundle exec rake lint
 
 ##Run the tests
 
 Run the tests under the `spec/` directory:
 
-    rake spec
+    bundle exec rake spec
 
 ##Build the module
 
 Build the module as a tar-gzipped package, ready for install into puppet:
 
-    rake build
+    bundle exec rake build
 
 ##Install the module
 
@@ -62,9 +62,13 @@ Install the module, ignoring any upstream Puppet Forge dependencies:
 
 ###Clean the built module package
 
-    rake clean
+    bundle exec rake clean
+
+###Clean the rspec tests
+
+    bundle exec rake spec_clean
 
 ###Check your test coverage
 
-    rake coverage
+    bundle exec rake coverage
 
