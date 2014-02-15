@@ -7,6 +7,9 @@
 5. [Install the module](#install-the-module)
 6. [Other useful commands](#other-useful-commands)
 
+Run the following commands from the top-level module directory (where 
+`Modulefile` resides), unless otherwise specified.
+
 ##Set Up the Environment
 
 Prerequisites:  puppet, ruby, gem, and the bundler and rcov (for code coverage 
@@ -33,7 +36,6 @@ checks) gems.
     bundle install --gemfile .gemfile
 ```
 
-
 ##Check the formatting
 
 Make sure the module conforms to the [Puppet Labs Style Guide](http://docs.puppetlabs.com/guides/style_guide.html):
@@ -50,13 +52,13 @@ Run the tests under the `spec/` directory:
 
 Build the module as a tar-gzipped package, ready for install into puppet:
 
-    bundle exec rake build
+    puppet module build .
 
 ##Install the module
 
 Install the module, ignoring any upstream Puppet Forge dependencies:
 
-    puppet module install fcrepo-<version>.tar.gz --ignore-dependencies
+    sudo puppet module install pkg/sprater-fcrepo-<version>.tar.gz --ignore-dependencies
 
 ##Other useful commands
 

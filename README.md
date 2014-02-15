@@ -62,7 +62,19 @@ installed from source, and should work on any Unix environment.
 It also deploys the Fedora WAR and Fedora configuration files.
 
 ###Beginning with fcrepo
-                                                                                                                                          
+
+####Install the module
+
+Clone this project, then in the top-level directory puppet-fcrepo, run 
+thses commands:
+
+    puppet module build .
+    sudo puppet module install pkg/sprater-fcrepo-<version>.tar.gz
+
+where `<version>` is the current version of the module.
+
+####Enable the module in Puppet
+
 include '::fcrepo' is enough to get you up and running.  If you wish to pass in                                                           
 parameters like which servers to use then you can use:                                                                                    
 ```puppet                                                                                                                                 
