@@ -1,4 +1,4 @@
-=Features Fixes and Improvements to Add
+##Features Fixes and Improvements to Add
 
 * Allow users to use system-installed Java, Maven, Tomcat
 
