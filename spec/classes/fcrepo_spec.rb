@@ -71,7 +71,7 @@ describe 'fcrepo' do
   context "With user specified" do
     let :params do
       {
-        :user         => 'fedora'
+        :user         => 'fedora',
         :user_profile => '/home/fedora/.bashrc'
       }
     end
