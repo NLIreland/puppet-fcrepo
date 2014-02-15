@@ -4,6 +4,13 @@ require 'spec_helper'
 
 describe 'fcrepo' do
 
+  # Don't let java::setup stop us
+  let :facts do
+    {
+      :osfamily => 'RedHat'
+    }
+  end
+
   it { should compile.with_all_deps }
 
   it 'includes stdlib' do

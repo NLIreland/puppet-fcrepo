@@ -12,11 +12,21 @@
 #   The Unix group to configure and install Fedora 4 and supporting
 #   applications.
 #
+# [*user_profile_real*]
+#   The profile file to be modified with updated PATH entries, other
+#   environment variables.
+#
 # [*fcrepo_sandbox_home_real*]
 #   The base directory for the Fedora 4 sandbox.
 #
 # [*fcrepo_datadir_real*]
 #   The Fedora 4 data directory.
+#
+# [*java_source_real*]
+#   The Java source file.
+#
+# [*java_deploydir_real*]
+#   The Java base directory (JAVA_HOME).
 #
 # === Variables
 #
@@ -49,8 +59,8 @@ class fcrepo::install {
     require    => Group[$::fcrepo::group_real],
   }
 
-  # Create the sandbox directory and data directory
-  # and user home directory
+  # Create the sandbox directory, data directory,
+  # user home directory, and user profile
   file { $::fcrepo::fcrepo_sandbox_home_real:
     ensure  => directory,
     path    => $::fcrepo::fcrepo_sandbox_home_real,
@@ -78,4 +88,20 @@ class fcrepo::install {
     require => [ Group[$::fcrepo::group_real], User[$::fcrepo::user_real] ]
   }
 
+  file { $::fcrepo::user_profile_real:
+    ensure  => file,
+    path    => $::fcrepo::user_profile_real,
+  }
+
+  # Install the infrastructure software
+
+  # Java
+  java::setup { $::fcrepo::java_source_real:
+    ensure        => 'present',
+    source        => "sources/${::fcrepo::java_source_real}",
+    deploymentdir => $::fcrepo::java_deploydir_real,
+    user          => $::fcrepo::user_real,
+    pathfile      => $::fcrepo::user_profile_real,
+  }
+  
 }

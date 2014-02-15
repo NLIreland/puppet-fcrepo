@@ -19,7 +19,7 @@ environment.
 
 ##Module Description
 
-The fcrepo module manages running Fedora repositories in a clustered 
+The fcrepo module manages running Fedora 4 repositories in a clustered 
 environment.  The module ensures that the prerequisite  software is installed, 
 installs the Fedora WAR file and sets up the FCREPO_HOME directory, and manages 
 the configuration files for every Fedora instance on each node in the cluster.
@@ -139,29 +139,66 @@ class { '::fcrepo':
 
 ###Parameters
 
-The following parameters are available in the fcrepo module:
+The following parameters are available in the fcrepo module.  They
+are grouped into __Environment__, __Infrastructure__, and __Fedora__.
 
-####`user`
+The defaults are defined in `fcrepo::params``, and may be changed there, or
+overridden the Puppet files that include the `fcrepo` class.
+
+####Environment
+
+#####`user`
 
 The Unix user that will own the Fedora directories, software, and data.
 
-####`group`
+Default: **fcrepo**
+
+#####`group`
 
 The Unix group that will own the Fedora directories, software, and data.
 
-####`fcrepo_sandbox_home`
+Default: **fcrepo**
+
+#####`user_profile`
+
+The absolute path to the shell profile file that should be modified to
+update the PATH environment variable.  Can be set to a system-wide profile
+(i.e. `/etc/profile`).
+
+Default is **/home/_user_/.bashrc**
+
+#####`fcrepo_sandbox_home`
 
 The home directory for the Fedora environment sandbox.
 
-####`fcrepo_datadir`
+Default: **/fedora**
+
+#####`fcrepo_datadir`
 
 The Fedora data directory.
 
-####`tomcat_source`
+Default: **/data**
+
+####Infrastructure
+
+Software packages by default are installed in the Fedora 4 sandbox directory, owned
+by the Fedora Unix user and group.  The user's PATH is modified to point first to 
+these tools in the sandbox, and other environment variables may be set in the user's 
+profile file.
+
+#####`java_source`
 
 The *exact* name of the tomcat source distribution package, in *.tar.gz format.
 This file should be installed under the module's `files/sources` directory 
 (usually `/etc/puppet/modules/fcrepo/files/sources`).
+
+Default:  **jdk-7u51-linux-x64.tar.gz**
+
+#####`java_deploydir`
+
+The Java base directory (JAVA_HOME).
+
+Default:  **_fcrepo sandbox home_/java7**
 
 ##Limitations
 

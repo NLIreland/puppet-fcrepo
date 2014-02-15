@@ -3,3 +3,5 @@ pkg/
 ./rspec_system/
 .*.sw*
 coverage
+*.tar.gz
+*.tgz
