@@ -26,7 +26,13 @@ the configuration files for every Fedora instance on each node in the cluster.
 
 ##Prerequisites
 
-To use this module, you need Puppet installed (of course).
+To use this module, you need Puppet installed (of course), as well as
+the following Puppet modules:
+
+* puppetlabs/stdlib
+* 7terminals/java
+* 7terminals/maven
+* 7terminals/tomcat
 
 ###Install and configure a base installation of Puppet
 
@@ -41,6 +47,15 @@ Make sure your agents can contact the master puppet server and receive their
 catalog information:
 
 ```sudo puppet agent --test```
+
+###Install the extra Puppet modules
+
+```
+sudo puppet module install puppetlabs/stdlib
+sudo puppet module install 7terminals/java
+sudo puppet module install 7terminals/maven
+sudo puppet module install 7terminals/tomcat
+```
 
 ##Setup
 
@@ -65,8 +80,8 @@ It also deploys the Fedora WAR and Fedora configuration files.
 
 ####Install the module
 
-Clone this project, then in the top-level directory puppet-fcrepo, run 
-thses commands:
+Clone this project, change to the `puppet-fcrepo` directory, and run 
+these commands:
 
     puppet module build .
     sudo puppet module install pkg/sprater-fcrepo-<version>.tar.gz
@@ -75,7 +90,7 @@ where `<version>` is the current version of the module.
 
 ####Enable the module in Puppet
 
-include '::fcrepo' is enough to get you up and running.  If you wish to pass in                                                           
+include '::fcrepo' is enough to get you up and running.  If you wish to pass in
 parameters like which servers to use then you can use:                                                                                    
 ```puppet                                                                                                                                 
 class { '::fcrepo':                                                                                                                          

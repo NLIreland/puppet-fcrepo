@@ -8,7 +8,7 @@
 6. [Other useful commands](#other-useful-commands)
 
 Run the following commands from the top-level module directory (where 
-`Modulefile` resides), unless otherwise specified.
+`Modulefile` resides), unless otherwise noted.
 
 ##Set Up the Environment
 

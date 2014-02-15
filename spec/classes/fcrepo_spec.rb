@@ -47,9 +47,11 @@ describe 'fcrepo' do
   context "With no user specified" do
     it {
       should contain_user('fcrepo').with( {
-        'ensure' => 'present',
-        'gid'    => 'fcrepo',
-        'shell'  => '/bin/bash',
+        'ensure'     => 'present',
+        'gid'        => 'fcrepo',
+        'shell'      => '/bin/bash',
+        'home'       => '/home/fcrepo',
+        'managehome' => true,
       } )
     }
   end
@@ -62,9 +64,11 @@ describe 'fcrepo' do
     end
     it {
       should contain_user('fedora').with( {
-        'ensure' => 'present',
-        'gid'    => 'fcrepo',
-        'shell'  => '/bin/bash',
+        'ensure'     => 'present',
+        'gid'        => 'fcrepo',
+        'shell'      => '/bin/bash',
+        'home'       => '/home/fedora',
+        'managehome' => true,
       } )
     }
   end
@@ -78,9 +82,11 @@ describe 'fcrepo' do
     end
     it {
       should contain_user('fedora').with( {
-        'ensure' => 'present',
-        'gid'    => 'fedora',
-        'shell'  => '/bin/bash',
+        'ensure'     => 'present',
+        'gid'        => 'fedora',
+        'shell'      => '/bin/bash',
+        'home'       => '/home/fedora',
+        'managehome' => true,
       } )
     }
   end
@@ -140,6 +146,36 @@ describe 'fcrepo' do
       should contain_file('/opt/fedora/data').with( {
         'ensure'  => 'directory',
         'path'    => '/opt/fedora/data',
+        'group'   => 'fcrepo',
+        'owner'   => 'sholmes',
+        'mode'    => '0755',
+      } )
+    }
+  end
+
+  # With user home directory
+  context "With unspecified user's home directory" do
+    it {
+      should contain_file('/home/fcrepo').with( {
+        'ensure'  => 'directory',
+        'path'    => '/home/fcrepo',
+        'group'   => 'fcrepo',
+        'owner'   => 'fcrepo',
+        'mode'    => '0755',
+      } )
+    } 
+  end
+
+  context "With specified user's home directory" do
+    let :params do
+      {
+        :user           => 'sholmes'
+      }
+    end
+    it {
+      should contain_file('/home/sholmes').with( {
+        'ensure'  => 'directory',
+        'path'    => '/home/sholmes',
         'group'   => 'fcrepo',
         'owner'   => 'sholmes',
         'mode'    => '0755',

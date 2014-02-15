@@ -32,6 +32,7 @@
 #
 class fcrepo::install {
 
+  ##### TODO:  usre home dir, managehome
   include fcrepo
 
   #  Create the user and group
@@ -40,20 +41,23 @@ class fcrepo::install {
   }
 
   user { $::fcrepo::user_real:
-    ensure  => present,
-    gid     => $::fcrepo::group_real,
-    shell   => '/bin/bash',
-    require => Group[$::fcrepo::group_real],
+    ensure     => present,
+    gid        => $::fcrepo::group_real,
+    shell      => '/bin/bash',
+    home       => "/home/${::fcrepo::user_real}",
+    managehome => true,
+    require    => Group[$::fcrepo::group_real],
   }
 
   # Create the sandbox directory and data directory
+  # and user home directory
   file { $::fcrepo::fcrepo_sandbox_home_real:
     ensure  => directory,
     path    => $::fcrepo::fcrepo_sandbox_home_real,
     group   => $::fcrepo::group_real,
     owner   => $::fcrepo::user_real,
     mode    => '0755',
-    require => [ Group[$::fcrepo::group_real], User[$::fcrepo::group_real] ]
+    require => [ Group[$::fcrepo::group_real], User[$::fcrepo::user_real] ]
   }
 
   file { $::fcrepo::fcrepo_datadir_real:
@@ -62,7 +66,16 @@ class fcrepo::install {
     group   => $::fcrepo::group_real,
     owner   => $::fcrepo::user_real,
     mode    => '0755',
-    require => [ Group[$::fcrepo::group_real], User[$::fcrepo::group_real] ]
+    require => [ Group[$::fcrepo::group_real], User[$::fcrepo::user_real] ]
+  }
+
+  file { "/home/${::fcrepo::user_real}":
+    ensure  => directory,
+    path    => "/home/${::fcrepo::user_real}",
+    group   => $::fcrepo::group_real,
+    owner   => $::fcrepo::user_real,
+    mode    => '0755',
+    require => [ Group[$::fcrepo::group_real], User[$::fcrepo::user_real] ]
   }
 
 }
