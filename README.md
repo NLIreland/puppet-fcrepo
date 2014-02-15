@@ -34,6 +34,12 @@ the following Puppet modules:
 * 7terminals/maven
 * 7terminals/tomcat
 
+You'll also need to download the following source packages:
+
+ * Java 7:  <http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html>
+
+   Choose the correct *.tar.gz package for your platform.
+
 ###Install and configure a base installation of Puppet
 
 Puppet Labs has good step-by-step documentation for getting a Puppet master 
@@ -72,26 +78,36 @@ This module creates a user and group to manage the Fedora service and files,
 creates a software directory and a data directory and assigns ownership of
 them to the fedora user, then installs standalone versions of Oracle Java
 HotSpot JDK, Tomcat, and Maven.  The module installs Fedora in a
-sandboxed environment, with infarstructure software downloaded and
+sandboxed environment, with infrastructure software downloaded and
 installed from source, and should work on any Unix environment.
 
-It also deploys the Fedora WAR and Fedora configuration files.
+It also deploys the Fedora WAR and Fedora configuration files,
+nd manages the Fedora Tomcat service.
 
 ###Beginning with fcrepo
 
-####Install the module
+####Build and install the module
 
-Clone this project, change to the `puppet-fcrepo` directory, and run 
-these commands:
+1. Clone this project, change to the `puppet-fcrepo` directory. 
+
+2. Copy the source files you downloaded (see [Prerequisites](#prerequisites),
+above) into the module's `files/sources` directory:
+
+    cp /path/to/source/packages/*.tar.gz files/sources
+
+3. Build the module: 
 
     puppet module build .
+
+4. Install the module:
+
     sudo puppet module install pkg/sprater-fcrepo-<version>.tar.gz --ignore-dependencies
 
-where `<version>` is the current version of the module.
+   where `<version>` is the current version of the module.
 
 ####Enable the module in Puppet
 
-`include '::fcrepo'` in the puppet master's `site.pp` file is enough to get 
+`include 'fcrepo'` in the puppet master's `site.pp` file is enough to get 
 you up and running.  If you wish to pass in parameters such as which user and
 group to create then you can use:                                                                                    
 
@@ -116,9 +132,10 @@ class { '::fcrepo':
 
 ####Private Classes
 
-* fcrepo::install: Handles the packages.
-* fcrepo::config: Handles the configuration files.
-* fcrepo::service: Handles the service.
+* fcrepo::install: Creates the user and group, ensures that the correct
+  directories exist, and installs the base software and the Fedora WAR.
+* fcrepo::config: Manages the configuration files.
+* fcrepo::service: Manages the Tomcat service.
 
 ###Parameters
 
@@ -139,6 +156,12 @@ The home directory for the Fedora environment sandbox.
 ####`fcrepo_datadir`
 
 The Fedora data directory.
+
+####`tomcat_source`
+
+The *exact* name of the tomcat source distribution package, in *.tar.gz format.
+This file should be installed under the module's `files/sources` directory 
+(usually `/etc/puppet/modules/fcrepo/files/sources`).
 
 ##Limitations
 
