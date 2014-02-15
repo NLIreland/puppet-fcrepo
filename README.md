@@ -61,6 +61,7 @@ sudo puppet module install 7terminals/tomcat
 
 ###What fcrepo affects
 
+* Fedora service user and group
 * Java, Tomcat, Maven standalone installs
 * Fedora WAR
 * Fedora directories (home and data)
@@ -84,14 +85,16 @@ Clone this project, change to the `puppet-fcrepo` directory, and run
 these commands:
 
     puppet module build .
-    sudo puppet module install pkg/sprater-fcrepo-<version>.tar.gz
+    sudo puppet module install pkg/sprater-fcrepo-<version>.tar.gz --ignore-dependencies
 
 where `<version>` is the current version of the module.
 
 ####Enable the module in Puppet
 
-include '::fcrepo' is enough to get you up and running.  If you wish to pass in
-parameters like which servers to use then you can use:                                                                                    
+`include '::fcrepo'` in the puppet master's `site.pp` file is enough to get 
+you up and running.  If you wish to pass in parameters such as which user and
+group to create then you can use:                                                                                    
+
 ```puppet                                                                                                                                 
 class { '::fcrepo':                                                                                                                          
   user                => 'fcrepo',                                                                                        
