@@ -93,15 +93,21 @@ nd manages the Fedora Tomcat service.
 2. Copy the source files you downloaded (see [Prerequisites](#prerequisites),
 above) into the module's `files/sources` directory:
 
+```
     cp /path/to/source/packages/*.tar.gz files/sources
+```
 
 3. Build the module: 
 
+```
     puppet module build .
+```
 
 4. Install the module:
 
+```
     sudo puppet module install pkg/sprater-fcrepo-<version>.tar.gz --ignore-dependencies
+```
 
    where `<version>` is the current version of the module.
 
@@ -142,7 +148,7 @@ class { '::fcrepo':
 The following parameters are available in the fcrepo module.  They
 are grouped into __Environment__, __Infrastructure__, and __Fedora__.
 
-The defaults are defined in `fcrepo::params``, and may be changed there, or
+The defaults are defined in `fcrepo::params`, and may be changed there, or
 overridden the Puppet files that include the `fcrepo` class.
 
 ####Environment
@@ -208,6 +214,10 @@ and data directories will reside are created and mounted.
 
 This module does not set a password for the Fedora Unix user.  You'll
 need to do that yourself.
+
+The `java::setup` resource only supports the `$::osfamily` parameters of 
+RedHat, Debian, and Suse.  You may need to override the `$::osfamily` parameter,
+setting it to one of those supported OSes, to get Java to install.
 
 ##Development
 
