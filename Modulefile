@@ -1,4 +1,4 @@
-name    'fcrepo'
+name    'sprater-fcrepo'
 version '0.0.1'
 source 'git://github.com/sprater/puppet-fcrepo'
 author 'Scott Prater'
