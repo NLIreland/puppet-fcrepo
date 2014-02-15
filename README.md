@@ -20,7 +20,7 @@ environment.
 ##Module Description
 
 The fcrepo module manages running Fedora repositories in a clustered 
-environment.  The module ensures that the package prerequisites are installed, 
+environment.  The module ensures that the prerequisite  software is installed, 
 installs the Fedora WAR file and sets up the FCREPO_HOME directory, and manages 
 the configuration files for every Fedora instance on each node in the cluster.
 
@@ -46,30 +46,73 @@ catalog information:
 
 ###What fcrepo affects
 
-* Java, Tomcat, Maven, and Git packages
+* Java, Tomcat, Maven standalone installs
 * Fedora WAR
 * Fedora directories (home and data)
 * Fedora configuration files
 * Tomcat service
 
+This module creates a user and group to manage the Fedora service and files,
+creates a software directory and a data directory and assigns ownership of
+them to the fedora user, then installs standalone versions of Oracle Java
+HotSpot JDK, Tomcat, and Maven.  The module installs Fedora in a
+sandboxed environment, with infarstructure software downloaded and
+installed from source, and should work on any Unix environment.
+
+It also deploys the Fedora WAR and Fedora configuration files.
+
 ###Beginning with fcrepo
                                                                                                                                           
 include '::fcrepo' is enough to get you up and running.  If you wish to pass in                                                           
 parameters like which servers to use then you can use:                                                                                    
-                                                                                                                                          
 ```puppet                                                                                                                                 
 class { '::fcrepo':                                                                                                                          
-  config => 'infinispan',                                                                                        
+  user                => 'fcrepo',                                                                                        
+  group               => 'fcrepo',                                                                                        
+  fcrepo_sandbox_home => '/opt/fcrepo',
+  fcrepo_datadir      => '/opt/fcrepo/data',
 }
 ```
 
-###Usage
+##Usage
 
-###Reference
+##Reference
 
-###Limitations
+###Classes
 
-###Development
+####Public Classes
+
+* fcrepo:  Main class, includes all other classes
+
+####Private Classes
+
+* fcrepo::install: Handles the packages.
+* fcrepo::config: Handles the configuration files.
+* fcrepo::service: Handles the service.
+
+###Parameters
+
+The following parameters are available in the fcrepo module:
+
+####`user`
+
+The Unix user that will own the Fedora directories, software, and data.
+
+####`group`
+
+The Unix group that will own the Fedora directories, software, and data.
+
+####`fcrepo_sandbox_home`
+
+The home directory for the Fedora environment sandbox.
+
+####`fcrepo_datadir`
+
+The Fedora data directory.
+
+##Limitations
+
+##Development
 
 See the [DEVELOPERS](DEVELOPERS.md) file for more information on modifying, 
 testing, and building this module.
