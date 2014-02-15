@@ -61,12 +61,18 @@ describe 'fcrepo' do
         'managehome' => true,
       } )
     }
+
+    it {
+      should contain_file('/home/fcrepo/.bashrc')
+    }
+
   end
 
   context "With user specified" do
     let :params do
       {
-        :user => 'fedora'
+        :user         => 'fedora'
+        :user_profile => '/home/fedora/.bashrc'
       }
     end
     it {
@@ -78,6 +84,11 @@ describe 'fcrepo' do
         'managehome' => true,
       } )
     }
+
+    it {
+      should contain_file('/home/fedora/.bashrc')
+    }
+
   end
 
   context "With user and group specified" do
@@ -96,8 +107,10 @@ describe 'fcrepo' do
         'managehome' => true,
       } )
     }
+
   end
 
+  # Test user profile
   # Test sandbox home
   context "With no sandbox directory specified" do
     it {
