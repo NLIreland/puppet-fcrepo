@@ -110,7 +110,6 @@ describe 'fcrepo' do
 
   end
 
-  # Test user profile
   # Test sandbox home
   context "With no sandbox directory specified" do
     it {
@@ -203,4 +202,27 @@ describe 'fcrepo' do
     }
   end
 
+  # Test Java install
+  context "With default java_source and java_deploydir" do
+    it {
+      should contain_java__setup('jdk-7u51-linux-x64.tar.gz').with( {
+        'source'        => 'sources/jdk-7u51-linux-x64.tar.gz',
+        'deploymentdir' => '/fedora/java7',
+        'user'          => 'fcrepo',
+        'pathfile'      => '/home/fcrepo/.bashrc'
+      } )
+    }
+  end
+
+  context "With specified java_source and default java_deploydir" do
+  end
+
+  context "With specified java_source and specified java_deploydir" do
+  end
+
+  context "With default Java deploy PATH in default user profile" do
+  end
+
+  context "With specified Java deploy PATH in specified user profile" do
+  end
 end
