@@ -112,6 +112,13 @@ The Fedora data directory.
 
 ##Limitations
 
+This module does not define the raw filesystem devices, nor mount
+any filesystems.  Make sure the filesystem(s) in which the sandbox
+and data directories will reside are created and mounted.
+
+This module does not set a password for the Fedora Unix user.  You'll
+need to do that yourself.
+
 ##Development
 
 See the [DEVELOPERS](DEVELOPERS.md) file for more information on modifying, 
