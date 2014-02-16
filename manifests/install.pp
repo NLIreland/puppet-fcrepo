@@ -110,7 +110,7 @@ class fcrepo::install {
   }
 
   # Maven
-  java::setup { $::fcrepo::maven_source_real:
+  maven::setup { $::fcrepo::maven_source_real:
     ensure        => 'present',
     source        => $::fcrepo::maven_source_real,
     deploymentdir => $::fcrepo::maven_deploydir_real,
