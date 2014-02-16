@@ -103,5 +103,5 @@ class fcrepo::install {
     user          => $::fcrepo::user_real,
     pathfile      => $::fcrepo::user_profile_real,
   }
-  
+
 }

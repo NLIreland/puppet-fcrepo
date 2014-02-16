@@ -212,10 +212,6 @@ describe 'fcrepo' do
         'pathfile'      => '/home/fcrepo/.bashrc'
       } )
     }
-    it {
-      should contain_file('/home/fcrepo/.bashrc') \
-        .with_content(/\/fedora\/java7\/bin/)
-    }
   end
 
   context "With specified java_source and default java_deploydir" do
@@ -251,9 +247,4 @@ describe 'fcrepo' do
     }
   end
 
-  context "With default Java deploy PATH in default user profile" do
-  end
-
-  context "With specified Java deploy PATH in specified user profile" do
-  end
 end
