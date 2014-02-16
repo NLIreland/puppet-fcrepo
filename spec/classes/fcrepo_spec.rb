@@ -212,6 +212,10 @@ describe 'fcrepo' do
         'pathfile'      => '/home/fcrepo/.bashrc'
       } )
     }
+    it {
+      should contain_file('/home/fcrepo/.bashrc') \
+        .with_content(/\/fedora\/java7\/bin)
+    }
   end
 
   context "With specified java_source and default java_deploydir" do
@@ -231,6 +235,20 @@ describe 'fcrepo' do
   end
 
   context "With specified java_source and specified java_deploydir" do
+    let :params do
+      {
+        :java_source    => 'testjavasource.tar.gz'
+        :java_deploydir => '/opt/java/jdk7'
+      }
+    end
+    it {
+      should contain_java__setup('testjavasource.tar.gz').with( {
+        'source'        => 'sources/testjavasource.tar.gz',
+        'deploymentdir' => '/opt/java/jdk7',
+        'user'          => 'fcrepo',
+        'pathfile'      => '/home/fcrepo/.bashrc'
+      } )
+    }
   end
 
   context "With default Java deploy PATH in default user profile" do
