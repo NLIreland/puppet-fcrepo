@@ -237,7 +237,7 @@ describe 'fcrepo' do
   context "With specified java_source and specified java_deploydir" do
     let :params do
       {
-        :java_source    => 'testjavasource.tar.gz'
+        :java_source    => 'testjavasource.tar.gz',
         :java_deploydir => '/opt/java/jdk7'
       }
     end
