@@ -69,8 +69,8 @@ class fcrepo (
 ) {
 
   include stdlib
-  include java
   include maven
+  include java
   include tomcat
   include fcrepo::params
 
@@ -137,10 +137,4 @@ class fcrepo (
 #  class { '::fcrepo::config': } ~>
 #  class { '::fcrepo::service': } ->
   anchor { 'fcrepo::end': }
-  anchor { 'java::begin': } ->
-  class { '::java::setup': } ->
-  anchor { 'java::end': }
-  anchor { 'maven::begin': } ->
-  class { '::maven::setup': } ->
-  anchor { 'maven::end': }
 }
