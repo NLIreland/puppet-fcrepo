@@ -25,7 +25,7 @@
 #   Fedora 4 data directory.
 #
 # [*java_source*]
-#   The java source package name (should be installed under files/source)
+#   The java source package name (should be installed under files/)
 #
 # [*java_deploydir*]
 #   The Java base directory (i.e., JAVA_HOME).

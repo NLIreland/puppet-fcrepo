@@ -22,7 +22,7 @@
 #   The Fedora data directory.
 #
 # [*java_source*]
-#   The Java source file, under files/sources.
+#   The Java source file, under files/.
 #
 # [*java_deploydir*]
 #   The Java base directory (JAVA_HOME).

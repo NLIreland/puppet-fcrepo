@@ -42,7 +42,6 @@
 #
 class fcrepo::install {
 
-  ##### TODO:  usre home dir, managehome
   include fcrepo
 
   #  Create the user and group
@@ -98,7 +97,7 @@ class fcrepo::install {
   # Java
   java::setup { $::fcrepo::java_source_real:
     ensure        => 'present',
-    source        => "sources/${::fcrepo::java_source_real}",
+    source        => $::fcrepo::java_source_real,
     deploymentdir => $::fcrepo::java_deploydir_real,
     user          => $::fcrepo::user_real,
     pathfile      => $::fcrepo::user_profile_real,

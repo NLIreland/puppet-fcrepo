@@ -91,10 +91,10 @@ nd manages the Fedora Tomcat service.
 1. Clone this project, change to the `puppet-fcrepo` directory. 
 
 2. Copy the source files you downloaded (see [Prerequisites](#prerequisites),
-above) into the module's `files/sources` directory:
+above) into the module's `files/` directory:
 
 ```
-    cp /path/to/source/packages/*.tar.gz files/sources
+    cp /path/to/source/packages/*.tar.gz files/
 ```
 
 3. Build the module: 
@@ -195,8 +195,8 @@ profile file.
 #####`java_source`
 
 The *exact* name of the tomcat source distribution package, in *.tar.gz format.
-This file should be installed under the module's `files/sources` directory 
-(usually `/etc/puppet/modules/fcrepo/files/sources`).
+This file should be installed under the module's `files/` directory 
+(usually `/etc/puppet/modules/fcrepo/files/`).
 
 Default:  **jdk-7u51-linux-x64.tar.gz**
 

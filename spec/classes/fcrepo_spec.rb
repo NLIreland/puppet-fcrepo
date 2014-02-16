@@ -206,7 +206,7 @@ describe 'fcrepo' do
   context "With default java_source and java_deploydir" do
     it {
       should contain_java__setup('jdk-7u51-linux-x64.tar.gz').with( {
-        'source'        => 'sources/jdk-7u51-linux-x64.tar.gz',
+        'source'        => 'jdk-7u51-linux-x64.tar.gz',
         'deploymentdir' => '/fedora/java7',
         'user'          => 'fcrepo',
         'pathfile'      => '/home/fcrepo/.bashrc'
@@ -222,7 +222,7 @@ describe 'fcrepo' do
     end
     it {
       should contain_java__setup('testjavasource.tar.gz').with( {
-        'source'        => 'sources/testjavasource.tar.gz',
+        'source'        => 'testjavasource.tar.gz',
         'deploymentdir' => '/fedora/java7',
         'user'          => 'fcrepo',
         'pathfile'      => '/home/fcrepo/.bashrc'
@@ -239,7 +239,7 @@ describe 'fcrepo' do
     end
     it {
       should contain_java__setup('testjavasource.tar.gz').with( {
-        'source'        => 'sources/testjavasource.tar.gz',
+        'source'        => 'testjavasource.tar.gz',
         'deploymentdir' => '/opt/java/jdk7',
         'user'          => 'fcrepo',
         'pathfile'      => '/home/fcrepo/.bashrc'
