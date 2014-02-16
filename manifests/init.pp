@@ -69,8 +69,8 @@ class fcrepo (
 ) {
 
   include stdlib
-  include maven
   include java
+  include maven
   include tomcat
   include fcrepo::params
 
@@ -121,7 +121,7 @@ class fcrepo (
     default => $java_deploydir,
   }
 
-  $maven_source_real = $java_source? {
+  $maven_source_real = $maven_source? {
     'UNSET' => $::fcrepo::params::maven_source,
     default => $maven_source,
   }
