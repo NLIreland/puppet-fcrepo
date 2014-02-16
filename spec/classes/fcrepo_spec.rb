@@ -214,7 +214,7 @@ describe 'fcrepo' do
     }
     it {
       should contain_file('/home/fcrepo/.bashrc') \
-        .with_content(/\/fedora\/java7\/bin)
+        .with_content(/\/fedora\/java7\/bin/)
     }
   end
 
