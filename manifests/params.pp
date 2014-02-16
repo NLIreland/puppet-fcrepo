@@ -27,6 +27,12 @@
 # [*java_deploydir*]
 #   The Java base directory (JAVA_HOME).
 #
+# [*maven_source*]
+#   The Maven source file, under files/.
+#
+# [*maven_deploydir*]
+#   The Maven base directory.
+#
 # === Variables
 #
 # === Examples
@@ -48,4 +54,6 @@ class fcrepo::params {
     $fcrepo_datadir      = '/data'
     $java_source         = 'jdk-7u51-linux-x64.tar.gz'
     $java_deploydir      = '/fedora/java7'
+    $maven_source        = 'apache-maven-3.1.1-bin.tar.gz'
+    $maven_deploydir     = '/fedora/maven3'
 }

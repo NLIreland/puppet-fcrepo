@@ -247,4 +247,49 @@ describe 'fcrepo' do
     }
   end
 
+  # Test Maven install
+  context "With default maven_source and maven_deploydir" do
+    it {
+      should contain_maven__setup('apache-maven-3.1.1-bin.tar.gz').with( {
+        'source'        => 'apache-maven-3.1.1-bin.tar.gz',
+        'deploymentdir' => '/fedora/maven3',
+        'user'          => 'fcrepo',
+        'pathfile'      => '/home/fcrepo/.bashrc'
+      } )
+    }
+  end
+
+  context "With specified maven_source and default maven_deploydir" do
+    let :params do
+      {
+        :maven_source    => 'testmavensource.tar.gz'
+      }
+    end
+    it {
+      should contain_maven__setup('testmavensource.tar.gz').with( {
+        'source'        => 'testmavensource.tar.gz',
+        'deploymentdir' => '/fedora/maven3',
+        'user'          => 'fcrepo',
+        'pathfile'      => '/home/fcrepo/.bashrc'
+      } )
+    }
+  end
+
+  context "With specified maven_source and specified maven_deploydir" do
+    let :params do
+      {
+        :maven_source    => 'testmavensource.tar.gz',
+        :maven_deploydir => '/opt/maven/maven3'
+      }
+    end
+    it {
+      should contain_maven__setup('testmavensource.tar.gz').with( {
+        'source'        => 'testmavensource.tar.gz',
+        'deploymentdir' => '/opt/maven/maven3',
+        'user'          => 'fcrepo',
+        'pathfile'      => '/home/fcrepo/.bashrc'
+      } )
+    }
+  end
+
 end

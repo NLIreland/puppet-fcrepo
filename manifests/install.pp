@@ -28,6 +28,12 @@
 # [*java_deploydir_real*]
 #   The Java base directory (JAVA_HOME).
 #
+# [*maven_source_real*]
+#   The Maven source file.
+#
+# [*maven_deploydir_real*]
+#   The Maven base directory.
+#
 # === Variables
 #
 # === Examples
@@ -99,6 +105,15 @@ class fcrepo::install {
     ensure        => 'present',
     source        => $::fcrepo::java_source_real,
     deploymentdir => $::fcrepo::java_deploydir_real,
+    user          => $::fcrepo::user_real,
+    pathfile      => $::fcrepo::user_profile_real,
+  }
+
+  # Maven
+  java::setup { $::fcrepo::maven_source_real:
+    ensure        => 'present',
+    source        => $::fcrepo::maven_source_real,
+    deploymentdir => $::fcrepo::maven_deploydir_real,
     user          => $::fcrepo::user_real,
     pathfile      => $::fcrepo::user_profile_real,
   }

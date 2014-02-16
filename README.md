@@ -37,6 +37,7 @@ the following Puppet modules:
 You'll also need to download the following source packages:
 
  * Java 7:  <http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html>
+ * Maven 3:  <http://maven.apache.org/download.cgi>
 
    Choose the correct *.tar.gz package for your platform.
 
@@ -194,17 +195,25 @@ profile file.
 
 #####`java_source`
 
-The *exact* name of the tomcat source distribution package, in *.tar.gz format.
+The *exact* name of the Java source distribution package, in *.tar.gz format.
 This file should be installed under the module's `files/` directory 
 (usually `/etc/puppet/modules/fcrepo/files/`).
 
 Default:  **jdk-7u51-linux-x64.tar.gz**
 
-#####`java_deploydir`
+#####`maven_source`
 
-The Java base directory (JAVA_HOME).
+The *exact* name of the Maven source distribution package, in *.tar.gz format.
+This file should be installed under the module's `files/` directory 
+(usually `/etc/puppet/modules/fcrepo/files/`).
 
-Default:  **_fcrepo sandbox home_/java7**
+Default:  **apache-maven-3.1.1-bin.tar.gz**
+
+#####`maven_deploydir`
+
+The Maven base directory.
+
+Default:  **_fcrepo sandbox home_/maven3**
 
 ##Limitations
 
@@ -215,9 +224,10 @@ and data directories will reside are created and mounted.
 This module does not set a password for the Fedora Unix user.  You'll
 need to do that yourself.
 
-The `java::setup` resource only supports the `$::osfamily` parameters of 
-RedHat, Debian, and Suse.  You may need to override the `$::osfamily` parameter,
-setting it to one of those supported OSes, to get Java to install.
+The `java::setup` and `maven::setup` resources only support the `$::osfamily` 
+parameters of RedHat, Debian, and Suse.  You may need to override the 
+`$::osfamily` parameter, setting it to one of those supported OSes, to get
+these tools to install under puppet.
 
 ##Development
 
