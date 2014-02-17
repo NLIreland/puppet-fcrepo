@@ -33,6 +33,12 @@
 # [*maven_deploydir*]
 #   The Maven base directory.
 #
+# [*tomcat_source*]
+#   The Tomcat source file, under files/.
+#
+# [*tomcat_deploydir*]
+#   The Tomcat base directory (CATALINA_HOME).
+#
 # === Variables
 #
 # === Examples
@@ -56,4 +62,6 @@ class fcrepo::params {
     $java_deploydir      = '/fedora/java7'
     $maven_source        = 'apache-maven-3.1.1-bin.tar.gz'
     $maven_deploydir     = '/fedora/maven3'
+    $tomcat_source        = 'apache-tomcat-7.0.50.tar.gz'
+    $tomcat_deploydir     = '/fedora/tomcat7'
 }

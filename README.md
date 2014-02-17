@@ -38,6 +38,7 @@ You'll also need to download the following source packages:
 
  * Java 7:  <http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html>
  * Maven 3:  <http://maven.apache.org/download.cgi>
+ * Tomcat 7:  <http://tomcat.apache.org/download-70.cgi>
 
    Choose the correct *.tar.gz package for your platform.
 
@@ -119,9 +120,9 @@ you up and running.  If you wish to pass in parameters such as which user and
 group to create then you can use:                                                                                    
 
 ```puppet                                                                                                                                 
-class { '::fcrepo':                                                                                                                          
-  user                => 'fcrepo',                                                                                        
-  group               => 'fcrepo',                                                                                        
+class { '::fcrepo':
+  user                => 'fcrepo',
+  group               => 'fcrepo',
   fcrepo_sandbox_home => '/opt/fcrepo',
   fcrepo_datadir      => '/opt/fcrepo/data',
 }
@@ -215,6 +216,20 @@ The Maven base directory.
 
 Default:  **_fcrepo sandbox home_/maven3**
 
+#####`tomcat_source`
+
+The *exact* name of the Tomcat source distribution package, in *.tar.gz format.
+This file should be installed under the module's `files/` directory 
+(usually `/etc/puppet/modules/fcrepo/files/`).
+
+Default:  **apache-tomcat-7.0.50.tar.gz**
+
+#####`tomcat_deploydir`
+
+The Tomcat base directory (CATALINA_HOME).
+
+Default:  **_fcrepo sandbox home_/tomcat7**
+
 ##Limitations
 
 This module does not define the raw filesystem devices, nor mount
@@ -224,10 +239,10 @@ and data directories will reside are created and mounted.
 This module does not set a password for the Fedora Unix user.  You'll
 need to do that yourself.
 
-The `java::setup` and `maven::setup` resources only support the `$::osfamily` 
-parameters of RedHat, Debian, and Suse.  You may need to override the 
-`$::osfamily` parameter, setting it to one of those supported OSes, to get
-these tools to install under puppet.
+The `java::setup`, `maven::setup`, and `tomcat::setup` resources only 
+support the `$::osfamily` parameters of RedHat, Debian, and Suse.  
+You may need to override the `$::osfamily` parameter, setting it to 
+one of those supported OSes, to get these tools to install under puppet.
 
 ##Development
 

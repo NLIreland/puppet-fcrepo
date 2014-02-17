@@ -34,6 +34,12 @@
 # [*maven_deploydir_real*]
 #   The Maven base directory.
 #
+# [*tomcat_source_real*]
+#   The Tomcat source file.
+#
+# [*maven_deploydir_real*]
+#   The Tomcat base directory (CATALINA_HOME).
+#
 # === Variables
 #
 # === Examples
@@ -116,6 +122,20 @@ class fcrepo::install {
     deploymentdir => $::fcrepo::maven_deploydir_real,
     user          => $::fcrepo::user_real,
     pathfile      => $::fcrepo::user_profile_real,
+  }
+
+  # Tomcat
+  tomcat::setup { $::fcrepo::tomcat_source_real:
+    ensure                     => 'running',
+    enable                     => false,
+    source                     => $::fcrepo::tomcat_source_real,
+    deploymentdir              => $::fcrepo::tomcat_deploydir_real,
+    user                       => $::fcrepo::user_real,
+    default_webapp_docs        => 'absent',
+    default_webapp_examples    => 'absent',
+    default_webapp_hostmanager => 'absent',
+    default_webapp_manager     => 'absent',
+    default_webapp_root        => 'absent',
   }
 
 }
