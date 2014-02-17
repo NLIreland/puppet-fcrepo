@@ -150,6 +150,7 @@ class fcrepo (
   $tomcat_deploydir_real = $tomcat_deploydir? {
     'UNSET' => $::fcrepo::params::tomcat_deploydir,
     default => $tomcat_deploydir,
+  }
 
 # Using the anchor containment pattern for backwards compatibility (< 3.4.0)
   anchor { 'fcrepo::begin': } ->
