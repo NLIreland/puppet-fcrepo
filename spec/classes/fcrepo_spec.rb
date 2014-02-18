@@ -293,60 +293,60 @@ describe 'fcrepo' do
   end
 
   # Test Tomcat install
-  context "With default tomcat_source and tomcat_deploydir" do
-    it {
-      should contain_tomcat__setup('apache-tomcat-7.0.50.tar.gz').with( {
-        'source'                     => 'apache-tomcat-7.0.50.tar.gz',
-        'deploymentdir'              => '/fedora/tomcat7',
-        'user'                       => 'fcrepo',
-        'default_webapp_docs'        => 'absent',
-        'default_webapp_examples'    => 'absent',
-        'default_webapp_hostmanager' => 'absent',
-        'default_webapp_manager'     => 'absent',
-        'default_webapp_root'        => 'absent',
-      } )
-    }
-  end
-
-  context "With specified tomcat_source and default tomcat_deploydir" do
-    let :params do
-      {
-        :tomcat_source    => 'testtomcatsource.tar.gz'
-      }
-    end
-    it {
-      should contain_tomcat__setup('testtomcatsource.tar.gz').with( {
-        'source'                     => 'testtomcatsource.tar.gz',
-        'deploymentdir'              => '/fedora/tomcat7',
-        'user'                       => 'fcrepo',
-        'default_webapp_docs'        => 'absent',
-        'default_webapp_examples'    => 'absent',
-        'default_webapp_hostmanager' => 'absent',
-        'default_webapp_manager'     => 'absent',
-        'default_webapp_root'        => 'absent',
-      } )
-    }
-  end
-
-  context "With specified tomcat_source and specified tomcat_deploydir" do
-    let :params do
-      {
-        :tomcat_source    => 'testtomcatsource.tar.gz',
-        :tomcat_deploydir => '/opt/tomcat/tomcat7'
-      }
-    end
-    it {
-      should contain_tomcat__setup('testtomcatsource.tar.gz').with( {
-        'source'                     => 'testtomcatsource.tar.gz',
-        'deploymentdir'              => '/opt/tomcat/tomcat7',
-        'user'                       => 'fcrepo',
-        'default_webapp_docs'        => 'absent',
-        'default_webapp_examples'    => 'absent',
-        'default_webapp_hostmanager' => 'absent',
-        'default_webapp_manager'     => 'absent',
-        'default_webapp_root'        => 'absent',
-      } )
-    }
-  end
+  #context "With default tomcat_source and tomcat_deploydir" do
+  #  it {
+  #    should contain_tomcat__setup('apache-tomcat-7.0.50.tar.gz').with( {
+  #      'source'                     => 'apache-tomcat-7.0.50.tar.gz',
+  #      'deploymentdir'              => '/fedora/tomcat7',
+  #      'user'                       => 'fcrepo',
+  #      'default_webapp_docs'        => 'absent',
+  #      'default_webapp_examples'    => 'absent',
+  #      'default_webapp_hostmanager' => 'absent',
+  #      'default_webapp_manager'     => 'absent',
+  #      'default_webapp_root'        => 'absent',
+  #    } )
+  #  }
+  #end
+#
+#  context "With specified tomcat_source and default tomcat_deploydir" do
+#    let :params do
+#      {
+#        :tomcat_source    => 'testtomcatsource.tar.gz'
+#      }
+#    end
+#    it {
+#      should contain_tomcat__setup('testtomcatsource.tar.gz').with( {
+#        'source'                     => 'testtomcatsource.tar.gz',
+#        'deploymentdir'              => '/fedora/tomcat7',
+#        'user'                       => 'fcrepo',
+#        'default_webapp_docs'        => 'absent',
+#        'default_webapp_examples'    => 'absent',
+#        'default_webapp_hostmanager' => 'absent',
+#        'default_webapp_manager'     => 'absent',
+#        'default_webapp_root'        => 'absent',
+#      } )
+#    }
+#  end
+#
+#  context "With specified tomcat_source and specified tomcat_deploydir" do
+#    let :params do
+#      {
+#        :tomcat_source    => 'testtomcatsource.tar.gz',
+#        :tomcat_deploydir => '/opt/tomcat/tomcat7'
+#      }
+#    end
+#    it {
+#      should contain_tomcat__setup('testtomcatsource.tar.gz').with( {
+#        'source'                     => 'testtomcatsource.tar.gz',
+#        'deploymentdir'              => '/opt/tomcat/tomcat7',
+#        'user'                       => 'fcrepo',
+#        'default_webapp_docs'        => 'absent',
+#        'default_webapp_examples'    => 'absent',
+#        'default_webapp_hostmanager' => 'absent',
+#        'default_webapp_manager'     => 'absent',
+#        'default_webapp_root'        => 'absent',
+#      } )
+#    }
+#  end
 
 end

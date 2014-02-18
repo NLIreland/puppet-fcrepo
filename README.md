@@ -196,7 +196,7 @@ profile file.
 
 #####`java_source`
 
-The *exact* name of the Java source distribution package, in *.tar.gz format.
+The *exact* name of the Java binary distribution package, in *.tar.gz format.
 This file should be installed under the module's `files/` directory 
 (usually `/etc/puppet/modules/fcrepo/files/`).
 
@@ -204,7 +204,7 @@ Default:  **jdk-7u51-linux-x64.tar.gz**
 
 #####`maven_source`
 
-The *exact* name of the Maven source distribution package, in *.tar.gz format.
+The *exact* name of the Maven binary distribution package, in *.tar.gz format.
 This file should be installed under the module's `files/` directory 
 (usually `/etc/puppet/modules/fcrepo/files/`).
 
@@ -218,7 +218,7 @@ Default:  **_fcrepo sandbox home_/maven3**
 
 #####`tomcat_source`
 
-The *exact* name of the Tomcat source distribution package, in *.tar.gz format.
+The *exact* name of the Tomcat binary distribution package, in *.tar.gz format.
 This file should be installed under the module's `files/` directory 
 (usually `/etc/puppet/modules/fcrepo/files/`).
 

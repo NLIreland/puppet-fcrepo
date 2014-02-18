@@ -125,17 +125,17 @@ class fcrepo::install {
   }
 
   # Tomcat
-  tomcat::setup { $::fcrepo::tomcat_source_real:
-    ensure                     => 'running',
-    enable                     => false,
-    source                     => $::fcrepo::tomcat_source_real,
-    deploymentdir              => $::fcrepo::tomcat_deploydir_real,
-    user                       => $::fcrepo::user_real,
-    default_webapp_docs        => 'absent',
-    default_webapp_examples    => 'absent',
-    default_webapp_hostmanager => 'absent',
-    default_webapp_manager     => 'absent',
-    default_webapp_root        => 'absent',
-  }
+  #tomcat::setup { $::fcrepo::tomcat_source_real:
+  #  ensure                     => 'running',
+  #  enable                     => false,
+  #  source                     => $::fcrepo::tomcat_source_real,
+  #  deploymentdir              => $::fcrepo::tomcat_deploydir_real,
+  #  user                       => $::fcrepo::user_real,
+  #  default_webapp_docs        => 'absent',
+  #  default_webapp_examples    => 'absent',
+  #  default_webapp_hostmanager => 'absent',
+  #  default_webapp_manager     => 'absent',
+  #  default_webapp_root        => 'absent',
+  #}
 
 }
