@@ -25,9 +25,9 @@ describe 'fcrepo' do
     should contain_class('maven')
   end
 
-  it 'includes tomcat' do
-    should contain_class('tomcat')
-  end
+#  it 'includes tomcat' do
+#    should contain_class('tomcat')
+#  end
 
   it { should contain_class('fcrepo') }
   it { should contain_class('fcrepo::install') }
