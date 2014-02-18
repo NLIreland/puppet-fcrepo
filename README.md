@@ -56,7 +56,7 @@ catalog information:
 
 ```sudo puppet agent --test```
 
-###Install the extra Puppet modules
+###Install the extra Puppet modules on your puppet master
 
 ```
 sudo puppet module install puppetlabs/stdlib
