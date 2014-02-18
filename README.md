@@ -34,13 +34,14 @@ the following Puppet modules:
 * 7terminals/maven
 * 7terminals/tomcat
 
-You'll also need to download the following source packages:
+You'll also need to download the following binary distribution packages:
 
  * Java 7:  <http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html>
  * Maven 3:  <http://maven.apache.org/download.cgi>
  * Tomcat 7:  <http://tomcat.apache.org/download-70.cgi>
 
-   Choose the correct *.tar.gz package for your platform.
+Choose the correct *.tar.gz package for your platform.  Only `*.tar.gz` packages
+are supported at this time.
 
 ###Install and configure a base installation of Puppet
 
@@ -81,10 +82,10 @@ creates a software directory and a data directory and assigns ownership of
 them to the fedora user, then installs standalone versions of Oracle Java
 HotSpot JDK, Tomcat, and Maven.  The module installs Fedora in a
 sandboxed environment, with infrastructure software downloaded and
-installed from source, and should work on any Unix environment.
+installed from binary distributions, and should work on any Unix environment.
 
 It also deploys the Fedora WAR and Fedora configuration files,
-nd manages the Fedora Tomcat service.
+and manages the Fedora Tomcat service.
 
 ###Beginning with fcrepo
 
@@ -92,8 +93,8 @@ nd manages the Fedora Tomcat service.
 
 1. Clone this project, change to the `puppet-fcrepo` directory. 
 
-2. Copy the source files you downloaded (see [Prerequisites](#prerequisites),
-above) into the module's `files/` directory:
+2. Copy the binary distribution files you downloaded (see 
+[Prerequisites](#prerequisites), above) into the module's `files/` directory:
 
 ```
     cp /path/to/source/packages/*.tar.gz files/
@@ -151,7 +152,7 @@ The following parameters are available in the fcrepo module.  They
 are grouped into __Environment__, __Infrastructure__, and __Fedora__.
 
 The defaults are defined in `fcrepo::params`, and may be changed there, or
-overridden the Puppet files that include the `fcrepo` class.
+overridden in the Puppet files that include the `fcrepo` class.
 
 ####Environment
 
