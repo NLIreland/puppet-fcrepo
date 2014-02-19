@@ -116,9 +116,9 @@ and manages the Fedora Tomcat service.
 
 ####Enable the module in Puppet
 
-`include 'fcrepo'` in the puppet master's `site.pp` file is enough to get 
+`include 'fcrepo'` in the puppet master's `site.pp` file (located in manifests folder) is enough to get 
 you up and running.  If you wish to pass in parameters such as which user and
-group to create then you can use:                                                                                    
+group to create then you can use:                   
 
 ```puppet                                                                                                                                 
 class { '::fcrepo':
@@ -128,6 +128,7 @@ class { '::fcrepo':
   fcrepo_datadir      => '/opt/fcrepo/data',
 }
 ```
+Note: Placing the above include and class outside of specific node definitions, as above, will apply the fcrepo role to every puppet node. Alternately, place them within an appropriate node block.
 
 ##Usage
 
