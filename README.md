@@ -204,7 +204,7 @@ Default: **/data**
 
 #####`fcrepo_configdir`
 
-The Fedora data directory.
+The Fedora configuration directory.
 
 Default: **/fedora/config**
 
