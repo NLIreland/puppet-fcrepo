@@ -3,7 +3,6 @@ fixtures:
     stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib"
     java: "git://github.com/7terminals/puppet-java"
     maven: "git://github.com/7terminals/puppet-maven"
-    #tomcat: "git://github.com/7terminals/puppet-tomcat"
-    tomcat: "git://github.com/sprater/puppet-tomcat"
+    tomcat: "git://github.com/7terminals/puppet-tomcat"
   symlinks:
     fcrepo: "#{source_dir}"
