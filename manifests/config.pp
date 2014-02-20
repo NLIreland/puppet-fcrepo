@@ -20,6 +20,10 @@
 class fcrepo::config {
 
   include fcrepo
+  service { "tomcat7":
+    ensure  => "running",
+    enable  => "true",
+  }
 
   # Create the config directory
   file { $::fcrepo::fcrepo_configdir_real:
@@ -32,23 +36,25 @@ class fcrepo::config {
   }
 
   # Put in place Tomcat server.xml
-  file { "${::fcrepo::tomcat_deploydir_real}/conf/server.xml":
+  file { "${::fcrepo::tomcat_configs_real}/server.xml":
     ensure  => file,
-    path    => "${::fcrepo::tomcat_deploydir_real}/conf/server.xml",
+    path    => "${::fcrepo::tomcat_configs_real}/server.xml",
     group   => $::fcrepo::group_real,
     owner   => $::fcrepo::user_real,
     mode    => '0600',
     content => template('fcrepo/server.xml.erb'),
+    notify  => Service["tomcat7"]
   }
 
   # Put in place Tomcat setenv.sh
-  file { "${::fcrepo::tomcat_deploydir_real}/bin/setenv.sh":
+  file { "${::fcrepo::tomcat_runtimes_real}/bin/setenv.sh":
     ensure  => file,
-    path    => "${::fcrepo::tomcat_deploydir_real}/bin/setenv.sh",
-    group   => $::fcrepo::group_real,
-    owner   => $::fcrepo::user_real,
+    path    => "${::fcrepo::tomcat_runtimes_real}/bin/setenv.sh",
+    group   => "root",
+    owner   => "root",
     mode    => '0755',
     content => template('fcrepo/setenv.sh.erb'),
+    notify  => Service["tomcat7"]
   }
 
   # Put in place Fedora config repository.json
@@ -60,6 +66,7 @@ class fcrepo::config {
     mode    => '0644',
     content => template('fcrepo/repository.json.erb'),
     require => File[$::fcrepo::fcrepo_configdir_real],
+    notify  => Service["tomcat7"]
   }
 
   # Put in place Fedora config jgroups-fcrepo-tcp.xml
@@ -71,6 +78,7 @@ class fcrepo::config {
     mode    => '0644',
     content => template('fcrepo/jgroups-fcrepo-tcp.xml.erb'),
     require => File[$::fcrepo::fcrepo_configdir_real],
+    notify  => Service["tomcat7"]
   }
 
   # Put in place Fedora config infinispan.xml
@@ -82,6 +90,7 @@ class fcrepo::config {
     mode    => '0644',
     content => template('fcrepo/infinispan.xml.erb'),
     require => File[$::fcrepo::fcrepo_configdir_real],
+    notify  => Service["tomcat7"]
   }
 
   Class['fcrepo::install'] ~> Class['fcrepo::config']

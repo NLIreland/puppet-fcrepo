@@ -57,18 +57,18 @@ class fcrepo::install {
   include fcrepo
 
   #  Create the user and group
-  group { $::fcrepo::group_real:
-    ensure => present,
-  }
+  #group { $::fcrepo::group_real:
+  #  ensure => present,
+  #}
 
-  user { $::fcrepo::user_real:
-    ensure     => present,
-    gid        => $::fcrepo::group_real,
-    shell      => '/bin/bash',
-    home       => "/home/${::fcrepo::user_real}",
-    managehome => true,
-    require    => Group[$::fcrepo::group_real],
-  }
+  #user { $::fcrepo::user_real:
+  #  ensure     => present,
+  #  gid        => $::fcrepo::group_real,
+  #  shell      => '/bin/bash',
+  #  home       => "/home/${::fcrepo::user_real}",
+  #  managehome => true,
+  #  require    => Group[$::fcrepo::group_real],
+  #}
 
   # Create the sandbox directory, data directory,
   # user home directory, and user profile
@@ -78,7 +78,7 @@ class fcrepo::install {
     group   => $::fcrepo::group_real,
     owner   => $::fcrepo::user_real,
     mode    => '0755',
-    require => [ Group[$::fcrepo::group_real], User[$::fcrepo::user_real] ]
+    #require => [ Group[$::fcrepo::group_real], User[$::fcrepo::user_real] ]
   }
 
   file { $::fcrepo::fcrepo_datadir_real:
@@ -87,68 +87,67 @@ class fcrepo::install {
     group   => $::fcrepo::group_real,
     owner   => $::fcrepo::user_real,
     mode    => '0755',
-    require => [ Group[$::fcrepo::group_real], User[$::fcrepo::user_real] ]
+    #require => [ Group[$::fcrepo::group_real], User[$::fcrepo::user_real] ]
   }
 
-  file { "/home/${::fcrepo::user_real}":
-    ensure  => directory,
-    path    => "/home/${::fcrepo::user_real}",
-    group   => $::fcrepo::group_real,
-    owner   => $::fcrepo::user_real,
-    mode    => '0755',
-    require => [ Group[$::fcrepo::group_real], User[$::fcrepo::user_real] ]
-  }
+  #file { "/home/${::fcrepo::user_real}":
+  #  ensure  => directory,
+  #  path    => "/home/${::fcrepo::user_real}",
+  #  group   => $::fcrepo::group_real,
+  #  owner   => $::fcrepo::user_real,
+  #  mode    => '0755',
+  #  require => [ Group[$::fcrepo::group_real], User[$::fcrepo::user_real] ]
+  #}
 
-  file { $::fcrepo::user_profile_real:
-    ensure  => file,
-    path    => $::fcrepo::user_profile_real,
-  }
+  #file { $::fcrepo::user_profile_real:
+  #  ensure  => file,
+  #  path    => $::fcrepo::user_profile_real,
+  #}
 
   # Install the infrastructure software
 
   # Java
-  java::setup { $::fcrepo::java_source_real:
-    ensure        => 'present',
-    source        => $::fcrepo::java_source_real,
-    deploymentdir => $::fcrepo::java_deploydir_real,
-    user          => $::fcrepo::user_real,
-    pathfile      => $::fcrepo::user_profile_real,
-    require       => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
-  }
+  #java::setup { $::fcrepo::java_source_real:
+  #  ensure        => 'present',
+   # source        => $::fcrepo::java_source_real,
+   # deploymentdir => $::fcrepo::java_deploydir_real,
+   # user          => $::fcrepo::user_real,
+   # pathfile      => $::fcrepo::user_profile_real,
+   # require       => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
+  #}
 
   # Maven
-  maven::setup { $::fcrepo::maven_source_real:
-    ensure        => 'present',
-    source        => $::fcrepo::maven_source_real,
-    deploymentdir => $::fcrepo::maven_deploydir_real,
-    user          => $::fcrepo::user_real,
-    pathfile      => $::fcrepo::user_profile_real,
-    require       => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
-  }
+  #maven::setup { $::fcrepo::maven_source_real:
+  #  ensure        => 'present',
+  #  source        => $::fcrepo::maven_source_real,
+  #  deploymentdir => $::fcrepo::maven_deploydir_real,
+  #  user          => $::fcrepo::user_real,
+  #  pathfile      => $::fcrepo::user_profile_real,
+  #  require       => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
+  #}
 
   # Tomcat
-  tomcat::install { $::fcrepo::tomcat_source_real:
-    source                     => $::fcrepo::tomcat_source_real,
-    deploymentdir              => $::fcrepo::tomcat_deploydir_real,
-    user                       => $::fcrepo::user_real,
-    group                      => $::fcrepo::group_real,
-    default_webapp_docs        => 'absent',
-    default_webapp_examples    => 'absent',
-    default_webapp_hostmanager => 'absent',
-    default_webapp_manager     => 'absent',
-    default_webapp_root        => 'absent',
-    require                    => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
-  }
+  #tomcat::install { $::fcrepo::tomcat_source_real:
+  #  source                     => $::fcrepo::tomcat_source_real,
+  #  deploymentdir              => $::fcrepo::tomcat_deploydir_real,
+  #  user                       => $::fcrepo::user_real,
+  #  group                      => $::fcrepo::group_real,
+  #  default_webapp_docs        => 'absent',
+  #  default_webapp_examples    => 'absent',
+  #  default_webapp_hostmanager => 'absent',
+  #  default_webapp_manager     => 'absent',
+  #  default_webapp_root        => 'absent',
+  #  require                    => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
+  #}
 
   # Fedora 4 WAR
-  file { "${::fcrepo::tomcat_deploydir_real}/webapps/fcrepo.war":
+  file { "${::fcrepo::tomcat_webapps_real}/fcrepo.war":
     ensure  => 'file',
-    path    => "${::fcrepo::tomcat_deploydir_real}/webapps/fcrepo.war",
+    path    => "${::fcrepo::tomcat_webapps_real}/fcrepo.war",
     source  => 'puppet:///modules/fcrepo/fcrepo.war',
     group   => $::fcrepo::group_real,
     owner   => $::fcrepo::user_real,
     mode    => '0644',
-    require => [ Tomcat::Install[$::fcrepo::tomcat_source_real] ]
   }
 
 }

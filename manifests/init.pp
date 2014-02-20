@@ -76,31 +76,35 @@ class fcrepo (
   $maven_source        = 'UNSET',
   $maven_deploydir     = 'UNSET',
   $tomcat_source       = 'UNSET',
-  $tomcat_deploydir    = 'UNSET',
+  $tomcat_configs    = 'UNSET',
+  $tomcat_runtimes    = 'UNSET',
+  $tomcat_webapps    = 'UNSET',
 
 ) {
 
-  include stdlib
-  include java
-  include maven
-  include tomcat
+#  include stdlib
+#  include java
+  #include maven
+#  include tomcat
   include fcrepo::params
 
   validate_string($fcrepo::params::user)
   validate_string($fcrepo::params::group)
-  validate_re($fcrepo::params::java_source, '.tar.gz$',
-    'The Java source file is not a tar-gzipped file.')
-  validate_re($fcrepo::params::maven_source, '.tar.gz$',
-    'The Maven source file is not a tar-gzipped file.')
-  validate_re($fcrepo::params::tomcat_source, '.tar.gz$',
-    'The Tomcat source file is not a tar-gzipped file.')
-  validate_absolute_path($fcrepo::params::user_profile)
+#  validate_re($fcrepo::params::java_source, '.tar.gz$',
+#    'The Java source file is not a tar-gzipped file.')
+#  validate_re($fcrepo::params::maven_source, '.tar.gz$',
+#    'The Maven source file is not a tar-gzipped file.')
+#  validate_re($fcrepo::params::tomcat_source, '.tar.gz$',
+#    'The Tomcat source file is not a tar-gzipped file.')
+#  validate_absolute_path($fcrepo::params::user_profile)
   validate_absolute_path($fcrepo::params::fcrepo_sandbox_home)
   validate_absolute_path($fcrepo::params::fcrepo_datadir)
   validate_absolute_path($fcrepo::params::fcrepo_configdir)
-  validate_absolute_path($fcrepo::params::java_deploydir)
-  validate_absolute_path($fcrepo::params::maven_deploydir)
-  validate_absolute_path($fcrepo::params::tomcat_deploydir)
+#  validate_absolute_path($fcrepo::params::java_deploydir)
+#  validate_absolute_path($fcrepo::params::maven_deploydir)
+  validate_absolute_path($fcrepo::params::tomcat_runtimes)
+  validate_absolute_path($fcrepo::params::tomcat_configs)
+  validate_absolute_path($fcrepo::params::tomcat_webapps)
 
   $user_real = $user? {
     'UNSET' => $::fcrepo::params::user,
@@ -112,10 +116,10 @@ class fcrepo (
     default => $group,
   }
 
-  $user_profile_real = $user_profile? {
-    'UNSET' => $::fcrepo::params::user_profile,
-    default => $user_profile,
-  }
+#  $user_profile_real = $user_profile? {
+#    'UNSET' => $::fcrepo::params::user_profile,
+#    default => $user_profile,
+#  }
 
   $fcrepo_sandbox_home_real = $fcrepo_sandbox_home? {
     'UNSET' => $::fcrepo::params::fcrepo_sandbox_home,
@@ -132,34 +136,42 @@ class fcrepo (
     default => $fcrepo_configdir,
   }
 
-  $java_source_real = $java_source? {
-    'UNSET' => $::fcrepo::params::java_source,
-    default => $java_source,
-  }
+#  $java_source_real = $java_source? {
+#    'UNSET' => $::fcrepo::params::java_source,
+#    default => $java_source,
+#  }
 
-  $java_deploydir_real = $java_deploydir? {
-    'UNSET' => $::fcrepo::params::java_deploydir,
-    default => $java_deploydir,
-  }
+#  $java_deploydir_real = $java_deploydir? {
+#    'UNSET' => $::fcrepo::params::java_deploydir,
+#    default => $java_deploydir,
+#  }
 
-  $maven_source_real = $maven_source? {
-    'UNSET' => $::fcrepo::params::maven_source,
-    default => $maven_source,
-  }
+#  $maven_source_real = $maven_source? {
+#    'UNSET' => $::fcrepo::params::maven_source,
+#    default => $maven_source,
+#  }
 
-  $maven_deploydir_real = $maven_deploydir? {
-    'UNSET' => $::fcrepo::params::maven_deploydir,
-    default => $maven_deploydir,
-  }
+#  $maven_deploydir_real = $maven_deploydir? {
+#    'UNSET' => $::fcrepo::params::maven_deploydir,
+#    default => $maven_deploydir,
+#  }
 
-  $tomcat_source_real = $tomcat_source? {
-    'UNSET' => $::fcrepo::params::tomcat_source,
-    default => $tomcat_source,
-  }
+#  $tomcat_source_real = $tomcat_source? {
+#    'UNSET' => $::fcrepo::params::tomcat_source,
+#    default => $tomcat_source,
+#  }
 
-  $tomcat_deploydir_real = $tomcat_deploydir? {
-    'UNSET' => $::fcrepo::params::tomcat_deploydir,
-    default => $tomcat_deploydir,
+  $tomcat_configs_real = $tomcat_configs? {
+    'UNSET' => $::fcrepo::params::tomcat_configs,
+    default => $tomcat_configs,
+  }
+  $tomcat_runtimes_real = $tomcat_runtimes? {
+    'UNSET' => $::fcrepo::params::tomcat_runtimes,
+    default => $tomcat_runtimes,
+  }
+  $tomcat_webapps_real = $tomcat_webapps? {
+    'UNSET' => $::fcrepo::params::tomcat_webapps,
+    default => $tomcat_webapps,
   }
 
 # Using the anchor containment pattern for backwards compatibility (< 3.4.0)

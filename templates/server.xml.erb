@@ -22,6 +22,8 @@
 <Server port="8005" shutdown="SHUTDOWN">
   <!-- Security listener. Documentation at /docs/config/listeners.html
   <Listener className="org.apache.catalina.security.SecurityListener" />
+
+
   -->
   <!--APR library loader. Documentation at /docs/apr.html -->
   <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
@@ -120,7 +122,7 @@
                resourceName="UserDatabase"/>
       </Realm>
 
-      <Host name="<%= hostname %>"  appBase="webapps"
+      <Host name="<%= hostname %>"  appBase="<%= scope.lookupvar('fcrepo::tomcat_webapps_real') %>"
             unpackWARs="true" autoDeploy="true">
 
         <!-- SingleSignOn valve, share authentication between web applications

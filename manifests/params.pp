@@ -53,9 +53,9 @@
 #
 class fcrepo::params {
 
-    $user                = 'fcrepo'
-    $group               = 'fcrepo'
-    $user_profile        = '/home/fcrepo/.bashrc'
+    $user                = 'tomcat7'
+    $group               = 'tomcat7'
+    $user_profile        = '/home/tomcat7/.bashrc'
     $fcrepo_sandbox_home = '/fedora'
     $fcrepo_datadir      = '/data'
     $fcrepo_configdir      = '/fedora/config'
@@ -64,5 +64,7 @@ class fcrepo::params {
     $maven_source        = 'apache-maven-3.1.1-bin.tar.gz'
     $maven_deploydir     = '/fedora/maven3'
     $tomcat_source        = 'apache-tomcat-7.0.50.tar.gz'
-    $tomcat_deploydir     = '/fedora/tomcat7'
+    $tomcat_runtimes    = '/usr/share/tomcat7'
+    $tomcat_webapps     = '/var/lib/tomcat7/webapps/'
+    $tomcat_configs     = '/etc/tomcat7'
 }
