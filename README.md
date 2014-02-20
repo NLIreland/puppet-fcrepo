@@ -40,7 +40,7 @@ You'll also need to download the following binary distribution packages:
  * Maven 3:  <http://maven.apache.org/download.cgi>
  * Tomcat 7:  <http://tomcat.apache.org/download-70.cgi>
 
-Choose the correct *.tar.gz package for your platform.  Only `*.tar.gz` packages
+Choose the correct tar-gzipped package for your platform.  Only `.tar.gz` packages
 are supported at this time.
 
 And you'll need `fcrepo.war`, built from maven or retrieved from some location.
