@@ -43,6 +43,8 @@ You'll also need to download the following binary distribution packages:
 Choose the correct *.tar.gz package for your platform.  Only `*.tar.gz` packages
 are supported at this time.
 
+And you'll need `fcrepo.war`, built from maven or retrieved from some location.
+
 ###Install and configure a base installation of Puppet
 
 Puppet Labs has good step-by-step documentation for getting a Puppet master 
@@ -100,13 +102,20 @@ and manages the Fedora Tomcat service.
     cp /path/to/source/packages/*.tar.gz files/
 ```
 
-3. Build the module: 
+3. Copy the Fedora 4 WAR file into the module's `files/` directory,
+with the name `fcrepo.war`: 
+
+```
+    cp /path/to/fcrepo-webapp-<VERSION>.war files/fcrepo.war
+```
+
+4. Build the module: 
 
 ```
     puppet module build .
 ```
 
-4. Install the module:
+5. Install the module:
 
 ```
     sudo puppet module install pkg/sprater-fcrepo-<version>.tar.gz --ignore-dependencies
@@ -114,11 +123,15 @@ and manages the Fedora Tomcat service.
 
    where `<version>` is the current version of the module.
 
+You can always update these files (especially `fcrepo.war`) later by
+replacing them in the `/etc/puppet/modules/fcrepo/files` directory, then
+running the Puppet agent on each of your nodes.
+
 ####Enable the module in Puppet
 
 `include 'fcrepo'` in the puppet master's `site.pp` file is enough to get 
 you up and running.  If you wish to pass in parameters such as which user and
-group to create then you can use:                                                                                    
+group to create then you can use instead:                                                                                    
 
 ```puppet                                                                                                                                 
 class { '::fcrepo':
@@ -188,6 +201,12 @@ The Fedora data directory.
 
 Default: **/data**
 
+#####`fcrepo_configdir`
+
+The Fedora data directory.
+
+Default: **/fedora/config**
+
 ####Infrastructure
 
 Software packages by default are installed in the Fedora 4 sandbox directory, owned
@@ -240,7 +259,7 @@ and data directories will reside are created and mounted.
 This module does not set a password for the Fedora Unix user.  You'll
 need to do that yourself.
 
-The `java::setup`, `maven::setup`, and `tomcat::setup` resources only 
+The `java::setup`, and `maven::setup` resources only 
 support the `$::osfamily` parameters of RedHat, Debian, and Suse.  
 You may need to override the `$::osfamily` parameter, setting it to 
 one of those supported OSes, to get these tools to install under puppet.

@@ -37,7 +37,7 @@
 # [*tomcat_source_real*]
 #   The Tomcat source file.
 #
-# [*maven_deploydir_real*]
+# [*tomcat_deploydir_real*]
 #   The Tomcat base directory (CATALINA_HOME).
 #
 # === Variables
@@ -113,6 +113,7 @@ class fcrepo::install {
     deploymentdir => $::fcrepo::java_deploydir_real,
     user          => $::fcrepo::user_real,
     pathfile      => $::fcrepo::user_profile_real,
+    require       => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
   }
 
   # Maven
@@ -122,20 +123,32 @@ class fcrepo::install {
     deploymentdir => $::fcrepo::maven_deploydir_real,
     user          => $::fcrepo::user_real,
     pathfile      => $::fcrepo::user_profile_real,
+    require       => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
   }
 
   # Tomcat
-  #tomcat::setup { $::fcrepo::tomcat_source_real:
-  #  ensure                     => 'running',
-  #  enable                     => false,
-  #  source                     => $::fcrepo::tomcat_source_real,
-  #  deploymentdir              => $::fcrepo::tomcat_deploydir_real,
-  #  user                       => $::fcrepo::user_real,
-  #  default_webapp_docs        => 'absent',
-  #  default_webapp_examples    => 'absent',
-  #  default_webapp_hostmanager => 'absent',
-  #  default_webapp_manager     => 'absent',
-  #  default_webapp_root        => 'absent',
-  #}
+  tomcat::install { $::fcrepo::tomcat_source_real:
+    source                     => $::fcrepo::tomcat_source_real,
+    deploymentdir              => $::fcrepo::tomcat_deploydir_real,
+    user                       => $::fcrepo::user_real,
+    group                      => $::fcrepo::group_real,
+    default_webapp_docs        => 'absent',
+    default_webapp_examples    => 'absent',
+    default_webapp_hostmanager => 'absent',
+    default_webapp_manager     => 'absent',
+    default_webapp_root        => 'absent',
+    require                    => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
+  }
+
+  # Fedora 4 WAR
+  file { "${::fcrepo::tomcat_deploydir_real}/webapps/fcrepo.war":
+    ensure  => 'file',
+    path    => "${::fcrepo::tomcat_deploydir_real}/webapps/fcrepo.war",
+    source  => 'puppet:///modules/fcrepo/fcrepo.war',
+    group   => $::fcrepo::group_real,
+    owner   => $::fcrepo::user_real,
+    mode    => '0644',
+    require => [ Tomcat::Install[$::fcrepo::tomcat_source_real] ]
+  }
 
 }

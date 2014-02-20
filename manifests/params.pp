@@ -58,10 +58,11 @@ class fcrepo::params {
     $user_profile        = '/home/fcrepo/.bashrc'
     $fcrepo_sandbox_home = '/fedora'
     $fcrepo_datadir      = '/data'
+    $fcrepo_configdir      = '/fedora/config'
     $java_source         = 'jdk-7u51-linux-x64.tar.gz'
     $java_deploydir      = '/fedora/java7'
     $maven_source        = 'apache-maven-3.1.1-bin.tar.gz'
     $maven_deploydir     = '/fedora/maven3'
-    #$tomcat_source        = 'apache-tomcat-7.0.50.tar.gz'
-    #$tomcat_deploydir     = '/fedora/tomcat7'
+    $tomcat_source        = 'apache-tomcat-7.0.50.tar.gz'
+    $tomcat_deploydir     = '/fedora/tomcat7'
 }

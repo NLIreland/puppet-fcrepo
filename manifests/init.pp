@@ -1,4 +1,4 @@
-# == Class: tomcat
+# == Class: fcrepo
 #
 # Fedora 4 management module to install and configure Fedora in
 # a clustered environment.
@@ -23,6 +23,9 @@
 #
 # [*fcrepo_datadir*]
 #   Fedora 4 data directory.
+#
+# [*fcrepo_configdir*]
+#   Fedora 4 config directory.
 #
 # [*java_source*]
 #   The Java source package name (should be installed under files/)
@@ -67,19 +70,20 @@ class fcrepo (
   $user_profile        = 'UNSET',
   $fcrepo_sandbox_home = 'UNSET',
   $fcrepo_datadir      = 'UNSET',
+  $fcrepo_configdir    = 'UNSET',
   $java_source         = 'UNSET',
   $java_deploydir      = 'UNSET',
   $maven_source        = 'UNSET',
   $maven_deploydir     = 'UNSET',
-  # $tomcat_source       = 'UNSET',
-  # $tomcat_deploydir    = 'UNSET',
+  $tomcat_source       = 'UNSET',
+  $tomcat_deploydir    = 'UNSET',
 
 ) {
 
   include stdlib
   include java
   include maven
-  #include tomcat
+  include tomcat
   include fcrepo::params
 
   validate_string($fcrepo::params::user)
@@ -88,14 +92,15 @@ class fcrepo (
     'The Java source file is not a tar-gzipped file.')
   validate_re($fcrepo::params::maven_source, '.tar.gz$',
     'The Maven source file is not a tar-gzipped file.')
-    #validate_re($fcrepo::params::tomcat_source, '.tar.gz$',
-    #'The Tomcat source file is not a tar-gzipped file.')
+  validate_re($fcrepo::params::tomcat_source, '.tar.gz$',
+    'The Tomcat source file is not a tar-gzipped file.')
   validate_absolute_path($fcrepo::params::user_profile)
   validate_absolute_path($fcrepo::params::fcrepo_sandbox_home)
   validate_absolute_path($fcrepo::params::fcrepo_datadir)
+  validate_absolute_path($fcrepo::params::fcrepo_configdir)
   validate_absolute_path($fcrepo::params::java_deploydir)
   validate_absolute_path($fcrepo::params::maven_deploydir)
-  #validate_absolute_path($fcrepo::params::tomcat_deploydir)
+  validate_absolute_path($fcrepo::params::tomcat_deploydir)
 
   $user_real = $user? {
     'UNSET' => $::fcrepo::params::user,
@@ -122,6 +127,11 @@ class fcrepo (
     default => $fcrepo_datadir,
   }
 
+  $fcrepo_configdir_real = $fcrepo_configdir? {
+    'UNSET' => $::fcrepo::params::fcrepo_configdir,
+    default => $fcrepo_configdir,
+  }
+
   $java_source_real = $java_source? {
     'UNSET' => $::fcrepo::params::java_source,
     default => $java_source,
@@ -142,20 +152,20 @@ class fcrepo (
     default => $maven_deploydir,
   }
 
-  #  $tomcat_source_real = $tomcat_source? {
-  #  'UNSET' => $::fcrepo::params::tomcat_source,
-  #  default => $tomcat_source,
-  # }
+  $tomcat_source_real = $tomcat_source? {
+    'UNSET' => $::fcrepo::params::tomcat_source,
+    default => $tomcat_source,
+  }
 
-  #$tomcat_deploydir_real = $tomcat_deploydir? {
-  #  'UNSET' => $::fcrepo::params::tomcat_deploydir,
-  #  default => $tomcat_deploydir,
-  #}
+  $tomcat_deploydir_real = $tomcat_deploydir? {
+    'UNSET' => $::fcrepo::params::tomcat_deploydir,
+    default => $tomcat_deploydir,
+  }
 
 # Using the anchor containment pattern for backwards compatibility (< 3.4.0)
   anchor { 'fcrepo::begin': } ->
   class { '::fcrepo::install': } ->
-#  class { '::fcrepo::config': } ~>
+  class { '::fcrepo::config': } ~>
 #  class { '::fcrepo::service': } ->
   anchor { 'fcrepo::end': }
 }
