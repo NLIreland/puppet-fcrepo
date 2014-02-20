@@ -190,24 +190,6 @@ update the PATH environment variable.  Can be set to a system-wide profile
 
 Default is **/home/_user_/.bashrc**
 
-#####`fcrepo_sandbox_home`
-
-The home directory for the Fedora environment sandbox.
-
-Default: **/fedora**
-
-#####`fcrepo_datadir`
-
-The Fedora data directory.
-
-Default: **/data**
-
-#####`fcrepo_configdir`
-
-The Fedora configuration directory.
-
-Default: **/fedora/config**
-
 ####Infrastructure
 
 Software packages by default are installed in the Fedora 4 sandbox directory, owned
@@ -250,6 +232,26 @@ Default:  **apache-tomcat-7.0.50.tar.gz**
 The Tomcat base directory (CATALINA_HOME).
 
 Default:  **_fcrepo sandbox home_/tomcat7**
+
+#### Fedora
+
+#####`fcrepo_sandbox_home`
+
+The home directory for the Fedora environment sandbox.
+
+Default: **/fedora**
+
+#####`fcrepo_datadir`
+
+The Fedora data directory.
+
+Default: **/data**
+
+#####`fcrepo_configdir`
+
+The Fedora configuration directory.
+
+Default: **/fedora/config**
 
 ##Limitations
 
