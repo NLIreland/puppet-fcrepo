@@ -59,6 +59,24 @@ catalog information:
 
 ```sudo puppet agent --test```
 
+###Common Puppet Setup Issues
+
+ * Make sure hosts are all time synch'ed via NTP
+ * Use lowercase hostnames, including DNS entries
+ * Only install the version of Ruby that is required by the puppetmaster package (Ubuntu)
+ * If your host uses a web proxy, include that directive in puppet.conf and also set environment variables. Both are required for module installation.
+
+  
+```
+http_proxy_host=myproxy.example.com
+http_proxy_port=3128
+```
+
+```
+$ export https_proxy=http://myproxy.example.com:3128
+$ export http_proxy=http://myproxy.example.com:3128
+```
+
 ###Install the extra Puppet modules on your puppet master
 
 ```
