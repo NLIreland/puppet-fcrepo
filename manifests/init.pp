@@ -18,7 +18,7 @@
 #   file.
 #
 # [*fcrepo_sandbox_home*]
-#   Base directory for the Fedora 4 sandbox environment.  Java, Maven, Tomcat,
+#   Base directory for the Fedora 4 sandbox environment.  Java, Tomcat,
 #   and Fedora will be installed under this directory.
 #
 # [*fcrepo_datadir*]
@@ -32,12 +32,6 @@
 #
 # [*java_deploydir*]
 #   The Java base directory (i.e., JAVA_HOME).
-#
-# [*maven_source*]
-#   The Maven source package name (should be installed under files/)
-#
-# [*maven_deploydir*]
-#   The Maven base directory
 #
 # [*tomcat_source*]
 #   The Tomcat source package name (should be installed under files/)
@@ -73,8 +67,6 @@ class fcrepo (
   $fcrepo_configdir    = 'UNSET',
   $java_source         = 'UNSET',
   $java_deploydir      = 'UNSET',
-  $maven_source        = 'UNSET',
-  $maven_deploydir     = 'UNSET',
   $tomcat_source       = 'UNSET',
   $tomcat_deploydir    = 'UNSET',
 
@@ -82,7 +74,6 @@ class fcrepo (
 
   include stdlib
   include java
-  include maven
   include tomcat
   include fcrepo::params
 
@@ -90,8 +81,6 @@ class fcrepo (
   validate_string($fcrepo::params::group)
   validate_re($fcrepo::params::java_source, '.tar.gz$',
     'The Java source file is not a tar-gzipped file.')
-  validate_re($fcrepo::params::maven_source, '.tar.gz$',
-    'The Maven source file is not a tar-gzipped file.')
   validate_re($fcrepo::params::tomcat_source, '.tar.gz$',
     'The Tomcat source file is not a tar-gzipped file.')
   validate_absolute_path($fcrepo::params::user_profile)
@@ -99,7 +88,6 @@ class fcrepo (
   validate_absolute_path($fcrepo::params::fcrepo_datadir)
   validate_absolute_path($fcrepo::params::fcrepo_configdir)
   validate_absolute_path($fcrepo::params::java_deploydir)
-  validate_absolute_path($fcrepo::params::maven_deploydir)
   validate_absolute_path($fcrepo::params::tomcat_deploydir)
 
   $user_real = $user? {
@@ -140,16 +128,6 @@ class fcrepo (
   $java_deploydir_real = $java_deploydir? {
     'UNSET' => $::fcrepo::params::java_deploydir,
     default => $java_deploydir,
-  }
-
-  $maven_source_real = $maven_source? {
-    'UNSET' => $::fcrepo::params::maven_source,
-    default => $maven_source,
-  }
-
-  $maven_deploydir_real = $maven_deploydir? {
-    'UNSET' => $::fcrepo::params::maven_deploydir,
-    default => $maven_deploydir,
   }
 
   $tomcat_source_real = $tomcat_source? {
