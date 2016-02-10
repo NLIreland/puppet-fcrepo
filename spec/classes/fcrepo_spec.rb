@@ -4,7 +4,6 @@ require 'spec_helper'
 
 describe 'fcrepo' do
 
-  # Don't let java::setup stop us
   let :facts do
     {
       :osfamily => 'RedHat',
@@ -16,10 +15,6 @@ describe 'fcrepo' do
 
   it 'includes stdlib' do
     should contain_class('stdlib')
-  end
-
-  it 'includes java' do
-    should contain_class('java')
   end
 
   it 'includes tomcat' do
@@ -138,6 +133,23 @@ describe 'fcrepo' do
       } )
     }
   end
+  
+  # Test Java home
+  context "With Java home specified" do
+    let :params do
+      {
+        :user                => 'drwho',
+        :user_profile        => '/home/drwho/.bashrc',
+        :java_homedir        => '/usr/local/java'
+
+      }
+    end
+    it {
+      should contain_file('/home/drwho/.bashrc').with_content(
+        /^.*?export JAVA_HOME=\/usr\/local\/java.*?$/
+      )
+    }
+  end
 
   # Test data directory home
   context "With no data directory specified" do
@@ -230,96 +242,6 @@ describe 'fcrepo' do
       } )
     }
   end
-
-  # Test Java install
-  context "With default java_source and java_deploydir" do
-    it {
-      should contain_java__setup('jdk-7u51-linux-x64.tar.gz').with( {
-        'source'        => 'jdk-7u51-linux-x64.tar.gz',
-        'deploymentdir' => '/fedora/java7',
-        'user'          => 'fcrepo',
-        'pathfile'      => '/home/fcrepo/.bashrc'
-      } )
-    }
-  end
-
-  context "With specified java_source and default java_deploydir" do
-    let :params do
-      {
-        :java_source    => 'testjavasource.tar.gz'
-      }
-    end
-    it {
-      should contain_java__setup('testjavasource.tar.gz').with( {
-        'source'        => 'testjavasource.tar.gz',
-        'deploymentdir' => '/fedora/java7',
-        'user'          => 'fcrepo',
-        'pathfile'      => '/home/fcrepo/.bashrc'
-      } )
-    }
-  end
-
-  context "With specified java_source and specified java_deploydir" do
-    let :params do
-      {
-        :java_source    => 'testjavasource.tar.gz',
-        :java_deploydir => '/opt/java/jdk7'
-      }
-    end
-    it {
-      should contain_java__setup('testjavasource.tar.gz').with( {
-        'source'        => 'testjavasource.tar.gz',
-        'deploymentdir' => '/opt/java/jdk7',
-        'user'          => 'fcrepo',
-        'pathfile'      => '/home/fcrepo/.bashrc'
-      } )
-    }
-  end
-
-  # Test Maven install
-#  context "With default maven_source and maven_deploydir" do
-#    it {
-#      should contain_maven__setup('apache-maven-3.1.1-bin.tar.gz').with( {
-#        'source'        => 'apache-maven-3.1.1-bin.tar.gz',
-#        'deploymentdir' => '/fedora/maven3',
-#        'user'          => 'fcrepo',
-#        'pathfile'      => '/home/fcrepo/.bashrc'
-#      } )
-#    }
-#  end
-
-#  context "With specified maven_source and default maven_deploydir" do
-#    let :params do
-#      {
-#        :maven_source    => 'testmavensource.tar.gz'
-#      }
-#    end
-#    it {
-#      should contain_maven__setup('testmavensource.tar.gz').with( {
-#        'source'        => 'testmavensource.tar.gz',
-#        'deploymentdir' => '/fedora/maven3',
-#        'user'          => 'fcrepo',
-#        'pathfile'      => '/home/fcrepo/.bashrc'
-#      } )
-#    }
-#  end
-
-#  context "With specified maven_source and specified maven_deploydir" do
-#    let :params do
-#      {
-#        :maven_source    => 'testmavensource.tar.gz',
-#        :maven_deploydir => '/opt/maven/maven3'
-#      }
-#    end
-#    it {
-#      should contain_maven__setup('testmavensource.tar.gz').with( {
-#        'source'        => 'testmavensource.tar.gz',
-#        'deploymentdir' => '/opt/maven/maven3',
-#        'user'          => 'fcrepo',
-#        'pathfile'      => '/home/fcrepo/.bashrc'
-#      } )
-#    }
-#  end
 
   # Test Tomcat install
   context "With default tomcat_source and tomcat_deploydir" do

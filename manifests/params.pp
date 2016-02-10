@@ -21,11 +21,8 @@
 # [*fcrepo_datadir*]
 #   The Fedora data directory.
 #
-# [*java_source*]
-#   The Java source file, under files/.
-#
-# [*java_deploydir*]
-#   The Java base directory (JAVA_HOME).
+# [*java_homedir*]
+#   The directory where Java has been installed (JAVA_HOME).
 #
 # [*tomcat_source*]
 #   The Tomcat source file, under files/.
@@ -52,9 +49,8 @@ class fcrepo::params {
     $user_profile        = '/home/fcrepo/.bashrc'
     $fcrepo_sandbox_home = '/fedora'
     $fcrepo_datadir      = '/data'
-    $fcrepo_configdir      = '/fedora/config'
-    $java_source         = 'jdk-7u51-linux-x64.tar.gz'
-    $java_deploydir      = '/fedora/java7'
-    $tomcat_source        = 'apache-tomcat-7.0.50.tar.gz'
-    $tomcat_deploydir     = '/fedora/tomcat7'
+    $fcrepo_configdir    = '/fedora/config'
+    $java_homedir        = '/usr/java/default'
+    $tomcat_source       = 'apache-tomcat-7.0.50.tar.gz'
+    $tomcat_deploydir    = '/fedora/tomcat7'
 }

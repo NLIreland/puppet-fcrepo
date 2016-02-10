@@ -18,7 +18,7 @@
 #   file.
 #
 # [*fcrepo_sandbox_home*]
-#   Base directory for the Fedora 4 sandbox environment.  Java, Tomcat,
+#   Base directory for the Fedora 4 sandbox environment.  Tomcat
 #   and Fedora will be installed under this directory.
 #
 # [*fcrepo_datadir*]
@@ -27,11 +27,8 @@
 # [*fcrepo_configdir*]
 #   Fedora 4 config directory.
 #
-# [*java_source*]
-#   The Java source package name (should be installed under files/)
-#
-# [*java_deploydir*]
-#   The Java base directory (i.e., JAVA_HOME).
+# [*java_homedir*]
+#   The directory were Java has been installed (i.e., JAVA_HOME).
 #
 # [*tomcat_source*]
 #   The Tomcat source package name (should be installed under files/)
@@ -65,29 +62,25 @@ class fcrepo (
   $fcrepo_sandbox_home = 'UNSET',
   $fcrepo_datadir      = 'UNSET',
   $fcrepo_configdir    = 'UNSET',
-  $java_source         = 'UNSET',
-  $java_deploydir      = 'UNSET',
+  $java_homedir        = 'UNSET',
   $tomcat_source       = 'UNSET',
   $tomcat_deploydir    = 'UNSET',
 
 ) {
 
   include stdlib
-  include java
   include tomcat
   include fcrepo::params
 
   validate_string($fcrepo::params::user)
   validate_string($fcrepo::params::group)
-  validate_re($fcrepo::params::java_source, '.tar.gz$',
-    'The Java source file is not a tar-gzipped file.')
   validate_re($fcrepo::params::tomcat_source, '.tar.gz$',
     'The Tomcat source file is not a tar-gzipped file.')
   validate_absolute_path($fcrepo::params::user_profile)
   validate_absolute_path($fcrepo::params::fcrepo_sandbox_home)
   validate_absolute_path($fcrepo::params::fcrepo_datadir)
   validate_absolute_path($fcrepo::params::fcrepo_configdir)
-  validate_absolute_path($fcrepo::params::java_deploydir)
+  validate_absolute_path($fcrepo::params::java_homedir)
   validate_absolute_path($fcrepo::params::tomcat_deploydir)
 
   $user_real = $user? {
@@ -120,14 +113,9 @@ class fcrepo (
     default => $fcrepo_configdir,
   }
 
-  $java_source_real = $java_source? {
-    'UNSET' => $::fcrepo::params::java_source,
-    default => $java_source,
-  }
-
-  $java_deploydir_real = $java_deploydir? {
-    'UNSET' => $::fcrepo::params::java_deploydir,
-    default => $java_deploydir,
+  $java_homedir_real = $java_homedir? {
+    'UNSET' => $::fcrepo::params::java_homedir,
+    default => $java_homedir,
   }
 
   $tomcat_source_real = $tomcat_source? {

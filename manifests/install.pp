@@ -22,11 +22,8 @@
 # [*fcrepo_datadir_real*]
 #   The Fedora 4 data directory.
 #
-# [*java_source_real*]
-#   The Java source file.
-#
-# [*java_deploydir_real*]
-#   The Java base directory (JAVA_HOME).
+# [*java_homedir_real*]
+#   The directory with the Java installation (JAVA_HOME).
 #
 # [*tomcat_source_real*]
 #   The Tomcat source file.
@@ -95,20 +92,11 @@ class fcrepo::install {
 
   file { $::fcrepo::user_profile_real:
     ensure  => file,
+    content => "export JAVA_HOME=${::fcrepo::java_homedir_real}",
     path    => $::fcrepo::user_profile_real,
   }
 
   # Install the infrastructure software
-
-  # Java
-  java::setup { $::fcrepo::java_source_real:
-    ensure        => 'present',
-    source        => $::fcrepo::java_source_real,
-    deploymentdir => $::fcrepo::java_deploydir_real,
-    user          => $::fcrepo::user_real,
-    pathfile      => $::fcrepo::user_profile_real,
-    require       => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
-  }
 
   # Tomcat
   tomcat::install { $::fcrepo::tomcat_source_real:

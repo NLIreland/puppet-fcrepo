@@ -14,36 +14,37 @@
 
 ##Overview
 
-The fcrepo module installs, configures, and manages Fedora 4 in a clustered 
+The fcrepo module installs, configures, and manages Fedora 4 in a single or clustered 
 environment.
 
 ##Module Description
 
-The fcrepo module manages running Fedora 4 repositories in a clustered 
-environment.  The module ensures that the prerequisite  software is installed, 
-installs the Fedora WAR file and sets up the FCREPO_HOME directory, and manages 
+The fcrepo module manages running Fedora 4 repositories in a single or a clustered 
+environment.  The module installs Tomcat,
+installs the Fedora WAR file and sets up the FCREPO_HOME directory. It can be used to manage 
 the configuration files for every Fedora instance on each node in the cluster.
 
 ##Prerequisites
 
-To use this module, you need Puppet installed (of course), as well as
-the following Puppet modules:
+To use this module, you need:
 
-* puppetlabs/stdlib
-* 7terminals/java
-* 7terminals/maven
-* 7terminals/tomcat
+1. Puppet installed (of course). This has been tested with Puppet 3.8.1. 
+2. The following Puppet modules:
+    * puppetlabs/stdlib
+    * 7terminals/tomcat
+3. Java already installed on the machine. Usually this can be installed by either:
+    * Setting up your OS's packaged Java via Puppet by using the official puppetlabs/java 
+    module. This should configure the proper path to the Java installation.
+    * Installing a package (such as Oracle's Java RPM), which also sets up the proper path.
+    Installing this via a local yum repository can allow Puppet to easily install this 
+    for your machines.
+4. You'll need to download the Tomcat binary distribution package: 
+   <http://tomcat.apache.org/download-70.cgi>
+   Choose the correct tar-gzipped package for your platform.  Only `.tar.gz` packages
+   are supported at this time.
 
-You'll also need to download the following binary distribution packages:
-
- * Java 7:  <http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html>
- * Maven 3:  <http://maven.apache.org/download.cgi>
- * Tomcat 7:  <http://tomcat.apache.org/download-70.cgi>
-
-Choose the correct tar-gzipped package for your platform.  Only `.tar.gz` packages
-are supported at this time.
-
-And you'll need `fcrepo.war`, built from maven or retrieved from some location.
+5. You'll need `fcrepo.war`, built from maven or retrieved from Fedora releases:
+<https://wiki.duraspace.org/display/FF/Downloads>
 
 ###Install and configure a base installation of Puppet
 
@@ -81,8 +82,6 @@ $ export http_proxy=http://myproxy.example.com:3128
 
 ```
 sudo puppet module install puppetlabs/stdlib
-sudo puppet module install 7terminals/java
-sudo puppet module install 7terminals/maven
 sudo puppet module install 7terminals/tomcat
 ```
 
@@ -91,7 +90,7 @@ sudo puppet module install 7terminals/tomcat
 ###What fcrepo affects
 
 * Fedora service user and group
-* Java, Tomcat, Maven standalone installs
+* Tomcat standalone install
 * Fedora WAR
 * Fedora directories (home and data)
 * Fedora configuration files
@@ -99,8 +98,8 @@ sudo puppet module install 7terminals/tomcat
 
 This module creates a user and group to manage the Fedora service and files,
 creates a software directory and a data directory and assigns ownership of
-them to the fedora user, then installs standalone versions of Oracle Java
-HotSpot JDK, Tomcat, and Maven.  The module installs Fedora in a
+them to the fedora user, then installs standalone versions of Tomcat.  
+The module installs Fedora in a
 sandboxed environment, with infrastructure software downloaded and
 installed from binary distributions, and should work on any Unix environment.
 
@@ -215,27 +214,12 @@ by the Fedora Unix user and group.  The user's PATH is modified to point first t
 these tools in the sandbox, and other environment variables may be set in the user's 
 profile file.
 
-#####`java_source`
+#####`java_homedir`
 
-The *exact* name of the Java binary distribution package, in *.tar.gz format.
-This file should be installed under the module's `files/` directory 
-(usually `/etc/puppet/modules/fcrepo/files/`).
+The location where Java is installed; this variable is used to set JAVA_HOME. The default 
+will attempt to use the Red Hat system Java location.
 
-Default:  **jdk-7u51-linux-x64.tar.gz**
-
-#####`maven_source`
-
-The *exact* name of the Maven binary distribution package, in *.tar.gz format.
-This file should be installed under the module's `files/` directory 
-(usually `/etc/puppet/modules/fcrepo/files/`).
-
-Default:  **apache-maven-3.1.1-bin.tar.gz**
-
-#####`maven_deploydir`
-
-The Maven base directory.
-
-Default:  **_fcrepo sandbox home_/maven3**
+Default:  **/usr/java/default**
 
 #####`tomcat_source`
 
@@ -279,11 +263,6 @@ and data directories will reside are created and mounted.
 
 This module does not set a password for the Fedora Unix user.  You'll
 need to do that yourself.
-
-The `java::setup`, and `maven::setup` resources only 
-support the `$::osfamily` parameters of RedHat, Debian, and Suse.  
-You may need to override the `$::osfamily` parameter, setting it to 
-one of those supported OSes, to get these tools to install under puppet.
 
 ##Development
 

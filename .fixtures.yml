@@ -1,7 +1,6 @@
 fixtures:
   repositories:
     stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib"
-    java: "git://github.com/7terminals/puppet-java"
     tomcat: "git://github.com/7terminals/puppet-tomcat"
   symlinks:
     fcrepo: "#{source_dir}"
