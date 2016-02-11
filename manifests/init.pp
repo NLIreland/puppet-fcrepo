@@ -27,6 +27,10 @@
 # [*fcrepo_configdir*]
 #   Fedora 4 config directory.
 #
+# [*fcrepo_configtype*]
+#   Fedora 4 config file types (i.e., the version of Fedora that the config files
+#   are used for, and whether they are for default or clustered configurations).
+#
 # [*java_homedir*]
 #   The directory were Java has been installed (i.e., JAVA_HOME).
 #
@@ -62,6 +66,7 @@ class fcrepo (
   $fcrepo_sandbox_home = 'UNSET',
   $fcrepo_datadir      = 'UNSET',
   $fcrepo_configdir    = 'UNSET',
+  $fcrepo_configtype   = 'UNSET',
   $java_homedir        = 'UNSET',
   $tomcat_source       = 'UNSET',
   $tomcat_deploydir    = 'UNSET',
@@ -80,6 +85,7 @@ class fcrepo (
   validate_absolute_path($fcrepo::params::fcrepo_sandbox_home)
   validate_absolute_path($fcrepo::params::fcrepo_datadir)
   validate_absolute_path($fcrepo::params::fcrepo_configdir)
+  validate_string($fcrepo::params::fcrepo_configtype)
   validate_absolute_path($fcrepo::params::java_homedir)
   validate_absolute_path($fcrepo::params::tomcat_deploydir)
 
@@ -112,6 +118,12 @@ class fcrepo (
     'UNSET' => $::fcrepo::params::fcrepo_configdir,
     default => $fcrepo_configdir,
   }
+   
+  $fcrepo_configtype_real = $fcrepo_configtype? {
+    'UNSET' => $::fcrepo::params::fcrepo_configtype,
+    default => $fcrepo_configtype,
+  }
+  
 
   $java_homedir_real = $java_homedir? {
     'UNSET' => $::fcrepo::params::java_homedir,

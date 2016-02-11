@@ -355,6 +355,11 @@ describe 'fcrepo' do
 
   # Test Fedora config repository.json
   context "With Fedora config repository.json template" do
+    let :params do
+      {
+        :fcrepo_configtype   => 'fcrepo-4.4.0-minimal-default',
+      }
+    end
     it {
       should contain_file('/fedora/config/repository.json').with( {
         'ensure'  => 'file',
@@ -366,13 +371,18 @@ describe 'fcrepo' do
     }
     it {
       should contain_file('/fedora/config/repository.json').with_content(
-        /\/fedora\/config/
+        /fcrepo\.binary\.directory:target\/binaries/
       )
     }
   end
 
   # Test Fedora config jgroups-fcrepo-tcp.xml
   context "With Fedora config jgroups-fcrepo-tcp.xml template" do
+    let :params do
+      {
+        :fcrepo_configtype   => 'fcrepo-4.4.0-minimal-default',
+      }
+    end
     it {
       should contain_file('/fedora/config/jgroups-fcrepo-tcp.xml').with( {
         'ensure'  => 'file',
@@ -384,13 +394,18 @@ describe 'fcrepo' do
     }
     it {
       should contain_file('/fedora/config/jgroups-fcrepo-tcp.xml').with_content(
-        /FedoraTestNode/
+        /jgroups\.tcp\.port:7800/
       )
     }
   end
 
   # Test Fedora config infinispan.xml
   context "With Fedora config infinispan.xml template" do
+    let :params do
+      {
+        :fcrepo_configtype   => 'fcrepo-4.4.0-minimal-default',
+      }
+    end
     it {
       should contain_file('/fedora/config/infinispan.xml').with( {
         'ensure'  => 'file',
@@ -402,12 +417,12 @@ describe 'fcrepo' do
     }
     it {
       should contain_file('/fedora/config/infinispan.xml').with_content(
-        /\/fedora\/config/
+        /urn:infinispan:config:6\.0/
       )
     }
     it {
       should contain_file('/fedora/config/infinispan.xml').with_content(
-        /\/data\//
+        /{fcrepo.ispn.repo.cache:target}\/data/
       )
     }
   end

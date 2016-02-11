@@ -58,7 +58,7 @@ class fcrepo::config {
     group   => $::fcrepo::group_real,
     owner   => $::fcrepo::user_real,
     mode    => '0644',
-    content => template('fcrepo/repository.json.erb'),
+    content => template("fcrepo/${::fcrepo::fcrepo_configtype_real}/repository.json.erb"),
     require => File[$::fcrepo::fcrepo_configdir_real],
   }
 
@@ -69,7 +69,7 @@ class fcrepo::config {
     group   => $::fcrepo::group_real,
     owner   => $::fcrepo::user_real,
     mode    => '0644',
-    content => template('fcrepo/jgroups-fcrepo-tcp.xml.erb'),
+    content => template("fcrepo/${::fcrepo::fcrepo_configtype_real}/jgroups-fcrepo-tcp.xml.erb"),
     require => File[$::fcrepo::fcrepo_configdir_real],
   }
 
@@ -80,7 +80,7 @@ class fcrepo::config {
     group   => $::fcrepo::group_real,
     owner   => $::fcrepo::user_real,
     mode    => '0644',
-    content => template('fcrepo/infinispan.xml.erb'),
+    content => template("fcrepo/${::fcrepo::fcrepo_configtype_real}/infinispan.xml.erb"),
     require => File[$::fcrepo::fcrepo_configdir_real],
   }
 

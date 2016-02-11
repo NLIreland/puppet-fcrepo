@@ -21,6 +21,13 @@
 # [*fcrepo_datadir*]
 #   The Fedora data directory.
 #
+# [*fcrepo_configdir*]
+#   Fedora 4 config directory.
+#
+# [*fcrepo_configtype*]
+#   Fedora 4 config file types (i.e., the version of Fedora that the config files
+#   are used for, and whether they are for default or clustered configurations).
+#
 # [*java_homedir*]
 #   The directory where Java has been installed (JAVA_HOME).
 #
@@ -50,6 +57,7 @@ class fcrepo::params {
     $fcrepo_sandbox_home = '/fedora'
     $fcrepo_datadir      = '/data'
     $fcrepo_configdir    = '/fedora/config'
+    $fcrepo_configtype   = 'fcrepo-4.4.0-minimal-default'
     $java_homedir        = '/usr/java/default'
     $tomcat_source       = 'apache-tomcat-7.0.50.tar.gz'
     $tomcat_deploydir    = '/fedora/tomcat7'

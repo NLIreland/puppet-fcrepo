@@ -112,7 +112,7 @@ and manages the Fedora Tomcat service.
 
 1. Clone this project, change to the `puppet-fcrepo` directory. 
 
-2. Copy the binary distribution files you downloaded (see 
+2. Copy the Tomcat binary distribution file you downloaded (see 
 [Prerequisites](#prerequisites), above) into the module's `files/` directory:
 
 ```
@@ -156,6 +156,7 @@ class { '::fcrepo':
   group               => 'fcrepo',
   fcrepo_sandbox_home => '/opt/fcrepo',
   fcrepo_datadir      => '/opt/fcrepo/data',
+  fcrepo_configtype   => /fcrepo-4.4.0-minimal-default',
 }
 ```
 Note: Placing the above include and class outside of specific node definitions, as above, will apply the fcrepo role to every puppet node. Alternately, place them within an appropriate node block.
@@ -254,6 +255,21 @@ Default: **/data**
 The Fedora configuration directory.
 
 Default: **/fedora/config**
+
+#####`fcrepo_configdir`
+
+The version and type of configuration files that should be used. The configuration files
+can vary depending on whether you are using Fedora 4.4.0 or 4.5.0, and whether you are
+running under a default (single) or clustered configuration. Some possible choices are:
+* fcrepo-4.4.0-minimal-default
+* fcrepo-4.4.0-clustered
+* fcrepo-4.5.0-minimal-default
+* fcrepo-4.5.0-clustered
+
+The minimal default versions use these defaults from the fcrepo package, which includes
+using leveldb for infinispan storage.
+
+Default: **fcrepo-4.4.0-minimal-default**
 
 ##Limitations
 

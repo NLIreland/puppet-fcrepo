@@ -3,3 +3,6 @@ pkg/
 ./rspec_system/
 .*.sw*
 coverage
+*.DS_Store
+.ruby-version
+spec/fixtures/
