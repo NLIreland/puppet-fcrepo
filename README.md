@@ -156,7 +156,7 @@ class { '::fcrepo':
   group               => 'fcrepo',
   fcrepo_sandbox_home => '/opt/fcrepo',
   fcrepo_datadir      => '/opt/fcrepo/data',
-  fcrepo_configtype   => /fcrepo-4.4.0-minimal-default',
+  fcrepo_configtype   => 'fcrepo-4.4.0-minimal-default',
 }
 ```
 Note: Placing the above include and class outside of specific node definitions, as above, will apply the fcrepo role to every puppet node. Alternately, place them within an appropriate node block.

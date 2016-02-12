@@ -1,5 +1,5 @@
 name    'sprater-fcrepo'
-version '0.0.1'
+version '0.1.0'
 source 'git://github.com/sprater/puppet-fcrepo'
 author 'Scott Prater'
 license 'Apache License, Version 2.0'
