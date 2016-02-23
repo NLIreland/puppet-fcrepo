@@ -9,4 +9,4 @@ project_page 'http://github.com/sprater/puppet-fcrepo'
 
 ## Add dependencies, if any:
 dependency 'puppetlabs/stdlib', '>= 3.2.0'
-dependency '7terminals/tomcat', '>= 0.0.2'
+dependency 'puppetlabs-tomcat', '>= 1.4.1'

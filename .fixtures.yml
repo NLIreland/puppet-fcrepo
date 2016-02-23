@@ -1,6 +1,8 @@
 fixtures:
   repositories:
-    stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib"
-    tomcat: "git://github.com/7terminals/puppet-tomcat"
+    stdlib:  "git://github.com/puppetlabs/puppetlabs-stdlib"
+    tomcat:  "git://github.com/puppetlabs/puppetlabs-tomcat"
+    staging: "git://github.com/nanliu/puppet-staging"
+    concat:  "git://github.com/puppetlabs/puppetlabs-concat"
   symlinks:
     fcrepo: "#{source_dir}"

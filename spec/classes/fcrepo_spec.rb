@@ -8,6 +8,7 @@ describe 'fcrepo' do
     {
       :osfamily => 'RedHat',
       :hostname => 'FedoraTestNode',
+      :augeasversion => '1.0.0',
     }
   end
 

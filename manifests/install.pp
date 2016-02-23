@@ -98,19 +98,43 @@ class fcrepo::install {
 
   # Install the infrastructure software
 
+# 
+#   # Tomcat
+#   tomcat::install { $::fcrepo::tomcat_source_real:
+#     source                     => $::fcrepo::tomcat_source_real,
+#     deploymentdir              => $::fcrepo::tomcat_deploydir_real,
+#     user                       => $::fcrepo::user_real,
+#     group                      => $::fcrepo::group_real,
+#     default_webapp_docs        => 'absent',
+#     default_webapp_examples    => 'absent',
+#     default_webapp_hostmanager => 'absent',
+#     default_webapp_manager     => 'absent',
+#     default_webapp_root        => 'absent',
+#     require                    => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
+#   }
+
   # Tomcat
-  tomcat::install { $::fcrepo::tomcat_source_real:
-    source                     => $::fcrepo::tomcat_source_real,
-    deploymentdir              => $::fcrepo::tomcat_deploydir_real,
-    user                       => $::fcrepo::user_real,
-    group                      => $::fcrepo::group_real,
-    default_webapp_docs        => 'absent',
-    default_webapp_examples    => 'absent',
-    default_webapp_hostmanager => 'absent',
-    default_webapp_manager     => 'absent',
-    default_webapp_root        => 'absent',
-    require                    => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
+  tomcat::instance { 'tomcat-fcrepo':
+    user          => $fcrepo::params::user_real,
+    group         => $fcrepo::params::group_real,
+    catalina_base       => $::fcrepo::tomcat_deploydir_real,
+    install_from_source => true,
+    package_name        => 'tomcat',
+    source_url          => $::fcrepo::tomcat_source_real,
+  }->
+  tomcat::config::server { 'tomcat-fcrepo':
+    catalina_base => $::fcrepo::tomcat_deploydir_real,
+    port          => '8105',
+  }->
+  tomcat::config::server::connector { 'tomcat-fcrepo-http':
+    catalina_base         => $::fcrepo::tomcat_deploydir_real,
+    port                  => $::fcrepo::tomcat_http_port_real,
+    protocol              => 'HTTP/1.1',
+    additional_attributes => {
+      'redirectPort' => $::fcrepo::tomcat_redirect_port_real,
+    },
   }
+
 
   # Fedora 4 WAR
   file { "${::fcrepo::tomcat_deploydir_real}/webapps/fcrepo.war":

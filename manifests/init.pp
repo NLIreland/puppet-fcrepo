@@ -70,6 +70,10 @@ class fcrepo (
   $java_homedir        = 'UNSET',
   $tomcat_source       = 'UNSET',
   $tomcat_deploydir    = 'UNSET',
+  $tomcat_install_from_source = 'UNSET',
+  $tomcat_http_port    = 'UNSET',
+  $tomcat_ajp_port     = 'UNSET', 
+  $tomcat_redirect_port = 'UNSET',
 
 ) {
 
@@ -88,6 +92,10 @@ class fcrepo (
   validate_string($fcrepo::params::fcrepo_configtype)
   validate_absolute_path($fcrepo::params::java_homedir)
   validate_absolute_path($fcrepo::params::tomcat_deploydir)
+  validate_bool($fcrepo::params::tomcat_install_from_source)
+  validate_integer($fcrepo::params::tomcat_http_port)
+  validate_integer($fcrepo::params::tomcat_ajp_port)
+  validate_integer($fcrepo::params::tomcat_redirect_port)
 
   $user_real = $user? {
     'UNSET' => $::fcrepo::params::user,
@@ -138,6 +146,26 @@ class fcrepo (
   $tomcat_deploydir_real = $tomcat_deploydir? {
     'UNSET' => $::fcrepo::params::tomcat_deploydir,
     default => $tomcat_deploydir,
+  }
+  
+  $tomcat_install_from_source_real = $tomcat_install_from_source? {
+    'UNSET' => $::fcrepo::params::tomcat_install_from_source,
+    default => $tomcat_install_from_source,
+  }
+
+  $tomcat_http_port_real = $tomcat_http_port? {
+    'UNSET' => $::fcrepo::params::tomcat_http_port,
+    default => $tomcat_http_port,
+  }
+  
+  $tomcat_ajp_port_real = $tomcat_ajp_port? {
+    'UNSET' => $::fcrepo::params::tomcat_ajp_port,
+    default => $tomcat_ajp_port,
+  }
+  
+  $tomcat_redirect_port_real = $tomcat_redirect_port? {
+    'UNSET' => $::fcrepo::params::tomcat_redirect_port,
+    default => $tomcat_redirect_port,
   }
 
 # Using the anchor containment pattern for backwards compatibility (< 3.4.0)
