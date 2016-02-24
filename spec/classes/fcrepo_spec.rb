@@ -298,38 +298,100 @@ describe 'fcrepo' do
       } )
     }
   end
-# 
-#   # Test Fedora 4 WAR install
-#   context "With Fedora 4 WAR" do
-#     it {
-#       should contain_file('/fedora/tomcat7/webapps/fcrepo.war').with( {
-#         'ensure'  => 'file',
-#         'path'    => "/fedora/tomcat7/webapps/fcrepo.war",
-#         'source'  => 'puppet:///modules/fcrepo/fcrepo.war',
-#         'group'   => 'fcrepo',
-#         'owner'   => 'fcrepo',
-#         'mode'    => '0644',
-#       } )
-#     }
-#   end
-# 
-#   # Test Tomcat server.xml
-#   context "With server.xml template" do
-#     it {
-#       should contain_file('/fedora/tomcat7/conf/server.xml').with( {
-#         'ensure'  => 'file',
-#         'path'    => '/fedora/tomcat7/conf/server.xml',
-#         'group'   => 'fcrepo',
-#         'owner'   => 'fcrepo',
-#         'mode'    => '0600',
-#       } )
-#     }
-#     it {
-#       should contain_file('/fedora/tomcat7/conf/server.xml').with_content(
-#         /FedoraTestNode/
-#       )
-#     }
-#  end
+
+  # Test Fedora 4 WAR install default source
+  context "With Fedora 4 WAR default source" do
+    it {
+      should contain_tomcat__war('fcrepo.war').with( {
+        'catalina_base'         => '/fedora/tomcat7',
+        'app_base'              => 'webapps',
+        'war_source'            => 'https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-4.4.0/fcrepo-webapp-4.4.0.war',
+      } )
+    }
+  end
+
+  # Test Fedora 4 WAR install custom source
+  context "With Fedora 4 WAR custom source" do
+    let :params do
+      {
+        :fcrepo_warsource    => 'https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-4.3.0/fcrepo-webapp-4.3.0.war',
+      }
+    end
+    it {
+      should contain_tomcat__war('fcrepo.war').with( {
+        'catalina_base'         => '/fedora/tomcat7',
+        'app_base'              => 'webapps',
+        'war_source'            => 'https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-4.3.0/fcrepo-webapp-4.3.0.war',
+      } )
+    }
+  end
+
+  # Test Tomcat http connector port with default
+  context "With Tomcat http connector port with default" do
+    it {
+      should contain_tomcat__config__server__connector('tomcat-fcrepo-http').with( {
+        'catalina_base'         => '/fedora/tomcat7',
+        'port'                  => '8080',
+        'additional_attributes' => {'redirectPort' => '8443'},
+      } )
+    }
+ end
+
+  # Test Tomcat http connector port with custom port
+  context "With Tomcat http connector with custom ports" do
+      let :params do
+      {
+        :tomcat_http_port     => '8090',
+        :tomcat_redirect_port => '8993',
+      }
+    end
+    it {
+      should contain_tomcat__config__server__connector('tomcat-fcrepo-http').with( {
+        'catalina_base'         => '/fedora/tomcat7',
+        'port'                  => '8090',
+        'additional_attributes' => {'redirectPort' => '8993'},
+      } )
+    }
+ end
+ 
+   # Test Tomcat ajp connector port with default
+  context "With Tomcat ajp connector port with default" do
+    it {
+      should contain_tomcat__config__server__connector('tomcat-fcrepo-ajp').with( {
+        'catalina_base'         => '/fedora/tomcat7',
+        'port'                  => '8009',
+        'additional_attributes' => {'redirectPort' => '8443'},
+      } )
+    }
+ end
+ 
+   # Test Tomcat ajp connector port with custom port
+  context "With Tomcat ajp connector with custom ports" do
+      let :params do
+      {
+        :tomcat_ajp_port      => '8109',
+        :tomcat_redirect_port => '8993',
+      }
+    end
+    it {
+      should contain_tomcat__config__server__connector('tomcat-fcrepo-ajp').with( {
+        'catalina_base'         => '/fedora/tomcat7',
+        'port'                  => '8109',
+        'additional_attributes' => {'redirectPort' => '8993'},
+      } )
+    }
+ end
+
+  # Test Tomcat server.xml config
+  context "With Tomcat server.xml config" do
+    it {
+      should contain_tomcat__config__server__host('tomcat-fcrepo-host').with( {
+        'catalina_base'         => '/fedora/tomcat7',
+        'host_name'             => 'FedoraTestNode',
+        'app_base'              => 'webapps',
+      } )
+    }
+ end
 
   # Test Tomcat setenv.sh
   context "With setenv.sh template" do

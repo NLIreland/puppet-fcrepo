@@ -58,6 +58,7 @@ class fcrepo::params {
     $fcrepo_datadir      = '/data'
     $fcrepo_configdir    = '/fedora/config'
     $fcrepo_configtype   = 'fcrepo-4.4.0-minimal-default'
+    $fcrepo_warsource    = 'https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-4.4.0/fcrepo-webapp-4.4.0.war'
     $java_homedir        = '/usr/java/default'
     $tomcat_source       = 'http://apache.mirrors.pair.com/tomcat/tomcat-7/v7.0.68/bin/apache-tomcat-7.0.68.tar.gz'
     $tomcat_deploydir    = '/fedora/tomcat7'

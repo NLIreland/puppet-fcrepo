@@ -67,6 +67,7 @@ class fcrepo (
   $fcrepo_datadir      = 'UNSET',
   $fcrepo_configdir    = 'UNSET',
   $fcrepo_configtype   = 'UNSET',
+  $fcrepo_warsource    = 'UNSET',
   $java_homedir        = 'UNSET',
   $tomcat_source       = 'UNSET',
   $tomcat_deploydir    = 'UNSET',
@@ -83,14 +84,16 @@ class fcrepo (
 
   validate_string($fcrepo::params::user)
   validate_string($fcrepo::params::group)
-  validate_re($fcrepo::params::tomcat_source, '.tar.gz$',
-    'The Tomcat source file is not a tar-gzipped file.')
   validate_absolute_path($fcrepo::params::user_profile)
   validate_absolute_path($fcrepo::params::fcrepo_sandbox_home)
   validate_absolute_path($fcrepo::params::fcrepo_datadir)
   validate_absolute_path($fcrepo::params::fcrepo_configdir)
+  validate_re($fcrepo::params::fcrepo_warsource, '.war$',
+    'The Fedora source file is not a war file.')
   validate_string($fcrepo::params::fcrepo_configtype)
   validate_absolute_path($fcrepo::params::java_homedir)
+  validate_re($fcrepo::params::tomcat_source, '.tar.gz$',
+    'The Tomcat source file is not a .tar.gz file.')
   validate_absolute_path($fcrepo::params::tomcat_deploydir)
   validate_bool($fcrepo::params::tomcat_install_from_source)
   validate_integer($fcrepo::params::tomcat_http_port)
@@ -131,7 +134,11 @@ class fcrepo (
     'UNSET' => $::fcrepo::params::fcrepo_configtype,
     default => $fcrepo_configtype,
   }
-  
+
+  $fcrepo_warsource_real = $fcrepo_warsource? {
+    'UNSET' => $::fcrepo::params::fcrepo_warsource,
+    default => $fcrepo_warsource,
+  }
 
   $java_homedir_real = $java_homedir? {
     'UNSET' => $::fcrepo::params::java_homedir,

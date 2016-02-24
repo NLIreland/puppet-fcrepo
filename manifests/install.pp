@@ -135,6 +135,19 @@ class fcrepo::install {
       'redirectPort' => $::fcrepo::tomcat_redirect_port_real,
     }
   }
+  tomcat::config::server::connector { 'tomcat-fcrepo-ajp':
+    catalina_base         => $::fcrepo::tomcat_deploydir_real,
+    port                  => $::fcrepo::tomcat_ajp_port_real,
+    protocol              => 'HTTP/1.1',
+    additional_attributes => {
+      'redirectPort' => $::fcrepo::tomcat_redirect_port_real,
+    }
+  }
+  tomcat::config::server::host { 'tomcat-fcrepo-host':
+    catalina_base         => $::fcrepo::tomcat_deploydir_real,
+    host_name             => $::hostname,
+    app_base              => 'webapps',
+  }
   tomcat::setenv::entry {'tomcat-fcrepo-catalina-opts':
     config_file => "${::fcrepo::tomcat_deploydir_real}/bin/setenv.sh",
     param => 'CATALINA_OPTS',
@@ -145,6 +158,11 @@ class fcrepo::install {
     param => 'JAVA_HOME',
     value => "${::fcrepo::java_homedir_real}",
   }
+  tomcat::war { 'fcrepo.war':
+    catalina_base => $::fcrepo::tomcat_deploydir_real,
+    app_base      => 'webapps',
+    war_source    => $::fcrepo::fcrepo_warsource_real,
+}
 
 # 
 #   # Fedora 4 WAR
