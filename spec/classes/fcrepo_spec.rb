@@ -9,7 +9,9 @@ describe 'fcrepo' do
       :osfamily => 'RedHat',
       :hostname => 'FedoraTestNode',
       :augeasversion => '1.0.0',
+      :path     => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/' ],
     }
+    
   end
 
   it { should compile.with_all_deps }
@@ -247,16 +249,13 @@ describe 'fcrepo' do
   # Test Tomcat install
   context "With default tomcat_source and tomcat_deploydir" do
     it {
-      should contain_tomcat__install('apache-tomcat-7.0.50.tar.gz').with( {
-        'source'                     => 'apache-tomcat-7.0.50.tar.gz',
-        'deploymentdir'              => '/fedora/tomcat7',
-        'user'                       => 'fcrepo',
-        'group'                      => 'fcrepo',
-        'default_webapp_docs'        => 'absent',
-        'default_webapp_examples'    => 'absent',
-        'default_webapp_hostmanager' => 'absent',
-        'default_webapp_manager'     => 'absent',
-        'default_webapp_root'        => 'absent',
+      should contain_tomcat__instance('tomcat-fcrepo').with( {
+          'user'                => 'fcrepo',
+          'group'               => 'fcrepo',
+          'catalina_base'       => '/fedora/tomcat7',
+          'install_from_source' => true,
+          'package_name'        => 'tomcat',
+          'source_url'          => 'http://apache.mirrors.pair.com/tomcat/tomcat-7/v7.0.68/bin/apache-tomcat-7.0.68.tar.gz',
       } )
     }
   end
@@ -264,20 +263,18 @@ describe 'fcrepo' do
   context "With specified tomcat_source and default tomcat_deploydir" do
     let :params do
       {
-        :tomcat_source    => 'testtomcatsource.tar.gz'
+        :tomcat_source    => 'http://apache.mirrors.pair.com/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz',
+        :tomcat_install_from_source => true,
       }
     end
     it {
-      should contain_tomcat__install('testtomcatsource.tar.gz').with( {
-        'source'                     => 'testtomcatsource.tar.gz',
-        'deploymentdir'              => '/fedora/tomcat7',
+      should contain_tomcat__instance('tomcat-fcrepo').with( {
         'user'                       => 'fcrepo',
         'group'                      => 'fcrepo',
-        'default_webapp_docs'        => 'absent',
-        'default_webapp_examples'    => 'absent',
-        'default_webapp_hostmanager' => 'absent',
-        'default_webapp_manager'     => 'absent',
-        'default_webapp_root'        => 'absent',
+        'catalina_base'              => '/fedora/tomcat7',
+        'install_from_source'        => true,
+        'package_name'               => 'tomcat',
+        'source_url'                 => 'http://apache.mirrors.pair.com/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz',
       } )
     }
   end
@@ -285,72 +282,63 @@ describe 'fcrepo' do
   context "With specified tomcat_source and specified tomcat_deploydir" do
     let :params do
       {
-        :tomcat_source    => 'testtomcatsource.tar.gz',
-        :tomcat_deploydir => '/opt/tomcat/tomcat7'
+        :tomcat_source    => 'http://apache.mirrors.pair.com/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz',
+        :tomcat_deploydir => '/opt/tomcat/tomcat7',
+        :tomcat_install_from_source => true,
       }
     end
     it {
-      should contain_tomcat__install('testtomcatsource.tar.gz').with( {
-        'source'                     => 'testtomcatsource.tar.gz',
-        'deploymentdir'              => '/opt/tomcat/tomcat7',
+      should contain_tomcat__instance('tomcat-fcrepo').with( {
         'user'                       => 'fcrepo',
         'group'                      => 'fcrepo',
-        'default_webapp_docs'        => 'absent',
-        'default_webapp_examples'    => 'absent',
-        'default_webapp_hostmanager' => 'absent',
-        'default_webapp_manager'     => 'absent',
-        'default_webapp_root'        => 'absent',
+        'catalina_base'              => '/opt/tomcat/tomcat7',
+        'install_from_source'        => true,
+        'package_name'               => 'tomcat',
+        'source_url'                 => 'http://apache.mirrors.pair.com/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz',
       } )
     }
   end
-
-  # Test Fedora 4 WAR install
-  context "With Fedora 4 WAR" do
-    it {
-      should contain_file('/fedora/tomcat7/webapps/fcrepo.war').with( {
-        'ensure'  => 'file',
-        'path'    => "/fedora/tomcat7/webapps/fcrepo.war",
-        'source'  => 'puppet:///modules/fcrepo/fcrepo.war',
-        'group'   => 'fcrepo',
-        'owner'   => 'fcrepo',
-        'mode'    => '0644',
-      } )
-    }
-  end
-
-  # Test Tomcat server.xml
-  context "With server.xml template" do
-    it {
-      should contain_file('/fedora/tomcat7/conf/server.xml').with( {
-        'ensure'  => 'file',
-        'path'    => '/fedora/tomcat7/conf/server.xml',
-        'group'   => 'fcrepo',
-        'owner'   => 'fcrepo',
-        'mode'    => '0600',
-      } )
-    }
-    it {
-      should contain_file('/fedora/tomcat7/conf/server.xml').with_content(
-        /FedoraTestNode/
-      )
-    }
-  end
+# 
+#   # Test Fedora 4 WAR install
+#   context "With Fedora 4 WAR" do
+#     it {
+#       should contain_file('/fedora/tomcat7/webapps/fcrepo.war').with( {
+#         'ensure'  => 'file',
+#         'path'    => "/fedora/tomcat7/webapps/fcrepo.war",
+#         'source'  => 'puppet:///modules/fcrepo/fcrepo.war',
+#         'group'   => 'fcrepo',
+#         'owner'   => 'fcrepo',
+#         'mode'    => '0644',
+#       } )
+#     }
+#   end
+# 
+#   # Test Tomcat server.xml
+#   context "With server.xml template" do
+#     it {
+#       should contain_file('/fedora/tomcat7/conf/server.xml').with( {
+#         'ensure'  => 'file',
+#         'path'    => '/fedora/tomcat7/conf/server.xml',
+#         'group'   => 'fcrepo',
+#         'owner'   => 'fcrepo',
+#         'mode'    => '0600',
+#       } )
+#     }
+#     it {
+#       should contain_file('/fedora/tomcat7/conf/server.xml').with_content(
+#         /FedoraTestNode/
+#       )
+#     }
+#  end
 
   # Test Tomcat setenv.sh
   context "With setenv.sh template" do
     it {
-      should contain_file('/fedora/tomcat7/bin/setenv.sh').with( {
-        'ensure'  => 'file',
-        'path'    => '/fedora/tomcat7/bin/setenv.sh',
-        'group'   => 'fcrepo',
-        'owner'   => 'fcrepo',
-        'mode'    => '0755',
+      should contain_concat__fragment('setenv-tomcat-fcrepo-catalina-opts').with( {
+        'ensure'    => 'present',
+        'target'    => '/fedora/tomcat7/bin/setenv.sh',
+        'content'   => /fedora\/config/,
       } )
-    }
-    it {
-      should contain_file('/fedora/tomcat7/bin/setenv.sh').with_content(
-        /\/fedora\/config/
-      )
     }
   end
 

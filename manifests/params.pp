@@ -59,10 +59,11 @@ class fcrepo::params {
     $fcrepo_configdir    = '/fedora/config'
     $fcrepo_configtype   = 'fcrepo-4.4.0-minimal-default'
     $java_homedir        = '/usr/java/default'
-    $tomcat_source       = 'http://apache.mirrors.pair.com/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz'
+    $tomcat_source       = 'http://apache.mirrors.pair.com/tomcat/tomcat-7/v7.0.68/bin/apache-tomcat-7.0.68.tar.gz'
     $tomcat_deploydir    = '/fedora/tomcat7'
-    $tomcat_install_from_source = false
+    $tomcat_install_from_source = true
     $tomcat_http_port    = '8080'
     $tomcat_ajp_port     = '8009' 
     $tomcat_redirect_port = '8443' 
+    
 }

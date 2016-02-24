@@ -115,36 +115,47 @@ class fcrepo::install {
 
   # Tomcat
   tomcat::instance { 'tomcat-fcrepo':
-    user          => $fcrepo::params::user_real,
-    group         => $fcrepo::params::group_real,
+    user                => $::fcrepo::user_real,
+    group               => $::fcrepo::group_real,
     catalina_base       => $::fcrepo::tomcat_deploydir_real,
-    install_from_source => true,
+    catalina_home       => $::fcrepo::tomcat_deploydir_real,
+    install_from_source => $::fcrepo::tomcat_install_from_source_real,
     package_name        => 'tomcat',
     source_url          => $::fcrepo::tomcat_source_real,
-  }->
+  }
   tomcat::config::server { 'tomcat-fcrepo':
-    catalina_base => $::fcrepo::tomcat_deploydir_real,
-    port          => '8105',
-  }->
+    catalina_base       => $::fcrepo::tomcat_deploydir_real,
+    port                => '8105',
+  }
   tomcat::config::server::connector { 'tomcat-fcrepo-http':
     catalina_base         => $::fcrepo::tomcat_deploydir_real,
     port                  => $::fcrepo::tomcat_http_port_real,
     protocol              => 'HTTP/1.1',
     additional_attributes => {
       'redirectPort' => $::fcrepo::tomcat_redirect_port_real,
-    },
+    }
+  }
+  tomcat::setenv::entry {'tomcat-fcrepo-catalina-opts':
+    config_file => "${::fcrepo::tomcat_deploydir_real}/bin/setenv.sh",
+    param => 'CATALINA_OPTS',
+    value => "-Xmx1024m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true -Djgroups.udp.mcast_addr=239.42.42.42 -Dfcrepo.modeshape.configuration=file://${::fcrepo::fcrepo_configdir_real}/repository.json -Dfcrepo.ispn.jgroups.configuration=${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml -Dfcrepo.infinispan.cache_configuration=${::fcrepo::fcrepo_configdir_real}/infinispan.xml -Dfcrepo.home=${::fcrepo::fcrepo_datadir_real}/fcrepo",
+  }
+  tomcat::setenv::entry {'tomcat-fcrepo-java-home':
+    config_file => "${::fcrepo::tomcat_deploydir_real}/bin/setenv.sh",
+    param => 'JAVA_HOME',
+    value => "${::fcrepo::java_homedir_real}",
   }
 
-
-  # Fedora 4 WAR
-  file { "${::fcrepo::tomcat_deploydir_real}/webapps/fcrepo.war":
-    ensure  => 'file',
-    path    => "${::fcrepo::tomcat_deploydir_real}/webapps/fcrepo.war",
-    source  => 'puppet:///modules/fcrepo/fcrepo.war',
-    group   => $::fcrepo::group_real,
-    owner   => $::fcrepo::user_real,
-    mode    => '0644',
-    require => [ Tomcat::Install[$::fcrepo::tomcat_source_real] ]
-  }
+# 
+#   # Fedora 4 WAR
+#   file { "${::fcrepo::tomcat_deploydir_real}/webapps/fcrepo.war":
+#     ensure  => 'file',
+#     path    => "${::fcrepo::tomcat_deploydir_real}/webapps/fcrepo.war",
+#     source  => 'puppet:///modules/fcrepo/fcrepo.war',
+#     group   => $::fcrepo::group_real,
+#     owner   => $::fcrepo::user_real,
+#     mode    => '0644',
+#     require => [ Tomcat::Install[$::fcrepo::tomcat_source_real] ]
+#   }
 
 }
