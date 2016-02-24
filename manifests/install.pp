@@ -114,19 +114,22 @@ class fcrepo::install {
 #   }
 
   # Tomcat
-  tomcat::instance { 'tomcat-fcrepo':
-    user                => $::fcrepo::user_real,
-    group               => $::fcrepo::group_real,
+  # Note: user and group can't yet be set reliably without an update to the puppetlabs/tomcat
+  # code. It looks like this change is in Master, waiting for release 1.4.2 which should
+  # solve this issue.
+ tomcat::instance { 'tomcat-fcrepo':
+#    user                => $::fcrepo::user_real,
+#    group               => $::fcrepo::group_real,
     catalina_base       => $::fcrepo::tomcat_deploydir_real,
-    catalina_home       => $::fcrepo::tomcat_deploydir_real,
+#    catalina_home       => $::fcrepo::tomcat_deploydir_real,
     install_from_source => $::fcrepo::tomcat_install_from_source_real,
     package_name        => 'tomcat',
     source_url          => $::fcrepo::tomcat_source_real,
-  }
+  }->
   tomcat::config::server { 'tomcat-fcrepo':
     catalina_base       => $::fcrepo::tomcat_deploydir_real,
     port                => '8105',
-  }
+  }->
   tomcat::config::server::connector { 'tomcat-fcrepo-http':
     catalina_base         => $::fcrepo::tomcat_deploydir_real,
     port                  => $::fcrepo::tomcat_http_port_real,
@@ -134,7 +137,7 @@ class fcrepo::install {
     additional_attributes => {
       'redirectPort' => $::fcrepo::tomcat_redirect_port_real,
     }
-  }
+  }->
   tomcat::config::server::connector { 'tomcat-fcrepo-ajp':
     catalina_base         => $::fcrepo::tomcat_deploydir_real,
     port                  => $::fcrepo::tomcat_ajp_port_real,
@@ -142,27 +145,29 @@ class fcrepo::install {
     additional_attributes => {
       'redirectPort' => $::fcrepo::tomcat_redirect_port_real,
     }
-  }
+  }->
   tomcat::config::server::host { 'tomcat-fcrepo-host':
     catalina_base         => $::fcrepo::tomcat_deploydir_real,
     host_name             => $::hostname,
     app_base              => 'webapps',
-  }
+  }->
+  tomcat::war { 'fcrepo.war':
+    catalina_base => $::fcrepo::tomcat_deploydir_real,
+    app_base      => 'webapps',
+    war_source    => $::fcrepo::fcrepo_warsource_real,
+  }->
   tomcat::setenv::entry {'tomcat-fcrepo-catalina-opts':
     config_file => "${::fcrepo::tomcat_deploydir_real}/bin/setenv.sh",
     param => 'CATALINA_OPTS',
     value => "-Xmx1024m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true -Djgroups.udp.mcast_addr=239.42.42.42 -Dfcrepo.modeshape.configuration=file://${::fcrepo::fcrepo_configdir_real}/repository.json -Dfcrepo.ispn.jgroups.configuration=${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml -Dfcrepo.infinispan.cache_configuration=${::fcrepo::fcrepo_configdir_real}/infinispan.xml -Dfcrepo.home=${::fcrepo::fcrepo_datadir_real}/fcrepo",
+    quote_char => "\"",
   }
   tomcat::setenv::entry {'tomcat-fcrepo-java-home':
     config_file => "${::fcrepo::tomcat_deploydir_real}/bin/setenv.sh",
     param => 'JAVA_HOME',
     value => "${::fcrepo::java_homedir_real}",
+    quote_char => "\"",
   }
-  tomcat::war { 'fcrepo.war':
-    catalina_base => $::fcrepo::tomcat_deploydir_real,
-    app_base      => 'webapps',
-    war_source    => $::fcrepo::fcrepo_warsource_real,
-}
 
 # 
 #   # Fedora 4 WAR

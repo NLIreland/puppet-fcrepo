@@ -250,8 +250,8 @@ describe 'fcrepo' do
   context "With default tomcat_source and tomcat_deploydir" do
     it {
       should contain_tomcat__instance('tomcat-fcrepo').with( {
-          'user'                => 'fcrepo',
-          'group'               => 'fcrepo',
+          'user'                => 'tomcat',
+          'group'               => 'tomcat',
           'catalina_base'       => '/fedora/tomcat7',
           'install_from_source' => true,
           'package_name'        => 'tomcat',
@@ -269,8 +269,8 @@ describe 'fcrepo' do
     end
     it {
       should contain_tomcat__instance('tomcat-fcrepo').with( {
-        'user'                       => 'fcrepo',
-        'group'                      => 'fcrepo',
+        'user'                       => 'tomcat',
+        'group'                      => 'tomcat',
         'catalina_base'              => '/fedora/tomcat7',
         'install_from_source'        => true,
         'package_name'               => 'tomcat',
@@ -289,8 +289,8 @@ describe 'fcrepo' do
     end
     it {
       should contain_tomcat__instance('tomcat-fcrepo').with( {
-        'user'                       => 'fcrepo',
-        'group'                      => 'fcrepo',
+        'user'                       => 'tomcat',
+        'group'                      => 'tomcat',
         'catalina_base'              => '/opt/tomcat/tomcat7',
         'install_from_source'        => true,
         'package_name'               => 'tomcat',
