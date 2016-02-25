@@ -263,7 +263,7 @@ describe 'fcrepo' do
   context "With specified tomcat_source and default tomcat_deploydir" do
     let :params do
       {
-        :tomcat_source    => 'http://apache.mirrors.pair.com/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz',
+        :tomcat_source    => 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz',
         :tomcat_install_from_source => true,
       }
     end
@@ -274,7 +274,7 @@ describe 'fcrepo' do
         'catalina_base'              => '/fedora/tomcat7',
         'install_from_source'        => true,
         'package_name'               => 'tomcat',
-        'source_url'                 => 'http://apache.mirrors.pair.com/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz',
+        'source_url'                 => 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz',
       } )
     }
   end
@@ -282,7 +282,7 @@ describe 'fcrepo' do
   context "With specified tomcat_source and specified tomcat_deploydir" do
     let :params do
       {
-        :tomcat_source    => 'http://apache.mirrors.pair.com/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz',
+        :tomcat_source    => 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz',
         :tomcat_deploydir => '/opt/tomcat/tomcat7',
         :tomcat_install_from_source => true,
       }
@@ -294,7 +294,7 @@ describe 'fcrepo' do
         'catalina_base'              => '/opt/tomcat/tomcat7',
         'install_from_source'        => true,
         'package_name'               => 'tomcat',
-        'source_url'                 => 'http://apache.mirrors.pair.com/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz',
+        'source_url'                 => 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.67/bin/apache-tomcat-7.0.67.tar.gz',
       } )
     }
   end
