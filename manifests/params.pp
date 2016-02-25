@@ -5,21 +5,23 @@
 # === Parameters
 #
 # [*user*]
-#   The Unix user that will own and manage Fedora and its sandbox.
+#   Unix user that will own and manage the Fedora 4 repository directories,
+#   file, and service.
 #
 # [*group*]
-#   The Unix group that will own and manage Fedora and its sandbox.
+#   Unix group that will own and manage the Fedora 4 repository directories,
+#   file, and service.
 #
 # [*user_profile*]
-#   The shell profile file that should be modified to update the PATH,
-#   set other environment variables.
+#   The absolute path to the user's shell profile file.  May be a system-wide
+#   file.
 #
 # [*fcrepo_sandbox_home*]
 #   The base directory where Fedora and its supporting infrastructure software
 #   will be installed.
 #
 # [*fcrepo_datadir*]
-#   The Fedora data directory.
+#   Fedora 4 data directory.
 #
 # [*fcrepo_configdir*]
 #   Fedora 4 config directory.
@@ -28,14 +30,42 @@
 #   Fedora 4 config file types (i.e., the version of Fedora that the config files
 #   are used for, and whether they are for default or clustered configurations).
 #
+# [*fcrepo_warsource*]
+#   Location where the Fedora 4 war file can be found for download and installation into
+#   tomcat. Can be a string containing a puppet://, http(s)://, or ftp:// URL.
+#
 # [*java_homedir*]
 #   The directory where Java has been installed (JAVA_HOME).
 #
 # [*tomcat_source*]
-#   The Tomcat source file, under files/.
+#   The location where the Tomcat .tar.gz source file can be found for download.
 #
 # [*tomcat_deploydir*]
 #   The Tomcat base directory (CATALINA_HOME).
+#
+# [*tomcat_install_from_source*]
+#   A boolean.
+#   true  - means the tomcat installation will be down given the $tomcat_source file.
+#   false - means that the tomcat installation will be done using the OS package.
+#
+# [*tomcat_http_port*]
+#   The port that tomcat will be configured to listen on for http connections
+#
+# [*tomcat_ajp_port*]
+#   The port that tomcat will be configured to listen for ajp connections
+#
+# [*tomcat_redirect_port*]
+#   The port that tomcat will be configured for its redirection.
+#
+# [*tomcat_catalina_opts_xmx*]
+#   The CATALINA_OPTS for setting the maximum tomcat memory size (-Xmx)
+#
+# [*tomcat_catalina_opts_maxpermsize*]
+#   The CATALINA_OPTS for setting the max tomcat memory perm size (-XX:MaxPermSize=)
+#
+# 
+# [*tomcat_catalina_opts_multicastaddr*]
+#   The CATALINA_OPTS for setting the max tomcat jgroups udp mcast address (-Djgroups.udp.mcast_addr=)
 #
 # === Variables
 #
@@ -51,6 +81,9 @@
 #
 class fcrepo::params {
 
+    # Note: user and group have to be set using the tomcat class in the user's nodes.pp
+    # Puppet configuration for tomcat, at least until an updated version of Puppetlabs
+    # Tomcat has been released.
     $user                = 'fcrepo'
     $group               = 'fcrepo'
     $user_profile        = '/home/fcrepo/.bashrc'
@@ -64,7 +97,9 @@ class fcrepo::params {
     $tomcat_deploydir    = '/fedora/tomcat7'
     $tomcat_install_from_source = true
     $tomcat_http_port    = '8080'
-    $tomcat_ajp_port     = '8009' 
-    $tomcat_redirect_port = '8443' 
-    
+    $tomcat_ajp_port     = '8009'
+    $tomcat_redirect_port = '8443'
+    $tomcat_catalina_opts_xmx = '1024m'
+    $tomcat_catalina_opts_maxpermsize = '256m'
+    $tomcat_catalina_opts_multicastaddr = '192.168.254.254'
 }

@@ -6,30 +6,57 @@
 # === Parameters
 #
 # [*user_real*]
-#   The Unix user to configure and install Fedora 4 and supporting applications.
+#   Unix user that will own and manage the Fedora 4 repository directories,
+#   file, and service.
 #
 # [*group_real*]
-#   The Unix group to configure and install Fedora 4 and supporting
-#   applications.
+#   Unix group that will own and manage the Fedora 4 repository directories,
+#   file, and service.
 #
 # [*user_profile_real*]
-#   The profile file to be modified with updated PATH entries, other
-#   environment variables.
+#   The absolute path to the user's shell profile file.  May be a system-wide
+#   file.
 #
 # [*fcrepo_sandbox_home_real*]
-#   The base directory for the Fedora 4 sandbox.
+#   The base directory where Fedora and its supporting infrastructure software
+#   will be installed.
 #
 # [*fcrepo_datadir_real*]
-#   The Fedora 4 data directory.
+#   Fedora 4 data directory.
+#
+# [*fcrepo_configdir_real*]
+#   Fedora 4 config directory.
+#
+# [*fcrepo_configtype_real*]
+#   Fedora 4 config file types (i.e., the version of Fedora that the config files
+#   are used for, and whether they are for default or clustered configurations).
+#
+# [*fcrepo_warsource_real*]
+#   Location where the Fedora 4 war file can be found for download and installation into
+#   tomcat. Can be a string containing a puppet://, http(s)://, or ftp:// URL.
 #
 # [*java_homedir_real*]
-#   The directory with the Java installation (JAVA_HOME).
+#   The directory where Java has been installed (JAVA_HOME).
 #
 # [*tomcat_source_real*]
-#   The Tomcat source file.
+#   The location where the Tomcat .tar.gz source file can be found for download.
 #
 # [*tomcat_deploydir_real*]
 #   The Tomcat base directory (CATALINA_HOME).
+#
+# [*tomcat_install_from_source_real*]
+#   A boolean.
+#   true  - means the tomcat installation will be down given the $tomcat_source file.
+#   false - means that the tomcat installation will be done using the OS package.
+#
+# [*tomcat_http_port_real*]
+#   The port that tomcat will be configured to listen on for http connections
+#
+# [*tomcat_ajp_port_real*]
+#   The port that tomcat will be configured to listen for ajp connections
+#
+# [*tomcat_redirect_port_real*]
+#   The port that tomcat will be configured for its redirection.
 #
 # === Variables
 #
@@ -47,19 +74,20 @@ class fcrepo::install {
 
   include fcrepo
 
+# Need to let puppetlabs/tomcat handle this
   #  Create the user and group
-  group { $::fcrepo::group_real:
-    ensure => present,
-  }
-
-  user { $::fcrepo::user_real:
-    ensure     => present,
-    gid        => $::fcrepo::group_real,
-    shell      => '/bin/bash',
-    home       => "/home/${::fcrepo::user_real}",
-    managehome => true,
-    require    => Group[$::fcrepo::group_real],
-  }
+#   group { $::fcrepo::group_real:
+#     ensure => present,
+#   }
+# 
+#   user { $::fcrepo::user_real:
+#     ensure     => present,
+#     gid        => $::fcrepo::group_real,
+#     shell      => '/bin/bash',
+#     home       => "/home/${::fcrepo::user_real}",
+#     managehome => true,
+#     require    => Group[$::fcrepo::group_real],
+#   }
 
   # Create the sandbox directory, data directory,
   # user home directory, and user profile
@@ -98,37 +126,21 @@ class fcrepo::install {
 
   # Install the infrastructure software
 
-# 
-#   # Tomcat
-#   tomcat::install { $::fcrepo::tomcat_source_real:
-#     source                     => $::fcrepo::tomcat_source_real,
-#     deploymentdir              => $::fcrepo::tomcat_deploydir_real,
-#     user                       => $::fcrepo::user_real,
-#     group                      => $::fcrepo::group_real,
-#     default_webapp_docs        => 'absent',
-#     default_webapp_examples    => 'absent',
-#     default_webapp_hostmanager => 'absent',
-#     default_webapp_manager     => 'absent',
-#     default_webapp_root        => 'absent',
-#     require                    => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
-#   }
-
   # Tomcat
   # Note: user and group can't yet be set reliably without an update to the puppetlabs/tomcat
   # code. It looks like this change is in Master, waiting for release 1.4.2 which should
   # solve this issue.
- tomcat::instance { 'tomcat-fcrepo':
+  tomcat::instance { 'tomcat-fcrepo':
 #    user                => $::fcrepo::user_real,
 #    group               => $::fcrepo::group_real,
     catalina_base       => $::fcrepo::tomcat_deploydir_real,
-#    catalina_home       => $::fcrepo::tomcat_deploydir_real,
     install_from_source => $::fcrepo::tomcat_install_from_source_real,
     package_name        => 'tomcat',
     source_url          => $::fcrepo::tomcat_source_real,
   }->
   tomcat::config::server { 'tomcat-fcrepo':
-    catalina_base       => $::fcrepo::tomcat_deploydir_real,
-    port                => '8105',
+    catalina_base => $::fcrepo::tomcat_deploydir_real,
+    port          => '8105',
   }->
   tomcat::config::server::connector { 'tomcat-fcrepo-http':
     catalina_base         => $::fcrepo::tomcat_deploydir_real,
@@ -147,9 +159,9 @@ class fcrepo::install {
     }
   }->
   tomcat::config::server::host { 'tomcat-fcrepo-host':
-    catalina_base         => $::fcrepo::tomcat_deploydir_real,
-    host_name             => $::hostname,
-    app_base              => 'webapps',
+    catalina_base => $::fcrepo::tomcat_deploydir_real,
+    host_name     => $::hostname,
+    app_base      => 'webapps',
   }->
   tomcat::war { 'fcrepo.war':
     catalina_base => $::fcrepo::tomcat_deploydir_real,
@@ -158,27 +170,16 @@ class fcrepo::install {
   }->
   tomcat::setenv::entry {'tomcat-fcrepo-catalina-opts':
     config_file => "${::fcrepo::tomcat_deploydir_real}/bin/setenv.sh",
-    param => 'CATALINA_OPTS',
-    value => "-Xmx1024m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true -Djgroups.udp.mcast_addr=239.42.42.42 -Dfcrepo.modeshape.configuration=file://${::fcrepo::fcrepo_configdir_real}/repository.json -Dfcrepo.ispn.jgroups.configuration=${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml -Dfcrepo.infinispan.cache_configuration=${::fcrepo::fcrepo_configdir_real}/infinispan.xml -Dfcrepo.home=${::fcrepo::fcrepo_datadir_real}/fcrepo",
-    quote_char => "\"",
+    param       => 'CATALINA_OPTS',
+    value       => "-Xmx${::fcrepo::tomcat_catalina_opts_xmx} -XX:MaxPermSize=${::fcrepo::tomcat_catalina_opts_maxpermsize} -Djava.net.preferIPv4Stack=true -Djgroups.udp.mcast_addr=${::fcrepo::tomcat_catalina_opts_multicastaddr} -Dfcrepo.modeshape.configuration=file://${::fcrepo::fcrepo_configdir_real}/repository.json -Dfcrepo.ispn.jgroups.configuration=${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml -Dfcrepo.infinispan.cache_configuration=${::fcrepo::fcrepo_configdir_real}/infinispan.xml -Dfcrepo.home=${::fcrepo::fcrepo_datadir_real}/fcrepo",
+    quote_char  => "\"",
   }
   tomcat::setenv::entry {'tomcat-fcrepo-java-home':
     config_file => "${::fcrepo::tomcat_deploydir_real}/bin/setenv.sh",
-    param => 'JAVA_HOME',
-    value => "${::fcrepo::java_homedir_real}",
-    quote_char => "\"",
+    param       => 'JAVA_HOME',
+    value       => $::fcrepo::java_homedir_real,
+    quote_char  => "\"",
   }
 
-# 
-#   # Fedora 4 WAR
-#   file { "${::fcrepo::tomcat_deploydir_real}/webapps/fcrepo.war":
-#     ensure  => 'file',
-#     path    => "${::fcrepo::tomcat_deploydir_real}/webapps/fcrepo.war",
-#     source  => 'puppet:///modules/fcrepo/fcrepo.war',
-#     group   => $::fcrepo::group_real,
-#     owner   => $::fcrepo::user_real,
-#     mode    => '0644',
-#     require => [ Tomcat::Install[$::fcrepo::tomcat_source_real] ]
-#   }
 
 }

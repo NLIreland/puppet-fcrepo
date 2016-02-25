@@ -31,20 +31,13 @@ To use this module, you need:
 1. Puppet installed (of course). This has been tested with Puppet 3.8.1. 
 2. The following Puppet modules:
     * puppetlabs/stdlib
-    * 7terminals/tomcat
+    * puppetlabs/tomcat
 3. Java already installed on the machine. Usually this can be installed by either:
     * Setting up your OS's packaged Java via Puppet by using the official puppetlabs/java 
     module. This should configure the proper path to the Java installation.
     * Installing a package (such as Oracle's Java RPM), which also sets up the proper path.
     Installing this via a local yum repository can allow Puppet to easily install this 
     for your machines.
-4. You'll need to download the Tomcat binary distribution package: 
-   <http://tomcat.apache.org/download-70.cgi>
-   Choose the correct tar-gzipped package for your platform.  Only `.tar.gz` packages
-   are supported at this time.
-
-5. You'll need `fcrepo.war`, built from maven or retrieved from Fedora releases:
-<https://wiki.duraspace.org/display/FF/Downloads>
 
 ###Install and configure a base installation of Puppet
 
@@ -152,14 +145,22 @@ group to create then you can use instead:
 
 ```puppet                                                                                                                                 
 class { '::fcrepo':
-  user                => 'fcrepo',
-  group               => 'fcrepo',
-  fcrepo_sandbox_home => '/opt/fcrepo',
-  fcrepo_datadir      => '/opt/fcrepo/data',
+  user                => 'tomcat',
+  group               => 'tomcat',
+  fcrepo_sandbox_home => '/fedora',
+  fcrepo_datadir      => '/fedora/data',
   fcrepo_configtype   => 'fcrepo-4.4.0-minimal-default',
 }
 ```
 Note: Placing the above include and class outside of specific node definitions, as above, will apply the fcrepo role to every puppet node. Alternately, place them within an appropriate node block.
+
+And to startup the service, use:
+```
+fcrepo::service { 'tomcat-fcrepo':
+  service_enable      => true,
+  service_ensure      => 'running',
+}
+```
 
 ##Usage
 
@@ -200,6 +201,17 @@ The Unix group that will own the Fedora directories, software, and data.
 
 Default: **fcrepo**
 
+Note: The user and group for Tomcat's startup needs to be set using the tomcat class and
+should be included in your nodes.pp definition. This is due to a bug in the
+puppetlabs/tomcat module and appears to be fixed in master (hopefully it won't be
+too long before this fix is released).
+```
+  class { 'tomcat': 
+    user  => 'fcrepo',
+    group => 'fcrepo',
+  }
+```
+
 #####`user_profile`
 
 The absolute path to the shell profile file that should be modified to
@@ -224,17 +236,54 @@ Default:  **/usr/java/default**
 
 #####`tomcat_source`
 
-The *exact* name of the Tomcat binary distribution package, in *.tar.gz format.
-This file should be installed under the module's `files/` directory 
-(usually `/etc/puppet/modules/fcrepo/files/`).
+The URL where Tomcat binary distribution package, can be found in *.tar.gz format.
+The package will be automatically downloaded and installed.
 
-Default:  **apache-tomcat-7.0.50.tar.gz**
+Default:  **http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.68/bin/apache-tomcat-7.0.68.tar.gz**
 
 #####`tomcat_deploydir`
 
 The Tomcat base directory (CATALINA_HOME).
 
 Default:  **_fcrepo sandbox home_/tomcat7**
+
+#####`tomcat_install_from_source`
+
+ A boolean which states whether the tomcat install should be done from a source .tar.gz file.
+ * `true`  - means the tomcat installation will be down given the $tomcat_source file.
+ * `false` - means that the tomcat installation will be done using the OS package.
+ 
+Default: **true**
+
+#####`tomcat_http_port`
+   The port that tomcat will be configured to listen on for http connections.
+   
+Default: **8080**
+
+#####`tomcat_ajp_port`
+   The port that tomcat will be configured to listen for ajp connections
+   
+Default: **8009**
+
+#####`tomcat_redirect_port`
+   The port that tomcat will be configured for its redirection.
+
+Default: **8443**
+
+#####`tomcat_catalina_opts_xmx`
+The CATALINA_OPTS for setting the maximum tomcat memory size (-Xmx)
+
+Default: **1024m**
+
+#####`tomcat_catalina_opts_maxpermsize`
+The CATALINA_OPTS for setting the max tomcat memory perm size (-XX:MaxPermSize=)
+
+Default: **256m**
+
+#####`tomcat_catalina_opts_multicastaddr`
+The CATALINA_OPTS for setting the max tomcat jgroups udp mcast address (-Djgroups.udp.mcast_addr=)
+
+Default: **192.168.254.254**
 
 #### Fedora
 
@@ -270,6 +319,14 @@ The minimal default versions use these defaults from the fcrepo package, which i
 using leveldb for infinispan storage.
 
 Default: **fcrepo-4.4.0-minimal-default**
+
+#####`fcrepo_warsource`
+
+The location where the Fedora 4 war file can be found for download.
+Can be a string containing a puppet://, http(s)://, or ftp:// URL.
+The warfile will be installed into Tomcat's webapps.
+
+Default: **https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-4.4.0/fcrepo-webapp-4.4.0.war**
 
 ##Limitations
 
