@@ -32,83 +32,83 @@ describe 'fcrepo' do
 # creation conflicts with the puppetlabs/tomcat module. Once that module is updated
 # we may be able to enable this.
 # 
-#   # Test group
-#   context "With no group specified" do
-#     it {
-#       should contain_group('fcrepo').with( { 'ensure' => 'present' } )
-#     }
-#   end
-# 
-#   context "With group specified" do
-#     let :params do
-#       {
-#         :group => 'fedora'
-#       }
-#     end
-#     it {
-#       should contain_group('fedora').with( { 'ensure' => 'present' } )
-#     }
-#   end
-# 
-#   # Test user
-#   context "With no user specified" do
-#     it {
-#       should contain_user('fcrepo').with( {
-#         'ensure'     => 'present',
-#         'gid'        => 'fcrepo',
-#         'shell'      => '/bin/bash',
-#         'home'       => '/home/fcrepo',
-#         'managehome' => true,
-#       } )
-#     }
-# 
-#     it {
-#       should contain_file('/home/fcrepo/.bashrc')
-#     }
-# 
-#   end
-# 
-#   context "With user specified" do
-#     let :params do
-#       {
-#         :user         => 'fedora',
-#         :user_profile => '/home/fedora/.bashrc'
-#       }
-#     end
-#     it {
-#       should contain_user('fedora').with( {
-#         'ensure'     => 'present',
-#         'gid'        => 'fcrepo',
-#         'shell'      => '/bin/bash',
-#         'home'       => '/home/fedora',
-#         'managehome' => true,
-#       } )
-#     }
-# 
-#     it {
-#       should contain_file('/home/fedora/.bashrc')
-#     }
-# 
-#   end
-# 
-#   context "With user and group specified" do
-#     let :params do
-#       {
-#         :user   => 'fedora',
-#         :group  => 'fedora',
-#       }
-#     end
-#     it {
-#       should contain_user('fedora').with( {
-#         'ensure'     => 'present',
-#         'gid'        => 'fedora',
-#         'shell'      => '/bin/bash',
-#         'home'       => '/home/fedora',
-#         'managehome' => true,
-#       } )
-#     }
-# 
-#   end
+  # Test group
+  context "With no group specified" do
+    it {
+      should contain_group('fcrepo').with( { 'ensure' => 'present' } )
+    }
+  end
+
+  context "With group specified" do
+    let :params do
+      {
+        :group => 'fedora'
+      }
+    end
+    it {
+      should contain_group('fedora').with( { 'ensure' => 'present' } )
+    }
+  end
+
+  # Test user
+  context "With no user specified" do
+    it {
+      should contain_user('fcrepo').with( {
+        'ensure'     => 'present',
+        'gid'        => 'fcrepo',
+        'shell'      => '/bin/bash',
+        'home'       => '/home/fcrepo',
+        'managehome' => true,
+      } )
+    }
+
+    it {
+      should contain_file('/home/fcrepo/.bashrc')
+    }
+
+  end
+
+  context "With user specified" do
+    let :params do
+      {
+        :user         => 'fedora',
+        :user_profile => '/home/fedora/.bashrc'
+      }
+    end
+    it {
+      should contain_user('fedora').with( {
+        'ensure'     => 'present',
+        'gid'        => 'fcrepo',
+        'shell'      => '/bin/bash',
+        'home'       => '/home/fedora',
+        'managehome' => true,
+      } )
+    }
+
+    it {
+      should contain_file('/home/fedora/.bashrc')
+    }
+
+  end
+
+  context "With user and group specified" do
+    let :params do
+      {
+        :user   => 'fedora',
+        :group  => 'fedora',
+      }
+    end
+    it {
+      should contain_user('fedora').with( {
+        'ensure'     => 'present',
+        'gid'        => 'fedora',
+        'shell'      => '/bin/bash',
+        'home'       => '/home/fedora',
+        'managehome' => true,
+      } )
+    }
+
+  end
 
   # Test sandbox home
   context "With no sandbox directory specified" do
@@ -254,8 +254,8 @@ describe 'fcrepo' do
   context "With default tomcat_source and tomcat_deploydir" do
     it {
       should contain_tomcat__instance('tomcat-fcrepo').with( {
-          'user'                => 'tomcat',
-          'group'               => 'tomcat',
+          'user'                => 'fcrepo',
+          'group'               => 'fcrepo',
           'catalina_base'       => '/fedora/tomcat7',
           'install_from_source' => true,
           'package_name'        => 'tomcat',
@@ -273,8 +273,8 @@ describe 'fcrepo' do
     end
     it {
       should contain_tomcat__instance('tomcat-fcrepo').with( {
-        'user'                       => 'tomcat',
-        'group'                      => 'tomcat',
+        'user'                       => 'fcrepo',
+        'group'                      => 'fcrepo',
         'catalina_base'              => '/fedora/tomcat7',
         'install_from_source'        => true,
         'package_name'               => 'tomcat',
@@ -293,8 +293,8 @@ describe 'fcrepo' do
     end
     it {
       should contain_tomcat__instance('tomcat-fcrepo').with( {
-        'user'                       => 'tomcat',
-        'group'                      => 'tomcat',
+        'user'                       => 'fcrepo',
+        'group'                      => 'fcrepo',
         'catalina_base'              => '/opt/tomcat/tomcat7',
         'install_from_source'        => true,
         'package_name'               => 'tomcat',

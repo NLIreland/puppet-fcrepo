@@ -58,6 +58,16 @@
 # [*tomcat_redirect_port_real*]
 #   The port that tomcat will be configured for its redirection.
 #
+# [*tomcat_catalina_opts_xmx*]
+#   The CATALINA_OPTS for setting the maximum tomcat memory size (-Xmx)
+#
+# [*tomcat_catalina_opts_maxpermsize*]
+#   The CATALINA_OPTS for setting the max tomcat memory perm size (-XX:MaxPermSize=)
+#
+# [*tomcat_catalina_opts_multicastaddr*]
+#   The CATALINA_OPTS for setting the max tomcat jgroups udp mcast address (-Djgroups.udp.mcast_addr=)
+##
+
 # === Variables
 #
 # === Examples
@@ -76,18 +86,18 @@ class fcrepo::install {
 
 # Need to let puppetlabs/tomcat handle this
   #  Create the user and group
-#   group { $::fcrepo::group_real:
-#     ensure => present,
-#   }
-# 
-#   user { $::fcrepo::user_real:
-#     ensure     => present,
-#     gid        => $::fcrepo::group_real,
-#     shell      => '/bin/bash',
-#     home       => "/home/${::fcrepo::user_real}",
-#     managehome => true,
-#     require    => Group[$::fcrepo::group_real],
-#   }
+  group { $::fcrepo::group_real:
+    ensure => present,
+  }
+
+  user { $::fcrepo::user_real:
+    ensure     => present,
+    gid        => $::fcrepo::group_real,
+    shell      => '/bin/bash',
+    home       => "/home/${::fcrepo::user_real}",
+    managehome => true,
+    require    => Group[$::fcrepo::group_real],
+  }
 
   # Create the sandbox directory, data directory,
   # user home directory, and user profile
@@ -131,8 +141,8 @@ class fcrepo::install {
   # code. It looks like this change is in Master, waiting for release 1.4.2 which should
   # solve this issue.
   tomcat::instance { 'tomcat-fcrepo':
-#    user                => $::fcrepo::user_real,
-#    group               => $::fcrepo::group_real,
+    user                => $::fcrepo::user_real,
+    group               => $::fcrepo::group_real,
     catalina_base       => $::fcrepo::tomcat_deploydir_real,
     install_from_source => $::fcrepo::tomcat_install_from_source_real,
     package_name        => 'tomcat',

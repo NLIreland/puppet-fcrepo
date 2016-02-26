@@ -30,26 +30,6 @@ class fcrepo::config {
     mode    => '0755',
     require => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
   }
-# 
-#   # Put in place Tomcat server.xml
-#   file { "${::fcrepo::tomcat_deploydir_real}/conf/server.xml":
-#     ensure  => file,
-#     path    => "${::fcrepo::tomcat_deploydir_real}/conf/server.xml",
-#     group   => $::fcrepo::group_real,
-#     owner   => $::fcrepo::user_real,
-#     mode    => '0600',
-#     content => template('fcrepo/server.xml.erb'),
-#   }
-# 
-#   # Put in place Tomcat setenv.sh
-#   file { "${::fcrepo::tomcat_deploydir_real}/bin/setenv.sh":
-#     ensure  => file,
-#     path    => "${::fcrepo::tomcat_deploydir_real}/bin/setenv.sh",
-#     group   => $::fcrepo::group_real,
-#     owner   => $::fcrepo::user_real,
-#     mode    => '0755',
-#     content => template('fcrepo/setenv.sh.erb'),
-#   }
 
   # Put in place Fedora config repository.json
   file { "${::fcrepo::fcrepo_configdir_real}/repository.json":
