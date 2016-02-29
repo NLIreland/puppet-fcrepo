@@ -32,6 +32,16 @@ To use this module, you need:
 2. The following Puppet modules:
     * puppetlabs/stdlib
     * puppetlabs/tomcat
+    Note: Version 1.4.1 available on puppetforge doesn't work correctly -- it only
+    allows one user and group to be set per node. There is an update on github which fixes
+    this issue. Use these commands to install puppetlabs/tomcat:
+    ```
+    git clone https://github.com/steve-didomenico/puppetlabs-tomcat/tree/ticket/MODULES-3117-user_and_group_per_instance_fix
+    ```
+    And then to install:
+    ```
+    puppet module install /path/to/puppetlabs-tomcat --modulepath /path/to/modules
+    ```
 3. Java already installed on the machine. Usually this can be installed by either:
     * Setting up your OS's packaged Java via Puppet by using the official puppetlabs/java 
     module. This should configure the proper path to the Java installation.
@@ -75,7 +85,7 @@ $ export http_proxy=http://myproxy.example.com:3128
 
 ```
 sudo puppet module install puppetlabs/stdlib
-sudo puppet module install 7terminals/tomcat
+sudo puppet module install puppetlabs/tomcat (note: see above about installing the correct version)
 ```
 
 ##Setup
@@ -105,37 +115,19 @@ and manages the Fedora Tomcat service.
 
 1. Clone this project, change to the `puppet-fcrepo` directory. 
 
-2. Copy the Tomcat binary distribution file you downloaded (see 
-[Prerequisites](#prerequisites), above) into the module's `files/` directory:
-
-```
-    cp /path/to/source/packages/*.tar.gz files/
-```
-
-3. Copy the Fedora 4 WAR file into the module's `files/` directory,
-with the name `fcrepo.war`: 
-
-```
-    cp /path/to/fcrepo-webapp-<VERSION>.war files/fcrepo.war
-```
-
-4. Build the module: 
+2. Build the module: 
 
 ```
     puppet module build .
 ```
 
-5. Install the module:
+3. Install the module:
 
 ```
     sudo puppet module install pkg/sprater-fcrepo-<version>.tar.gz --ignore-dependencies
 ```
 
    where `<version>` is the current version of the module.
-
-You can always update these files (especially `fcrepo.war`) later by
-replacing them in the `/etc/puppet/modules/fcrepo/files` directory, then
-running the Puppet agent on each of your nodes.
 
 ####Enable the module in Puppet
 
@@ -147,8 +139,11 @@ group to create then you can use instead:
 class { '::fcrepo':
   user                => 'tomcat',
   group               => 'tomcat',
+  user_profile        => '/home/tomcat/.bashrc',
+  tomcat_deploydir    => '/fedora/tomcat7',
   fcrepo_sandbox_home => '/fedora',
   fcrepo_datadir      => '/fedora/data',
+  fcrepo_configdir    => '/fedora/config',
   fcrepo_configtype   => 'fcrepo-4.4.0-minimal-default',
 }
 ```

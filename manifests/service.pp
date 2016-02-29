@@ -23,5 +23,6 @@ define fcrepo::service (
     service_enable => $service_enable,
     service_name   => 'tomcat-fcrepo',
     service_ensure => $service_ensure,
+    user           => $::fcrepo::user_real,
   }
 }

@@ -84,7 +84,6 @@ class fcrepo::install {
 
   include fcrepo
 
-# Need to let puppetlabs/tomcat handle this
   #  Create the user and group
   group { $::fcrepo::group_real:
     ensure => present,
@@ -144,6 +143,7 @@ class fcrepo::install {
     user                => $::fcrepo::user_real,
     group               => $::fcrepo::group_real,
     catalina_base       => $::fcrepo::tomcat_deploydir_real,
+    catalina_home       => $::fcrepo::tomcat_deploydir_real,
     install_from_source => $::fcrepo::tomcat_install_from_source_real,
     package_name        => 'tomcat',
     source_url          => $::fcrepo::tomcat_source_real,
@@ -181,7 +181,7 @@ class fcrepo::install {
   tomcat::setenv::entry {'tomcat-fcrepo-catalina-opts':
     config_file => "${::fcrepo::tomcat_deploydir_real}/bin/setenv.sh",
     param       => 'CATALINA_OPTS',
-    value       => "-Xmx${::fcrepo::tomcat_catalina_opts_xmx} -XX:MaxPermSize=${::fcrepo::tomcat_catalina_opts_maxpermsize} -Djava.net.preferIPv4Stack=true -Djgroups.udp.mcast_addr=${::fcrepo::tomcat_catalina_opts_multicastaddr} -Dfcrepo.modeshape.configuration=file://${::fcrepo::fcrepo_configdir_real}/repository.json -Dfcrepo.ispn.jgroups.configuration=${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml -Dfcrepo.infinispan.cache_configuration=${::fcrepo::fcrepo_configdir_real}/infinispan.xml -Dfcrepo.home=${::fcrepo::fcrepo_datadir_real}/fcrepo",
+    value       => "-Xmx${::fcrepo::tomcat_catalina_opts_xmx_real} -XX:MaxPermSize=${::fcrepo::tomcat_catalina_opts_maxpermsize_real} -Djava.net.preferIPv4Stack=true -Djgroups.udp.mcast_addr=${::fcrepo::tomcat_catalina_opts_multicastaddr_real} -Dfcrepo.modeshape.configuration=file://${::fcrepo::fcrepo_configdir_real}/repository.json -Dfcrepo.ispn.jgroups.configuration=${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml -Dfcrepo.infinispan.cache_configuration=${::fcrepo::fcrepo_configdir_real}/infinispan.xml -Dfcrepo.home=${::fcrepo::fcrepo_datadir_real}/fcrepo",
     quote_char  => "\"",
   }
   tomcat::setenv::entry {'tomcat-fcrepo-java-home':
