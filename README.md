@@ -36,7 +36,9 @@ To use this module, you need:
     allows one user and group to be set per node. There is an update on github which fixes
     this issue. Use these commands to install puppetlabs/tomcat:
     ```
-    git clone https://github.com/steve-didomenico/puppetlabs-tomcat/tree/ticket/MODULES-3117-user_and_group_per_instance_fix
+    git clone git@github.com:steve-didomenico/puppetlabs-tomcat.git
+    cd puppetlabs-tomcat
+    git checkout ticket/MODULES-3117-user_and_group_per_instance_fix
     ```
     And then to install:
     ```
