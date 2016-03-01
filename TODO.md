@@ -1,5 +1,4 @@
 ##Features Fixes and Improvements to Add
 
-* Allow users to use system-installed Java, Maven, Tomcat
-
-  And maybe even install the system packages for them
+* Update the service component to support RHEL 7, as well as init.d
+* Possibly change the configuration file load directly from the fcrepo github.
