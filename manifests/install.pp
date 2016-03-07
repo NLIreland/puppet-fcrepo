@@ -168,11 +168,6 @@ class fcrepo::install {
       'redirectPort' => $::fcrepo::tomcat_redirect_port_real,
     }
   }->
-  tomcat::config::server::host { 'tomcat-fcrepo-host':
-    catalina_base => $::fcrepo::tomcat_deploydir_real,
-    host_name     => $::hostname,
-    app_base      => 'webapps',
-  }->
   tomcat::war { 'fcrepo.war':
     catalina_base => $::fcrepo::tomcat_deploydir_real,
     app_base      => 'webapps',

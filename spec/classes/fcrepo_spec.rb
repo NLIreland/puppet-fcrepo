@@ -386,17 +386,6 @@ describe 'fcrepo' do
     }
  end
 
-  # Test Tomcat server.xml config
-  context "With Tomcat server.xml config" do
-    it {
-      should contain_tomcat__config__server__host('tomcat-fcrepo-host').with( {
-        'catalina_base'         => '/fedora/tomcat7',
-        'host_name'             => 'FedoraTestNode',
-        'app_base'              => 'webapps',
-      } )
-    }
- end
-
   # Test Tomcat setenv.sh
   context "With setenv.sh template" do
     it {
