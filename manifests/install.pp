@@ -35,6 +35,19 @@
 #   Location where the Fedora 4 war file can be found for download and installation into
 #   tomcat. Can be a string containing a puppet://, http(s)://, or ftp:// URL.
 #
+# [*fcrepo_db_host_real*]
+#   When using Fedora with MySQL or PostGres, this is the hostname of the database server.
+#
+# [*fcrepo_db_port_real*]
+#   When using Fedora with MySQL or PostGres, this is the port number of the database 
+#   server.
+#
+# [*fcrepo_db_username_real*]
+#   When using Fedora with MySQL or PostGres, this is the database username.
+#
+# [*fcrepo_db_password_real*]
+#   When using Fedora with MySQL or PostGres, this is the database password.
+#
 # [*java_homedir_real*]
 #   The directory where Java has been installed (JAVA_HOME).
 #
@@ -176,7 +189,7 @@ class fcrepo::install {
   tomcat::setenv::entry {'tomcat-fcrepo-catalina-opts':
     config_file => "${::fcrepo::tomcat_deploydir_real}/bin/setenv.sh",
     param       => 'CATALINA_OPTS',
-    value       => "-Xmx${::fcrepo::tomcat_catalina_opts_xmx_real} -XX:MaxPermSize=${::fcrepo::tomcat_catalina_opts_maxpermsize_real} -Djava.net.preferIPv4Stack=true -Djgroups.udp.mcast_addr=${::fcrepo::tomcat_catalina_opts_multicastaddr_real} -Dfcrepo.modeshape.configuration=file://${::fcrepo::fcrepo_configdir_real}/repository.json -Dfcrepo.ispn.jgroups.configuration=${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml -Dfcrepo.infinispan.cache_configuration=${::fcrepo::fcrepo_configdir_real}/infinispan.xml -Dfcrepo.home=${::fcrepo::fcrepo_datadir_real}/fcrepo",
+    value       => "-Xmx${::fcrepo::tomcat_catalina_opts_xmx_real} -XX:MaxPermSize=${::fcrepo::tomcat_catalina_opts_maxpermsize_real} -Djava.net.preferIPv4Stack=true -Djgroups.udp.mcast_addr=${::fcrepo::tomcat_catalina_opts_multicastaddr_real} -Dfcrepo.modeshape.configuration=file://${::fcrepo::fcrepo_configdir_real}/repository.json -Dfcrepo.ispn.jgroups.configuration=${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml -Dfcrepo.infinispan.cache_configuration=${::fcrepo::fcrepo_configdir_real}/infinispan.xml -Dfcrepo.ispn.mysql.host=${::fcrepo::fcrepo_db_host_real} -Dfcrepo.ispn.mysql.port=${::fcrepo::fcrepo_db_port_real} -Dfcrepo.ispn.mysql.username=${::fcrepo::fcrepo_db_username_real} -Dfcrepo.ispn.mysql.password=${::fcrepo::fcrepo_db_password_real} -Dfcrepo.ispn.postgresql.host=${::fcrepo::fcrepo_db_host_real} -Dfcrepo.ispn.postgresql.port=${::fcrepo::fcrepo_db_port_real} -Dfcrepo.ispn.postgresql.username=${::fcrepo::fcrepo_db_username_real} -Dfcrepo.ispn.postgresql.password=${::fcrepo::fcrepo_db_password_real} -Dfcrepo.home=${::fcrepo::fcrepo_datadir_real}/fcrepo",
     quote_char  => "\"",
   }
   tomcat::setenv::entry {'tomcat-fcrepo-java-home':

@@ -34,6 +34,19 @@
 #   Location where the Fedora 4 war file can be found for download and installation into
 #   tomcat. Can be a string containing a puppet://, http(s)://, or ftp:// URL.
 #
+# [*fcrepo_db_host*]
+#   When using Fedora with MySQL or PostGres, this is the hostname of the database server.
+#
+# [*fcrepo_db_port*]
+#   When using Fedora with MySQL or PostGres, this is the port number of the database 
+#   server.
+#
+# [*fcrepo_db_username*]
+#   When using Fedora with MySQL or PostGres, this is the database username.
+#
+# [*fcrepo_db_password*]
+#   When using Fedora with MySQL or PostGres, this is the database password.
+#
 # [*java_homedir*]
 #   The directory where Java has been installed (JAVA_HOME).
 #
@@ -63,7 +76,6 @@
 # [*tomcat_catalina_opts_maxpermsize*]
 #   The CATALINA_OPTS for setting the max tomcat memory perm size (-XX:MaxPermSize=)
 #
-# 
 # [*tomcat_catalina_opts_multicastaddr*]
 #   The CATALINA_OPTS for setting the max tomcat jgroups udp mcast address (-Djgroups.udp.mcast_addr=)
 #
@@ -92,6 +104,10 @@ class fcrepo::params {
     $fcrepo_configdir    = '/fedora/config'
     $fcrepo_configtype   = 'fcrepo-4.4.0-minimal-default'
     $fcrepo_warsource    = 'https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-4.4.0/fcrepo-webapp-4.4.0.war'
+    $fcrepo_db_host      = 'localhost'
+    $fcrepo_db_port      = '3306'
+    $fcrepo_db_username  = 'fcrepouser'
+    $fcrepo_db_password  = 'changeme'
     $java_homedir        = '/usr/java/default'
     $tomcat_source       = 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.68/bin/apache-tomcat-7.0.68.tar.gz'
     $tomcat_deploydir    = '/fedora/tomcat7'

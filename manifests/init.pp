@@ -35,6 +35,19 @@
 #   Location where the Fedora 4 war file can be found for download and installation into
 #   tomcat. Can be a string containing a puppet://, http(s)://, or ftp:// URL.
 #
+# [*fcrepo_db_host*]
+#   When using Fedora with MySQL or PostGres, this is the hostname of the database server.
+#
+# [*fcrepo_db_port*]
+#   When using Fedora with MySQL or PostGres, this is the port number of the database 
+#   server.
+#
+# [*fcrepo_db_username*]
+#   When using Fedora with MySQL or PostGres, this is the database username.
+#
+# [*fcrepo_db_password*]
+#   When using Fedora with MySQL or PostGres, this is the database password.
+#
 # [*java_homedir*]
 #   The directory where Java has been installed (JAVA_HOME).
 #
@@ -95,6 +108,10 @@ class fcrepo (
   $fcrepo_configdir    = 'UNSET',
   $fcrepo_configtype   = 'UNSET',
   $fcrepo_warsource    = 'UNSET',
+  $fcrepo_db_host      = 'UNSET',
+  $fcrepo_db_port      = 'UNSET',
+  $fcrepo_db_username  = 'UNSET',
+  $fcrepo_db_password  = 'UNSET',
   $java_homedir        = 'UNSET',
   $tomcat_source       = 'UNSET',
   $tomcat_deploydir    = 'UNSET',
@@ -120,6 +137,10 @@ class fcrepo (
   validate_absolute_path($fcrepo::params::fcrepo_configdir)
   validate_re($fcrepo::params::fcrepo_warsource, '.war$',
     'The Fedora source file is not a war file.')
+  validate_string($fcrepo::params::fcrepo_db_host)
+  validate_integer($fcrepo::params::fcrepo_db_port)
+  validate_string($fcrepo::params::fcrepo_db_username)
+  validate_string($fcrepo::params::fcrepo_db_password)
   validate_string($fcrepo::params::fcrepo_configtype)
   validate_absolute_path($fcrepo::params::java_homedir)
   validate_re($fcrepo::params::tomcat_source, '.tar.gz$',
@@ -171,6 +192,26 @@ class fcrepo (
   $fcrepo_warsource_real = $fcrepo_warsource? {
     'UNSET' => $::fcrepo::params::fcrepo_warsource,
     default => $fcrepo_warsource,
+  }
+
+  $fcrepo_db_host_real = $fcrepo_db_host? {
+    'UNSET' => $::fcrepo::params::fcrepo_db_host,
+    default => $fcrepo_db_host,
+  }
+
+  $fcrepo_db_port_real = $fcrepo_db_port? {
+    'UNSET' => $::fcrepo::params::fcrepo_db_port,
+    default => $fcrepo_db_port,
+  }
+
+  $fcrepo_db_username_real = $fcrepo_db_username? {
+    'UNSET' => $::fcrepo::params::fcrepo_db_username,
+    default => $fcrepo_db_username,
+  }
+
+  $fcrepo_db_password_real = $fcrepo_db_password? {
+    'UNSET' => $::fcrepo::params::fcrepo_db_password,
+    default => $fcrepo_db_password,
   }
 
   $java_homedir_real = $java_homedir? {

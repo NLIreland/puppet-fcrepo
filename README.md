@@ -325,6 +325,32 @@ The warfile will be installed into Tomcat's webapps.
 
 Default: **https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-4.4.0/fcrepo-webapp-4.4.0.war**
 
+#####`fcrepo_db_host`
+
+Optional. When using MySQL or Postgres (at the time of this writing, only prerelease versions of Fedora
+after version 4.5.1), sets the hostname for the database connection.
+
+Default: **localhost**
+
+#####`fcrepo_db_port`
+
+Optional. When using MySQL or Postgres, sets the port for the database connection.
+
+Default: **3306**
+
+#####`fcrepo_db_username`
+
+Optional. When using MySQL or Postgres, sets the username for the database connection.
+
+Default: **fcrepouser**
+
+#####`fcrepo_db_password`
+
+Optional. When using MySQL or Postgres, sets the password for the database connection.
+
+Default: **changeme**
+
+
 ##Limitations
 
 This module does not define the raw filesystem devices, nor mount

@@ -1,5 +1,6 @@
 pkg/
 .gemfile.lock
+Gemfile.lock
 ./rspec_system/
 .*.sw*
 coverage

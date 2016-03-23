@@ -470,5 +470,31 @@ describe 'fcrepo' do
       )
     }
   end
-
+  
+  # Test Fedora config with MySQL database configuration
+  context "With Fedora MySQL database configuration" do
+    let :params do
+      {
+        :fcrepo_configtype   => 'fcrepo-4.5.2-mysql',
+        :fcrepo_db_host      => 'somehost.example.com',
+        :fcrepo_db_port      => '3307',
+        :fcrepo_db_username  => 'testuser',
+        :fcrepo_db_password  => 'testpass',
+      }
+    end
+    it {
+      should contain_file('/fedora/config/infinispan.xml').with_content(
+        /fcrepo.ispn.mysql.host/
+      )
+    }
+    it {
+      should contain_concat__fragment('setenv-tomcat-fcrepo-catalina-opts').with( {
+        'ensure'    => 'present',
+        'target'    => '/fedora/tomcat7/bin/setenv.sh',
+        'content'   => /somehost.example.com.+?3307.+?testuser.+?testpass/,
+        }
+      )
+    }
+  end
+  
 end
