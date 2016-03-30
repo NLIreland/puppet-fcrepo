@@ -197,17 +197,6 @@ The Unix group that will own the Fedora directories, software, and data.
 
 Default: **fcrepo**
 
-Note: The user and group for Tomcat's startup needs to be set using the tomcat class and
-should be included in your nodes.pp definition. This is due to a bug in the
-puppetlabs/tomcat module and appears to be fixed in master (hopefully it won't be
-too long before this fix is released).
-```
-  class { 'tomcat': 
-    user  => 'fcrepo',
-    group => 'fcrepo',
-  }
-```
-
 #####`user_profile`
 
 The absolute path to the shell profile file that should be modified to
