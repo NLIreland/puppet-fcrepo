@@ -26,9 +26,20 @@
 # [*fcrepo_configdir*]
 #   Fedora 4 config directory.
 #
-# [*fcrepo_configtype*]
-#   Fedora 4 config file types (i.e., the version of Fedora that the config files
-#   are used for, and whether they are for default or clustered configurations).
+# [*fcrepo_repository_json*]
+#   The location where the Fedora 4 repository.json configuration file can be found for 
+#   download and installation.
+#   Can be a puppet: file: or http(s): URI. 
+#
+# [*fcrepo_jgroups_fcrepo_tcp_xml*]
+#   The location where the Fedora 4 jgroups.fcrepo.tcp.xml configuration file can be 
+#   found for download and installation.
+#   Can be a puppet: file: or http(s): URI. 
+#
+# [*fcrepo_infinispan_xml*]
+#   The location where the Fedora 4 infinispan.xml configuration file can be found for 
+#   download and installation.
+#   Can be a puppet: file: or http(s): URI. 
 #
 # [*fcrepo_warsource*]
 #   Location where the Fedora 4 war file can be found for download and installation into
@@ -102,7 +113,9 @@ class fcrepo::params {
     $fcrepo_sandbox_home = '/fedora'
     $fcrepo_datadir      = '/data'
     $fcrepo_configdir    = '/fedora/config'
-    $fcrepo_configtype   = 'fcrepo-4.4.0-minimal-default'
+    $fcrepo_repository_json = 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/minimal-default/repository.json'
+    $fcrepo_jgroups_fcrepo_tcp_xml = 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml'
+    $fcrepo_infinispan_xml = 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/infinispan/leveldb-default/infinispan.xml'
     $fcrepo_warsource    = 'https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-4.4.0/fcrepo-webapp-4.4.0.war'
     $fcrepo_db_host      = 'localhost'
     $fcrepo_db_port      = '3306'

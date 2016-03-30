@@ -28,10 +28,6 @@ describe 'fcrepo' do
   it { should contain_class('fcrepo::install') }
   it { should contain_class('fcrepo::config') }
 
-# Note: User and Group tests have been commented out for now. The user and group
-# creation conflicts with the puppetlabs/tomcat module. Once that module is updated
-# we may be able to enable this.
-# 
   # Test group
   context "With no group specified" do
     it {
@@ -397,16 +393,11 @@ describe 'fcrepo' do
     }
   end
 
-  # Test Fedora config repository.json
-  context "With Fedora config repository.json template" do
-    let :params do
-      {
-        :fcrepo_configtype   => 'fcrepo-4.4.0-minimal-default',
-      }
-    end
+  # Test default Fedora config repository.json
+  context "With default Fedora config repository.json" do
     it {
       should contain_file('/fedora/config/repository.json').with( {
-        'ensure'  => 'file',
+        'ensure'  => 'present',
         'path'    => '/fedora/config/repository.json',
         'group'   => 'fcrepo',
         'owner'   => 'fcrepo',
@@ -414,22 +405,54 @@ describe 'fcrepo' do
       } )
     }
     it {
-      should contain_file('/fedora/config/repository.json').with_content(
-        /fcrepo\.binary\.directory:target\/binaries/
-      )
+      should contain_staging__file('repository.json').with( {
+        'target'  => '/fedora/config/repository.json',
+        'source'  => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/minimal-default/repository.json',
+      } )
+    }
+    it {
+      should contain_exec('replace infinispan config path').with( {
+        'command' => "/bin/sed -i -e's|\\$.fcrepo.ispn.configuration:config.*infinispan.xml.|/fedora/config/infinispan.xml|' '/fedora/config/repository.json'",
+        'path'    => "/bin",
+      })
     }
   end
-
-  # Test Fedora config jgroups-fcrepo-tcp.xml
-  context "With Fedora config jgroups-fcrepo-tcp.xml template" do
+  
+  # Test custom Fedora config repository.json
+  context "With custom Fedora config repository.json" do
     let :params do
       {
-        :fcrepo_configtype   => 'fcrepo-4.4.0-minimal-default',
+        :fcrepo_repository_json => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.5.0/fcrepo-configs/src/main/resources/config/minimal-default/repository.json',
       }
     end
     it {
+      should contain_file('/fedora/config/repository.json').with( {
+        'ensure'  => 'present',
+        'path'    => '/fedora/config/repository.json',
+        'group'   => 'fcrepo',
+        'owner'   => 'fcrepo',
+        'mode'    => '0644',
+      } )
+    }
+    it {
+      should contain_staging__file('repository.json').with( {
+        'target'  => '/fedora/config/repository.json',
+        'source'  => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.5.0/fcrepo-configs/src/main/resources/config/minimal-default/repository.json',
+      } )
+    }
+    it {
+      should contain_exec('replace infinispan config path').with( {
+        'command' => "/bin/sed -i -e's|\\$.fcrepo.ispn.configuration:config.*infinispan.xml.|/fedora/config/infinispan.xml|' '/fedora/config/repository.json'",
+        'path'    => "/bin",
+      })
+    }
+  end
+
+  # Test default Fedora config jgroups-fcrepo-tcp.xml
+  context "With default Fedora config jgroups-fcrepo-tcp.xml" do
+    it {
       should contain_file('/fedora/config/jgroups-fcrepo-tcp.xml').with( {
-        'ensure'  => 'file',
+        'ensure'  => 'present',
         'path'    => '/fedora/config/jgroups-fcrepo-tcp.xml',
         'group'   => 'fcrepo',
         'owner'   => 'fcrepo',
@@ -437,22 +460,42 @@ describe 'fcrepo' do
       } )
     }
     it {
-      should contain_file('/fedora/config/jgroups-fcrepo-tcp.xml').with_content(
-        /jgroups\.tcp\.port:7800/
-      )
+      should contain_staging__file('jgroups-fcrepo-tcp.xml').with( {
+        'target'  => '/fedora/config/jgroups-fcrepo-tcp.xml',
+        'source'  => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml',
+      } )
     }
   end
-
-  # Test Fedora config infinispan.xml
-  context "With Fedora config infinispan.xml template" do
+  
+  # Test custom Fedora config jgroups-fcrepo-tcp.xml
+  context "With custom Fedora config jgroups-fcrepo-tcp.xml" do
     let :params do
       {
-        :fcrepo_configtype   => 'fcrepo-4.4.0-minimal-default',
+        :fcrepo_jgroups_fcrepo_tcp_xml   => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.5.0/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml',
       }
     end
     it {
+      should contain_file('/fedora/config/jgroups-fcrepo-tcp.xml').with( {
+        'ensure'  => 'present',
+        'path'    => '/fedora/config/jgroups-fcrepo-tcp.xml',
+        'group'   => 'fcrepo',
+        'owner'   => 'fcrepo',
+        'mode'    => '0644',
+      } )
+    }
+    it {
+      should contain_staging__file('jgroups-fcrepo-tcp.xml').with( {
+        'target'  => '/fedora/config/jgroups-fcrepo-tcp.xml',
+        'source'  => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.5.0/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml',
+      } )
+    }
+  end
+  
+  # Test default Fedora config infinispan.xml
+  context "With default Fedora config infinispan.xml" do
+    it {
       should contain_file('/fedora/config/infinispan.xml').with( {
-        'ensure'  => 'file',
+        'ensure'  => 'present',
         'path'    => '/fedora/config/infinispan.xml',
         'group'   => 'fcrepo',
         'owner'   => 'fcrepo',
@@ -460,33 +503,48 @@ describe 'fcrepo' do
       } )
     }
     it {
-      should contain_file('/fedora/config/infinispan.xml').with_content(
-        /urn:infinispan:config:6\.0/
-      )
-    }
-    it {
-      should contain_file('/fedora/config/infinispan.xml').with_content(
-        /{fcrepo.ispn.repo.cache:target}\/data/
-      )
+      should contain_staging__file('infinispan.xml').with( {
+        'target'  => '/fedora/config/infinispan.xml',
+        'source'  => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/infinispan/leveldb-default/infinispan.xml',
+      } )
     }
   end
+  
+  # Test custom Fedora config infinispan.xml
+  context "With custom Fedora config infinispan.xml" do
+    let :params do
+      {
+        :fcrepo_infinispan_xml   => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.5.0/fcrepo-configs/src/main/resources/config/infinispan/leveldb-default/infinispan.xml',
+      }
+    end
+    it {
+      should contain_file('/fedora/config/infinispan.xml').with( {
+        'ensure'  => 'present',
+        'path'    => '/fedora/config/infinispan.xml',
+        'group'   => 'fcrepo',
+        'owner'   => 'fcrepo',
+        'mode'    => '0644',
+      } )
+    }
+    it{
+      should contain_staging__file('infinispan.xml').with( {
+        'target'  => '/fedora/config/infinispan.xml',
+        'source'  => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.5.0/fcrepo-configs/src/main/resources/config/infinispan/leveldb-default/infinispan.xml',
+      } )
+    }
+  end
+
   
   # Test Fedora config with MySQL database configuration
   context "With Fedora MySQL database configuration" do
     let :params do
       {
-        :fcrepo_configtype   => 'fcrepo-4.5.2-mysql',
         :fcrepo_db_host      => 'somehost.example.com',
         :fcrepo_db_port      => '3307',
         :fcrepo_db_username  => 'testuser',
         :fcrepo_db_password  => 'testpass',
       }
     end
-    it {
-      should contain_file('/fedora/config/infinispan.xml').with_content(
-        /fcrepo.ispn.mysql.host/
-      )
-    }
     it {
       should contain_concat__fragment('setenv-tomcat-fcrepo-catalina-opts').with( {
         'ensure'    => 'present',

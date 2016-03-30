@@ -146,7 +146,6 @@ class { '::fcrepo':
   fcrepo_sandbox_home => '/fedora',
   fcrepo_datadir      => '/fedora/data',
   fcrepo_configdir    => '/fedora/config',
-  fcrepo_configtype   => 'fcrepo-4.4.0-minimal-default',
 }
 ```
 Note: Placing the above include and class outside of specific node definitions, as above, will apply the fcrepo role to every puppet node. Alternately, place them within an appropriate node block.
@@ -302,25 +301,40 @@ The Fedora configuration directory.
 
 Default: **/fedora/config**
 
-#####`fcrepo_configdir`
+#####`fcrepo_repository_json`
 
-The version and type of configuration files that should be used. The configuration files
-can vary depending on whether you are using Fedora 4.4.0 or 4.5.0, and whether you are
-running under a default (single) or clustered configuration. Some possible choices are:
-* fcrepo-4.4.0-minimal-default
-* fcrepo-4.4.0-clustered
-* fcrepo-4.5.0-minimal-default
-* fcrepo-4.5.0-clustered
+The location where the Fedora 3 repository.json configuration file can be found
+for installation. Can be a puppet://, http(s)://, or ftp:// URL.
+The config file will be installed into the fcrepo_configdir directory. Defaults to 
+Fedora 4.4.0 configuration stored in github.
 
-The minimal default versions use these defaults from the fcrepo package, which includes
-using leveldb for infinispan storage.
+Note: The fcrepo Puppet module changes one line in the repository.json file, so the
+location of the cacheConfiguration points to the local infinispan.xml file.
 
-Default: **fcrepo-4.4.0-minimal-default**
+Default: **https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/minimal-default/repository.json**
+
+#####`fcrepo_jgroups_fcrepo_tcp_xml`
+
+The location where the Fedora 3 jgroups-fcrepo-tcp.xml configuration file can be found
+for installation. Can be a puppet://, http(s)://, or ftp:// URL.
+The config file will be installed into the fcrepo_configdir directory. Defaults to 
+Fedora 4.4.0 configuration stored in github.
+
+Default: **https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml**
+
+#####`fcrepo_infinispan_xml`
+
+The location where the Fedora 3 infinispan.xml configuration file can be found
+for installation. Can be a puppet://, http(s)://, or ftp:// URL.
+The config file will be installed into the fcrepo_configdir directory. Defaults to 
+Fedora 4.4.0 configuration stored in github.
+
+Default: **https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/infinispan/leveldb-default/infinispan.xml**
 
 #####`fcrepo_warsource`
 
 The location where the Fedora 4 war file can be found for download.
-Can be a string containing a puppet://, http(s)://, or ftp:// URL.
+Can be a puppet://, http(s)://, or ftp:// URL.
 The warfile will be installed into Tomcat's webapps.
 
 Default: **https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-4.4.0/fcrepo-webapp-4.4.0.war**

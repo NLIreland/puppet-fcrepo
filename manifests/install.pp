@@ -27,9 +27,20 @@
 # [*fcrepo_configdir_real*]
 #   Fedora 4 config directory.
 #
-# [*fcrepo_configtype_real*]
-#   Fedora 4 config file types (i.e., the version of Fedora that the config files
-#   are used for, and whether they are for default or clustered configurations).
+# [*fcrepo_repository_json_real*]
+#   The location where the Fedora 4 repository.json configuration file can be found for 
+#   download and installation.
+#   Can be a puppet: file: or http(s): URI. 
+#
+# [*fcrepo_jgroups_fcrepo_tcp_xml_real*]
+#   The location where the Fedora 4 jgroups.fcrepo.tcp.xml configuration file can be 
+#   found for download and installation.
+#   Can be a puppet: file: or http(s): URI. 
+#
+# [*fcrepo_infinispan_xml_real*]
+#   The location where the Fedora 4 infinispan.xml configuration file can be found for 
+#   download and installation.
+#   Can be a puppet: file: or http(s): URI. 
 #
 # [*fcrepo_warsource_real*]
 #   Location where the Fedora 4 war file can be found for download and installation into

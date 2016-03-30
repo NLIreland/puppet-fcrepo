@@ -32,37 +32,70 @@ class fcrepo::config {
   }
 
   # Put in place Fedora config repository.json
+  # It would be easier to use file for these, but file won't support https URLs until 
+  # Puppet 4.4
+  staging::file { 'repository.json':
+    target  => "${::fcrepo::fcrepo_configdir_real}/repository.json",
+    source  => $::fcrepo::fcrepo_repository_json_real,
+    require => File[$::fcrepo::fcrepo_configdir_real],
+  }->
   file { "${::fcrepo::fcrepo_configdir_real}/repository.json":
-    ensure  => file,
-    path    => "${::fcrepo::fcrepo_configdir_real}/repository.json",
-    group   => $::fcrepo::group_real,
-    owner   => $::fcrepo::user_real,
-    mode    => '0644',
-    content => template("fcrepo/${::fcrepo::fcrepo_configtype_real}/repository.json.erb"),
-    require => File[$::fcrepo::fcrepo_configdir_real],
+    ensure => present,
+    group  => $::fcrepo::group_real,
+    owner  => $::fcrepo::user_real,
+    mode   => '0644',
+  }->
+  exec { 'replace infinispan config path':
+    command => "/bin/sed -i -e's|\\$.fcrepo.ispn.configuration:config.*infinispan.xml.|${::fcrepo::fcrepo_configdir_real}/infinispan.xml|' '${::fcrepo::fcrepo_configdir_real}/repository.json'",
+    path    => '/bin',
   }
-
+  
   # Put in place Fedora config jgroups-fcrepo-tcp.xml
-  file { "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml":
-    ensure  => file,
-    path    => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml",
-    group   => $::fcrepo::group_real,
-    owner   => $::fcrepo::user_real,
-    mode    => '0644',
-    content => template("fcrepo/${::fcrepo::fcrepo_configtype_real}/jgroups-fcrepo-tcp.xml.erb"),
+  staging::file { 'jgroups-fcrepo-tcp.xml':
+    target  => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml",
+    source  => $::fcrepo::fcrepo_jgroups_fcrepo_tcp_xml_real,
     require => File[$::fcrepo::fcrepo_configdir_real],
+  }->
+  file { "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml":
+    ensure => present,
+    group  => $::fcrepo::group_real,
+    owner  => $::fcrepo::user_real,
+    mode   => '0644',
+  }
+  
+  # Put in place Fedora config infinispan.xml
+  staging::file { 'infinispan.xml':
+    target  => "${::fcrepo::fcrepo_configdir_real}/infinispan.xml",
+    source  => $::fcrepo::fcrepo_infinispan_xml_real,
+    require => File[$::fcrepo::fcrepo_configdir_real],
+  }->
+  file { "${::fcrepo::fcrepo_configdir_real}/infinispan.xml":
+    ensure => present,
+    group  => $::fcrepo::group_real,
+    owner  => $::fcrepo::user_real,
+    mode   => '0644',
   }
 
-  # Put in place Fedora config infinispan.xml
-  file { "${::fcrepo::fcrepo_configdir_real}/infinispan.xml":
-    ensure  => file,
-    path    => "${::fcrepo::fcrepo_configdir_real}/infinispan.xml",
-    group   => $::fcrepo::group_real,
-    owner   => $::fcrepo::user_real,
-    mode    => '0644',
-    content => template("fcrepo/${::fcrepo::fcrepo_configtype_real}/infinispan.xml.erb"),
-    require => File[$::fcrepo::fcrepo_configdir_real],
-  }
+#   file { "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml":
+#     ensure  => file,
+#     path    => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml",
+#     group   => $::fcrepo::group_real,
+#     owner   => $::fcrepo::user_real,
+#     mode    => '0644',
+#     content => template("fcrepo/${::fcrepo::fcrepo_configtype_real}/jgroups-fcrepo-tcp.xml.erb"),
+#     require => File[$::fcrepo::fcrepo_configdir_real],
+#   }
+# 
+#  
+#   file { "${::fcrepo::fcrepo_configdir_real}/infinispan.xml":
+#     ensure  => file,
+#     path    => "${::fcrepo::fcrepo_configdir_real}/infinispan.xml",
+#     group   => $::fcrepo::group_real,
+#     owner   => $::fcrepo::user_real,
+#     mode    => '0644',
+#     content => template("fcrepo/${::fcrepo::fcrepo_configtype_real}/infinispan.xml.erb"),
+#     require => File[$::fcrepo::fcrepo_configdir_real],
+#   }
 
   Class['fcrepo::install'] ~> Class['fcrepo::config']
 }

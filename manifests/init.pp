@@ -27,9 +27,20 @@
 # [*fcrepo_configdir*]
 #   Fedora 4 config directory.
 #
-# [*fcrepo_configtype*]
-#   Fedora 4 config file types (i.e., the version of Fedora that the config files
-#   are used for, and whether they are for default or clustered configurations).
+# [*fcrepo_repository_json*]
+#   The location where the Fedora 4 repository.json configuration file can be found for 
+#   download and installation.
+#   Can be a puppet: file: or http(s): URI. 
+#
+# [*fcrepo_jgroups_fcrepo_tcp_xml*]
+#   The location where the Fedora 4 jgroups.fcrepo.tcp.xml configuration file can be 
+#   found for download and installation.
+#   Can be a puppet: file: or http(s): URI. 
+#
+# [*fcrepo_infinispan_xml*]
+#   The location where the Fedora 4 infinispan.xml configuration file can be found for 
+#   download and installation.
+#   Can be a puppet: file: or http(s): URI. 
 #
 # [*fcrepo_warsource*]
 #   Location where the Fedora 4 war file can be found for download and installation into
@@ -106,7 +117,9 @@ class fcrepo (
   $fcrepo_sandbox_home = 'UNSET',
   $fcrepo_datadir      = 'UNSET',
   $fcrepo_configdir    = 'UNSET',
-  $fcrepo_configtype   = 'UNSET',
+  $fcrepo_repository_json = 'UNSET',
+  $fcrepo_jgroups_fcrepo_tcp_xml = 'UNSET',
+  $fcrepo_infinispan_xml = 'UNSET',
   $fcrepo_warsource    = 'UNSET',
   $fcrepo_db_host      = 'UNSET',
   $fcrepo_db_port      = 'UNSET',
@@ -135,13 +148,15 @@ class fcrepo (
   validate_absolute_path($fcrepo::params::fcrepo_sandbox_home)
   validate_absolute_path($fcrepo::params::fcrepo_datadir)
   validate_absolute_path($fcrepo::params::fcrepo_configdir)
+  validate_string($fcrepo::params::fcrepo_repository_json)
+  validate_string($fcrepo::params::fcrepo_jgroups_fcrepo_tcp_xml)
+  validate_string($fcrepo::params::fcrepo_infinispan_xml)
   validate_re($fcrepo::params::fcrepo_warsource, '.war$',
     'The Fedora source file is not a war file.')
   validate_string($fcrepo::params::fcrepo_db_host)
   validate_integer($fcrepo::params::fcrepo_db_port)
   validate_string($fcrepo::params::fcrepo_db_username)
   validate_string($fcrepo::params::fcrepo_db_password)
-  validate_string($fcrepo::params::fcrepo_configtype)
   validate_absolute_path($fcrepo::params::java_homedir)
   validate_re($fcrepo::params::tomcat_source, '.tar.gz$',
     'The Tomcat source file is not a .tar.gz file.')
@@ -183,10 +198,20 @@ class fcrepo (
     'UNSET' => $::fcrepo::params::fcrepo_configdir,
     default => $fcrepo_configdir,
   }
-
-  $fcrepo_configtype_real = $fcrepo_configtype? {
-    'UNSET' => $::fcrepo::params::fcrepo_configtype,
-    default => $fcrepo_configtype,
+  
+  $fcrepo_repository_json_real = $fcrepo_repository_json? {
+    'UNSET' => $::fcrepo::params::fcrepo_repository_json,
+    default => $fcrepo_repository_json,
+  }
+  
+  $fcrepo_jgroups_fcrepo_tcp_xml_real = $fcrepo_jgroups_fcrepo_tcp_xml? {
+    'UNSET' => $::fcrepo::params::fcrepo_jgroups_fcrepo_tcp_xml,
+    default => $fcrepo_jgroups_fcrepo_tcp_xml,
+  }
+  
+  $fcrepo_infinispan_xml_real = $fcrepo_infinispan_xml? {
+    'UNSET' => $::fcrepo::params::fcrepo_infinispan_xml,
+    default => $fcrepo_infinispan_xml,
   }
 
   $fcrepo_warsource_real = $fcrepo_warsource? {
