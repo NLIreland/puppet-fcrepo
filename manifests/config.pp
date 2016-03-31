@@ -48,6 +48,8 @@ class fcrepo::config {
   exec { 'replace infinispan config path':
     command => "/bin/sed -i -e's|\\$.fcrepo.ispn.configuration:config.*infinispan.xml.|${::fcrepo::fcrepo_configdir_real}/infinispan.xml|' '${::fcrepo::fcrepo_configdir_real}/repository.json'",
     path    => '/bin',
+    subscribe   => File["${::fcrepo::fcrepo_configdir_real}/repository.json"],
+    refreshonly => true,
   }
   
   # Put in place Fedora config jgroups-fcrepo-tcp.xml
