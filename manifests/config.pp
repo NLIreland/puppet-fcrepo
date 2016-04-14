@@ -46,8 +46,8 @@ class fcrepo::config {
     mode   => '0644',
   }->
   exec { 'replace infinispan config path':
-    command => "/bin/sed -i -e's|\\$.fcrepo.ispn.configuration:config.*infinispan.xml.|${::fcrepo::fcrepo_configdir_real}/infinispan.xml|' '${::fcrepo::fcrepo_configdir_real}/repository.json'",
-    path    => '/bin',
+    command     => "/bin/sed -i -e's|\\$.fcrepo.ispn.configuration:config.*infinispan.xml.|${::fcrepo::fcrepo_configdir_real}/infinispan.xml|' '${::fcrepo::fcrepo_configdir_real}/repository.json'",
+    path        => '/bin',
     subscribe   => File["${::fcrepo::fcrepo_configdir_real}/repository.json"],
     refreshonly => true,
   }
@@ -77,27 +77,6 @@ class fcrepo::config {
     owner  => $::fcrepo::user_real,
     mode   => '0644',
   }
-
-#   file { "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml":
-#     ensure  => file,
-#     path    => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml",
-#     group   => $::fcrepo::group_real,
-#     owner   => $::fcrepo::user_real,
-#     mode    => '0644',
-#     content => template("fcrepo/${::fcrepo::fcrepo_configtype_real}/jgroups-fcrepo-tcp.xml.erb"),
-#     require => File[$::fcrepo::fcrepo_configdir_real],
-#   }
-# 
-#  
-#   file { "${::fcrepo::fcrepo_configdir_real}/infinispan.xml":
-#     ensure  => file,
-#     path    => "${::fcrepo::fcrepo_configdir_real}/infinispan.xml",
-#     group   => $::fcrepo::group_real,
-#     owner   => $::fcrepo::user_real,
-#     mode    => '0644',
-#     content => template("fcrepo/${::fcrepo::fcrepo_configtype_real}/infinispan.xml.erb"),
-#     require => File[$::fcrepo::fcrepo_configdir_real],
-#   }
 
   Class['fcrepo::install'] ~> Class['fcrepo::config']
 }

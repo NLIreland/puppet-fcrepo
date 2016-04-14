@@ -44,9 +44,16 @@ To use this module, you need:
     ```
     puppet module install /path/to/puppetlabs-tomcat --modulepath /path/to/modules
     ```
-3. Java already installed on the machine. Usually this can be installed by either:
-    * Setting up your OS's packaged Java via Puppet by using the official puppetlabs/java 
-    module. This should configure the proper path to the Java installation.
+3. Java already installed on the machine. Usually this can be installed by doing one of 
+   the following:
+    * Setting up your OS's packaged Java via Puppet by putting something like this as 
+    part of the init: 
+    ```
+    package {'java-1.8.0-openjdk': ensure => 'installed',}
+    ```
+    * Using the official puppetlabs/java module for Java installation, particularly if 
+    you need multiple versions of Java installed. This should configure the proper path 
+    to the Java installation.
     * Installing a package (such as Oracle's Java RPM), which also sets up the proper path.
     Installing this via a local yum repository can allow Puppet to easily install this 
     for your machines.
@@ -153,6 +160,32 @@ Note: Placing the above include and class outside of specific node definitions, 
 And to startup the service, use:
 ```
 fcrepo::service { 'tomcat-fcrepo':
+  service_enable      => true,
+  service_ensure      => 'running',
+}
+```
+A more complicated configuration (defining more than the defaults) would look like this:
+```
+class { '::fcrepo':
+  user                          => 'fcrepo',
+  group                         => 'fcrepo',
+  user_profile                  => '/home/fcrepo/.bashrc',
+  tomcat_deploydir              => '/fedora/tomcat7',
+  fcrepo_datadir                => '/data',
+  fcrepo_configdir              => '/fedora/config',
+  java_homedir                  => '/usr/java/default',
+  fcrepo_repository_json        => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/minimal-default/repository.json',
+  fcrepo_jgroups_fcrepo_tcp_xml => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml',
+  fcrepo_infinispan_xml         => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/infinispan/leveldb-default/infinispan.xml',
+  tomcat_source                 => 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.68/bin/apache-tomcat-7.0.68.tar.gz',
+  fcrepo_warsource              => 'https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-4.4.0/fcrepo-webapp-4.4.0.war',
+  tomcat_install_from_source    => true,
+  tomcat_http_port              => '8080',
+  tomcat_ajp_port               => '8009',
+  tomcat_redirect_port          => '8443',
+  tomcat_catalina_opts_xmx      => '1024m',
+  tomcat_catalina_opts_maxpermsize => '256m',
+}->fcrepo::service { 'tomcat-fcrepo':
   service_enable      => true,
   service_ensure      => 'running',
 }

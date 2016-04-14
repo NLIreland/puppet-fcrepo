@@ -13,25 +13,18 @@ Run the following commands from the top-level module directory (where
 ##Set Up the Environment
 
 1. Install Prerequisites:  puppet, ruby, gem, and the bundler and rcov (for code coverage 
-checks) gems.
-
-You will also need to install the "augeas-devel" OS package and its dependencies in
+checks) gems. You will also need to install the "augeas-devel" OS package and its dependencies in
 order to run the tests. On Red Hat you can install this by running 
 ```
     sudo yum install augeas-devel
 ```
-
 2. Clone this project:
-
 ```
     git clone git://github.com/sprater/puppet-fcrepo
     cd puppet-fcrepo
 ```
-
-
 3. Install the gems needed for development and testing (this will use the included
 Gemfile to determine what needs to be installed):
-
 ```
     bundle install
 ```

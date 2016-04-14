@@ -1,7 +1,6 @@
 # == Class: fcrepo
 #
-# Fedora 4 management module to install and configure Fedora in
-# a clustered environment.
+# Fedora 4 management module to install and configure Fedora
 #
 # === Parameters
 #
