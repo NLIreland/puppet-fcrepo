@@ -144,7 +144,7 @@ and manages the Fedora Tomcat service.
 you up and running.  If you wish to pass in parameters such as which user and
 group to create then you can use instead:                                                                                    
 
-```puppet                                                                                                                                 
+```puppet
 class { '::fcrepo':
   user                => 'tomcat',
   group               => 'tomcat',
@@ -158,14 +158,14 @@ class { '::fcrepo':
 Note: Placing the above include and class outside of specific node definitions, as above, will apply the fcrepo role to every puppet node. Alternately, place them within an appropriate node block.
 
 And to startup the service, use:
-```
+```puppet
 fcrepo::service { 'tomcat-fcrepo':
   service_enable      => true,
   service_ensure      => 'running',
 }
 ```
 A more complicated configuration (defining more than the defaults) would look like this:
-```
+```puppet
 class { '::fcrepo':
   user                          => 'fcrepo',
   group                         => 'fcrepo',
