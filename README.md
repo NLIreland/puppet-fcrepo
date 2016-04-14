@@ -164,7 +164,7 @@ fcrepo::service { 'tomcat-fcrepo':
   service_ensure      => 'running',
 }
 ```
-A more complicated configuration (defining more than the defaults) would look like this:
+A more advanced configuration (defining more than the defaults) would look like this:
 ```puppet
 class { '::fcrepo':
   user                          => 'fcrepo',
@@ -172,6 +172,7 @@ class { '::fcrepo':
   user_profile                  => '/home/fcrepo/.bashrc',
   tomcat_deploydir              => '/fedora/tomcat7',
   fcrepo_datadir                => '/data',
+  fcrepo_sandbox_home           => '/fedora',
   fcrepo_configdir              => '/fedora/config',
   java_homedir                  => '/usr/java/default',
   fcrepo_repository_json        => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/minimal-default/repository.json',
@@ -186,8 +187,8 @@ class { '::fcrepo':
   tomcat_catalina_opts_xmx      => '1024m',
   tomcat_catalina_opts_maxpermsize => '256m',
 }->fcrepo::service { 'tomcat-fcrepo':
-  service_enable      => true,
-  service_ensure      => 'running',
+  service_enable => true,
+  service_ensure => 'running',
 }
 ```
 
