@@ -93,8 +93,8 @@ $ export http_proxy=http://myproxy.example.com:3128
 ###Install the extra Puppet modules on your puppet master
 
 ```
-sudo puppet module install puppetlabs/stdlib
-sudo puppet module install puppetlabs/tomcat (note: see above about installing the correct version)
+sudo puppet module install puppetlabs/stdlib --modulepath /path/to/modules
+sudo puppet module install puppetlabs/tomcat --modulepath /path/to/modules (note: see above about installing the correct version)
 ```
 
 ##Setup
