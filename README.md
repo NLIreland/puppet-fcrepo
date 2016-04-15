@@ -42,6 +42,7 @@ To use this module, you need:
     ```
     puppet module install /path/to/puppetlabs-tomcat-1.4.1.tar.gz --modulepath /path/to/modules
     ```
+    This will also install the prerequisite modules needed (concat, staging, stdlib).
 3. Java already installed on the machine. Usually this can be installed by doing one of 
    the following:
     * Setting up your OS's packaged Java via Puppet by putting something like this as 
@@ -92,7 +93,7 @@ $ export http_proxy=http://myproxy.example.com:3128
 
 ```
 sudo puppet module install puppetlabs/stdlib --modulepath /path/to/modules
-sudo puppet module install puppetlabs/tomcat --modulepath /path/to/modules (note: see above about installing the correct version)
+sudo puppet module install /path/to/puppetlabs-tomcat-1.4.1.tar.gz --modulepath /path/to/modules (note: see Prerequisites above about installing the correct version)
 ```
 
 ##Setup
@@ -172,7 +173,7 @@ class { '::fcrepo':
   fcrepo_datadir                => '/data',
   fcrepo_sandbox_home           => '/fedora',
   fcrepo_configdir              => '/fedora/config',
-  java_homedir                  => '/usr/java/default',
+  java_homedir                  => '/usr/lib/jvm/jre-1.8.0',
   fcrepo_repository_json        => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/minimal-default/repository.json',
   fcrepo_jgroups_fcrepo_tcp_xml => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml',
   fcrepo_infinispan_xml         => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.4.0/fcrepo-configs/src/main/resources/config/infinispan/leveldb-default/infinispan.xml',
