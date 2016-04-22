@@ -12,6 +12,7 @@
 #
 #
 define fcrepo::service (
+  $service_name   = 'tomcat-fcrepo',
   $service_enable = false,
   $service_ensure = 'stopped',
 ) {
@@ -20,8 +21,8 @@ define fcrepo::service (
 
   tomcat::service { 'tomcat-fcrepo':
     catalina_base  => $::fcrepo::tomcat_deploydir_real,
+    service_name   => $service_name,
     service_enable => $service_enable,
-    service_name   => 'tomcat-fcrepo',
     service_ensure => $service_ensure,
     user           => $::fcrepo::user_real,
   }

@@ -21,6 +21,7 @@ describe 'fcrepo::service', :type => :define do
   context "With Fedora 4 startup service - enabled" do
       let :params do
       {
+         :service_name        => 'fedora',
          :service_enable      => true,
          :service_ensure      => 'running',
       }
@@ -28,7 +29,7 @@ describe 'fcrepo::service', :type => :define do
     it {
       should contain_tomcat__service('tomcat-fcrepo').with( {
         'catalina_base'      => '/fedora/tomcat7',
-        'service_name'       => 'tomcat-fcrepo',
+        'service_name'       => 'fedora',
         'service_enable'     => true,
         'service_ensure'     => 'running',
       } )

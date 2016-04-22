@@ -155,6 +155,7 @@ class fcrepo::install {
     ensure  => file,
     content => "export JAVA_HOME=${::fcrepo::java_homedir_real}",
     path    => $::fcrepo::user_profile_real,
+    require => [ Group[$::fcrepo::group_real], User[$::fcrepo::user_real] ]
   }
 
   # Install the infrastructure software
