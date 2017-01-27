@@ -78,5 +78,30 @@ class fcrepo::config {
     mode   => '0644',
   }
 
+  # Fedora cycle server
+  # Create directory for cron logging and cron's for powering on and off Fedora
+
+  file {'cron_log_directory':
+    ensure => 'directory',
+    path   => "{$::fcrepo::fcrepo_sandbox_home_real}/cron_logs",
+    group  => $::fcrepo::group_real,
+    owner  => $::fcrepo::user_real,
+    mode   => '0755',
+  }
+  cron {'shutdown_fedora':
+    command => "$tomcat_deploydir/bin/shutdown.sh > {$::fcrepo::fcrepo_sandbox_home_real}/cron_logs/cycle_tomcat_log.log 2>&1",
+    user    => $::fcrepo::user_real,
+    hour    => '10',
+    minute  => '15',
+    require => [File['cron_log_directory'], File["{$tomcat_deploydir/bin/shutdown.sh}"]],
+  }
+  cron {'startup_fedora':
+    command => "$tomcat_deploydir/bin/startup.sh > {$::fcrepo::fcrepo_sandbox_home_real}/cron_logs/cycle_tomcat_log.log 2>&1",
+    user    => $::fcrepo::user_real,
+    hour    => '10',
+    minute  => '17',
+    require => [File['cron_log_directory'], File["{$tomcat_deploydir/bin/startup.sh}"]],
+  }
+
   Class['fcrepo::install'] ~> Class['fcrepo::config']
 }
