@@ -83,24 +83,24 @@ class fcrepo::config {
 
   file {'cron_log_directory':
     ensure => 'directory',
-    path   => "{$::fcrepo::fcrepo_sandbox_home_real}/cron_logs",
+    path   => "${::fcrepo::fcrepo_sandbox_home_real}/cron_logs",
     group  => $::fcrepo::group_real,
     owner  => $::fcrepo::user_real,
     mode   => '0755',
   }
   cron {'shutdown_fedora':
-    command => "$tomcat_deploydir/bin/shutdown.sh > {$::fcrepo::fcrepo_sandbox_home_real}/cron_logs/cycle_tomcat_log.log 2>&1",
-    user    => $::fcrepo::user_real,
-    hour    => '10',
+    command => "${::fcrepo::tomcat_deploydir_real}/bin/shutdown.sh > ${::fcrepo::fcrepo_sandbox_home_real}/cron_logs/cycle_tomcat_log.log 2>&1",
+    user    => root,
+    hour    => '11',
     minute  => '15',
-    require => [File['cron_log_directory'], File["{$tomcat_deploydir/bin/shutdown.sh}"]],
+    require => File['cron_log_directory'],
   }
   cron {'startup_fedora':
-    command => "$tomcat_deploydir/bin/startup.sh > {$::fcrepo::fcrepo_sandbox_home_real}/cron_logs/cycle_tomcat_log.log 2>&1",
-    user    => $::fcrepo::user_real,
-    hour    => '10',
+    command => "${::fcrepo::tomcat_deploydir_real}/bin/startup.sh > ${::fcrepo::fcrepo_sandbox_home_real}/cron_logs/cycle_tomcat_log.log 2>&1",
+    user    => root,
+    hour    => '11',
     minute  => '17',
-    require => [File['cron_log_directory'], File["{$tomcat_deploydir/bin/startup.sh}"]],
+    require => File['cron_log_directory'],
   }
 
   Class['fcrepo::install'] ~> Class['fcrepo::config']
