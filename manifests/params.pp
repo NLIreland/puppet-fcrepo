@@ -121,6 +121,7 @@ class fcrepo::params {
     $fcrepo_db_port      = '3306'
     $fcrepo_db_username  = 'fcrepouser'
     $fcrepo_db_password  = 'changeme'
+    $fcrepo_cycle_server_required = false
     $java_homedir        = '/usr/java/default'
     $tomcat_source       = 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.68/bin/apache-tomcat-7.0.68.tar.gz'
     $tomcat_deploydir    = '/fedora/tomcat7'

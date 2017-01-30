@@ -124,6 +124,7 @@ class fcrepo (
   $fcrepo_db_port      = 'UNSET',
   $fcrepo_db_username  = 'UNSET',
   $fcrepo_db_password  = 'UNSET',
+  $fcrepo_cycle_server_required = 'UNSET',
   $java_homedir        = 'UNSET',
   $tomcat_source       = 'UNSET',
   $tomcat_deploydir    = 'UNSET',
@@ -156,6 +157,7 @@ class fcrepo (
   validate_integer($fcrepo::params::fcrepo_db_port)
   validate_string($fcrepo::params::fcrepo_db_username)
   validate_string($fcrepo::params::fcrepo_db_password)
+  validate_bool($fcrepo::params::fcrepo_cycle_server_required)
   validate_absolute_path($fcrepo::params::java_homedir)
   validate_re($fcrepo::params::tomcat_source, '.tar.gz$',
     'The Tomcat source file is not a .tar.gz file.')
@@ -236,6 +238,11 @@ class fcrepo (
   $fcrepo_db_password_real = $fcrepo_db_password? {
     'UNSET' => $::fcrepo::params::fcrepo_db_password,
     default => $fcrepo_db_password,
+  }
+
+  $fcrepo_cycle_server_required_real = $fcrepo_cycle_server_required? {
+    'UNSET' => $::fcrepo::params::fcrepo_cycle_server_required,
+    default => $fcrepo_cycle_server_required,
   }
 
   $java_homedir_real = $java_homedir? {
