@@ -113,6 +113,7 @@ class fcrepo::params {
     $fcrepo_sandbox_home = '/fedora'
     $fcrepo_datadir      = '/data'
     $fcrepo_configdir    = '/fedora/config'
+    $fcrepo_cron_log_dir = '/fedora/cron_logs'
     $fcrepo_repository_json = 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/minimal-default/repository.json'
     $fcrepo_jgroups_fcrepo_tcp_xml = 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml'
     $fcrepo_infinispan_xml = 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/infinispan/jdbc-mysql/infinispan.xml'

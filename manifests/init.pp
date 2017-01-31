@@ -116,6 +116,7 @@ class fcrepo (
   $fcrepo_sandbox_home = 'UNSET',
   $fcrepo_datadir      = 'UNSET',
   $fcrepo_configdir    = 'UNSET',
+  $fcrepo_cron_log_dir = 'UNSET',
   $fcrepo_repository_json = 'UNSET',
   $fcrepo_jgroups_fcrepo_tcp_xml = 'UNSET',
   $fcrepo_infinispan_xml = 'UNSET',
@@ -148,6 +149,7 @@ class fcrepo (
   validate_absolute_path($fcrepo::params::fcrepo_sandbox_home)
   validate_absolute_path($fcrepo::params::fcrepo_datadir)
   validate_absolute_path($fcrepo::params::fcrepo_configdir)
+  validate_absolute_path($fcrepo::params::fcrepo_cron_log_dir)
   validate_string($fcrepo::params::fcrepo_repository_json)
   validate_string($fcrepo::params::fcrepo_jgroups_fcrepo_tcp_xml)
   validate_string($fcrepo::params::fcrepo_infinispan_xml)
@@ -198,6 +200,11 @@ class fcrepo (
   $fcrepo_configdir_real = $fcrepo_configdir? {
     'UNSET' => $::fcrepo::params::fcrepo_configdir,
     default => $fcrepo_configdir,
+  }
+
+  $fcrepo_cron_log_dir_real = $fcrepo_cron_log_dir? {
+    'UNSET' => $::fcrepo::params::fcrepo_cron_log_dir,
+    default => $fcrepo_cron_log_dir,
   }
   
   $fcrepo_repository_json_real = $fcrepo_repository_json? {

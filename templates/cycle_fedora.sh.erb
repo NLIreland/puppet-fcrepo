@@ -1,0 +1,57 @@
+#!/bin/bash
+
+START_FEDORA=<%= @tomcat_deploydir %>/bin/startup.sh
+STOP_FEDORA=<%= @tomcat_deploydir %>/bin/shutdown.sh
+LOG_FILE=<%= @fcrepo_cron_log_dir %>/cycle_tomcat_log.log
+
+
+##############################################
+# Test the log file exists, if not create it.
+##############################################
+
+if [ ! -f $LOG_FILE ]; then
+  touch $LOG_FILE
+fi
+
+if [ ! -f $LOG_FILE ]; then
+  echo "Log file cannot be created"
+  exit 1
+fi
+
+
+###################################################
+# Check the argument is either start or stop
+###################################################
+
+if [[ "$1" != @(start|stop) ]]; then
+  echo "$(date) - Trying to start/stop fedora with the wrong parameters. The parameter must be either: start or stop - Exiting script" >> $LOG_FILE
+  exit 1
+fi
+
+
+ACTION=$1
+
+###############################################################################
+# Start and stop fedora, if the start and stop files do not exist stop and exit
+################################################################################
+
+case "$ACTION" in
+  start)
+    if [ ! -f $START_FEDORA ]; then
+      echo "$(date) - Cannot find fedora start file" >> $LOG_FILE
+      exit 1
+    else
+      sh $START_FEDORA
+      echo "$(date) - Fedora Started" >> $LOG_FILE
+    fi
+    ;;
+  stop)
+    if [ ! -f $STOP_FEDORA ]; then
+      echo "$(date) - Cannot find fedora stop file" >> $LOG_FILE
+      exit 1
+    else
+      sh $STOP_FEDORA
+      echo "$(date) - Fedora Stopped" >> $LOG_FILE
+    fi
+    ;;
+esac
