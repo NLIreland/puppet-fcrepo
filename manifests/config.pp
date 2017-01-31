@@ -95,7 +95,7 @@ class fcrepo::config {
       group   => $::fcrepo::group_real,
       owner   => $::fcrepo::user_real,
       mode    => '0755',
-      require => File['/tmp/cycle_fedora.sh'],
+      require => File[$fcrepo::params::fcrepo_cycle_server],
     }
     cron {'shutdown_fedora':
       command => "sh $fcrepo::params::fcrepo_cycle_server stop",
