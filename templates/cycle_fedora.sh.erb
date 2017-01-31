@@ -2,7 +2,7 @@
 
 START_FEDORA=<%= @tomcat_deploydir_real %>/bin/startup.sh
 STOP_FEDORA=<%= @tomcat_deploydir_real %>/bin/shutdown.sh
-LOG_FILE=<%= @fcrepo_cron_log_dir %>/cycle_tomcat_log.log
+LOG_FILE=/fedora/cron_logs/cycle_tomcat_log.log
 
 
 
@@ -39,7 +39,7 @@ ACTION=$1
 case "$ACTION" in
   start)
     if [ ! -f $START_FEDORA ]; then
-      echo "$(date) - Cannot find fedora start file" >> $LOG_FILE
+      echo "$(date) - Cannot find fedora start file: $START_FEDORA" >> $LOG_FILE
       exit 1
     else
       sh $START_FEDORA
@@ -48,7 +48,7 @@ case "$ACTION" in
     ;;
   stop)
     if [ ! -f $STOP_FEDORA ]; then
-      echo "$(date) - Cannot find fedora stop file" >> $LOG_FILE
+      echo "$(date) - Cannot find fedora stop file: $STOP_FEDORA" >> $LOG_FILE
       exit 1
     else
       sh $STOP_FEDORA

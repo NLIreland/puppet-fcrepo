@@ -83,7 +83,7 @@ class fcrepo::config {
 
   if $::fcrepo::fcrepo_cycle_server_required == true {
 
-    file {'/tmp/cycle_fedora.sh':
+    file {'/usr/bin/cycle_fedora.sh':
       ensure => 'present',
       owner => 'root',
       group => 'root',
@@ -100,15 +100,15 @@ class fcrepo::config {
     cron {'shutdown_fedora':
       command => "sh /tmp/cycle_fedora.sh stop",
       user    => root,
-      hour    => '11',
-      minute  => '15',
+      hour    => '5',
+      minute  => '1',
       require => File[$fcrepo::params::fcrepo_cron_log_dir],
     }
     cron {'startup_fedora':
       command => "sh /tmp/cycle_fedora.sh start",
       user    => root,
-      hour    => '11',
-      minute  => '17',
+      hour    => '5',
+      minute  => '3',
       require => File[$fcrepo::params::fcrepo_cron_log_dir],
     }
   }
