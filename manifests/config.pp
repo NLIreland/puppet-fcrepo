@@ -90,9 +90,8 @@ class fcrepo::config {
       mode => '0755',
       content => template('puppet-fcrepo/cycle_fedora.sh.erb'),
     }
-    file {'cron_log_directory':
+    file {"${::fcrepo::fcrepo_cron_log_dir}":
       ensure  => 'directory',
-      path    => "${::fcrepo::fcrepo_sandbox_home_real}/cron_logs",
       group   => $::fcrepo::group_real,
       owner   => $::fcrepo::user_real,
       mode    => '0755',
