@@ -1,8 +1,9 @@
 #!/bin/bash
 
-START_FEDORA=<%= @tomcat_deploydir %>/bin/startup.sh
-STOP_FEDORA=<%= @tomcat_deploydir %>/bin/shutdown.sh
+START_FEDORA=<%= @tomcat_deploydir_real %>/bin/startup.sh
+STOP_FEDORA=<%= @tomcat_deploydir_real %>/bin/shutdown.sh
 LOG_FILE=<%= @fcrepo_cron_log_dir %>/cycle_tomcat_log.log
+
 
 
 ##############################################

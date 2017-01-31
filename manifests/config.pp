@@ -88,9 +88,9 @@ class fcrepo::config {
       owner => 'root',
       group => 'root',
       mode => '0755',
-      content => template('puppet-fcrepo/cycle_fedora.sh.erb'),
+      content => template('fcrepo/cycle_fedora.sh.erb'),
     }
-    file {"${::fcrepo::fcrepo_cron_log_dir}":
+    file { $fcrepo::params::fcrepo_cron_log_dir:
       ensure  => 'directory',
       group   => $::fcrepo::group_real,
       owner   => $::fcrepo::user_real,
@@ -102,14 +102,14 @@ class fcrepo::config {
       user    => root,
       hour    => '11',
       minute  => '15',
-      require => File['cron_log_directory'],
+      require => File[$fcrepo::params::fcrepo_cron_log_dir],
     }
     cron {'startup_fedora':
       command => "sh /tmp/cycle_fedora.sh start",
       user    => root,
       hour    => '11',
       minute  => '17',
-      require => File['cron_log_directory'],
+      require => File[$fcrepo::params::fcrepo_cron_log_dir],
     }
   }
 
