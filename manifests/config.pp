@@ -101,14 +101,14 @@ class fcrepo::config {
       command => "sh $fcrepo::params::fcrepo_cycle_server stop",
       user    => root,
       hour    => '5',
-      minute  => '1',
+      minute  => '4',
       require => File[$fcrepo::params::fcrepo_cron_log_dir],
     }
     cron {'startup_fedora':
       command => "sh $fcrepo::params::fcrepo_cycle_server start",
       user    => root,
       hour    => '5',
-      minute  => '3',
+      minute  => '7',
       require => File[$fcrepo::params::fcrepo_cron_log_dir],
     }
   }
