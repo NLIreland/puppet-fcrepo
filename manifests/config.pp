@@ -53,17 +53,17 @@ class fcrepo::config {
   }
   
   # Put in place Fedora config jgroups-fcrepo-tcp.xml
-  staging::file { 'jgroups-fcrepo-tcp.xml':
-    target  => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml",
-    source  => $::fcrepo::fcrepo_jgroups_fcrepo_tcp_xml_real,
-    require => File[$::fcrepo::fcrepo_configdir_real],
-  }->
-  file { "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml":
-    ensure => present,
-    group  => $::fcrepo::group_real,
-    owner  => $::fcrepo::user_real,
-    mode   => '0644',
-  }
+  #staging::file { 'jgroups-fcrepo-tcp.xml':
+  #  target  => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml",
+  #  source  => $::fcrepo::fcrepo_jgroups_fcrepo_tcp_xml_real,
+  #  require => File[$::fcrepo::fcrepo_configdir_real],
+  #}->
+  #file { "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml":
+  #  ensure => present,
+  #  group  => $::fcrepo::group_real,
+  #  owner  => $::fcrepo::user_real,
+  #  mode   => '0644',
+  #}
   
   # Put in place Fedora config infinispan.xml
   staging::file { 'infinispan.xml':
