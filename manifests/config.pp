@@ -31,7 +31,7 @@ class fcrepo::config {
     require => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
   }
   # Put in place Fedora config jgroups-fcrepo-tcp.xml
-  staging::deploy { 'jgroups-fcrepo-tcp.xml':
+  staging::file { 'jgroups-fcrepo-tcp.xml':
     target  => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml",
     source  => $::fcrepo::fcrepo_jgroups_fcrepo_tcp_xml_real,
     require => File[$::fcrepo::fcrepo_configdir_real],
@@ -44,7 +44,7 @@ class fcrepo::config {
   }
   
   # Put in place Fedora config infinispan.xml
-  staging::deploy { 'infinispan.xml':
+  staging::file { 'infinispan.xml':
     target  => "${::fcrepo::fcrepo_configdir_real}/infinispan.xml",
     source  => $::fcrepo::fcrepo_infinispan_xml_real,
     require => File[$::fcrepo::fcrepo_configdir_real],
