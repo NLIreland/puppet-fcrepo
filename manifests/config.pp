@@ -51,28 +51,28 @@ class fcrepo::config {
     path        => '/bin',
     subscribe   => File["${::fcrepo::fcrepo_configdir_real}/repository.json"],
     refreshonly => true,
-  }
-  
+  }->
   # Put in place Fedora config jgroups-fcrepo-tcp.xml
-  staging::deploy { 'jgroups-fcrepo-tcp.xml':
-    target  => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml",
-    source  => $::fcrepo::fcrepo_jgroups_fcrepo_tcp_xml_real,
-    require => File[$::fcrepo::fcrepo_configdir_real],
+  exec { 'get jgroups-fcrepo-tcp.xml':
+    command => "wget https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml -O /tmp/jgroups-fcrepo-tcp.xml",
+    path => '/usr/bin/wget'
   }->
   file { "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml":
+    source => "/tmp/jgroups-fcrepo-tcp.xml",
+    target => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml"
     ensure => present,
     group  => $::fcrepo::group_real,
     owner  => $::fcrepo::user_real,
     mode   => '0644',
-  }
-  
+  }->
   # Put in place Fedora config infinispan.xml
-  staging::deploy { 'infinispan.xml':
-    target  => "${::fcrepo::fcrepo_configdir_real}/infinispan.xml",
-    source  => $::fcrepo::fcrepo_infinispan_xml_real,
-    require => File[$::fcrepo::fcrepo_configdir_real],
+  exec { 'get infinispan.xml':
+    command => "wget https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/infinispan/jdbc-mysql/infinispan.xml -O /tmp/infinispan.xml",
+    path => '/usr/bin/wget'
   }->
   file { "${::fcrepo::fcrepo_configdir_real}/infinispan.xml":
+    source => "/tmp/infinispan.xml",
+    target => "${::fcrepo::fcrepo_configdir_real}/infinispan.xml"
     ensure => present,
     group  => $::fcrepo::group_real,
     owner  => $::fcrepo::user_real,
