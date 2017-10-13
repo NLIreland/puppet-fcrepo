@@ -35,38 +35,17 @@ class fcrepo::config {
   # Put in place Fedora config repository.json
   # It would be easier to use file for these, but file won't support https URLs until 
   # Puppet 4.4
-  
-  wget::fetch { "get repository.json":
-    source      => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/minimal-default/repository.json',
-    destination => '/tmp/repository.json',
-    timeout     => 0,
-    verbose     => false,
-  }->
   wget::fetch { "get jgroups-fcrepo-tcp.xm":
-    source      => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml',
+    source      => "${::fcrepo::fcrepo_jgroups_fcrepo_tcp_xml}",
     destination => '/tmp/jgroups-fcrepo-tcp.xml',
     timeout     => 0,
     verbose     => false,
   }->
   wget::fetch { 'get infinispan.xml':
-    source => "https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/infinispan/jdbc-mysql/infinispan.xml",
+    source => "${::fcrepo::fcrepo_jgroups_fcrepo_tcp_xml}",
     destination => '/tmp/infinispan.xml',
     timeout     => 0,
     verbose     => false,
-  }->
-  file { "${::fcrepo::fcrepo_configdir_real}/repository.json":
-    source => "/tmp/repository.json",
-    #target => "${::fcrepo::fcrepo_configdir_real}/repository.json",
-    ensure => present,
-    group  => $::fcrepo::group_real,
-    owner  => $::fcrepo::user_real,
-    mode   => '0644',
-  }->
-  exec { 'replace infinispan config path':
-  command     => "/bin/sed -i -e's|\\$.fcrepo.ispn.configuration:config.*infinispan.xml.|${::fcrepo::fcrepo_configdir_real}/infinispan.xml|' '${::fcrepo::fcrepo_configdir_real}/repository.json'",
-    path        => '/bin',
-    subscribe   => File["${::fcrepo::fcrepo_configdir_real}/repository.json"],
-    refreshonly => true,
   }->
   # Put in place Fedora config jgroups-fcrepo-tcp.xml
   file { "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml":
