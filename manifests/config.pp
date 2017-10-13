@@ -28,7 +28,7 @@ class fcrepo::config {
     group   => $::fcrepo::group_real,
     owner   => $::fcrepo::user_real,
     mode    => '0755',
-    require => [ File[$::fcrepo::fcrepo_sandbox_home_real] ]
+    require => [ File[$::fcrepo::fcrepo_sandbox_home_real] ],
   }
 
   # Put in place Fedora config repository.json
@@ -36,7 +36,7 @@ class fcrepo::config {
   # Puppet 4.4
   exec { 'get repository.json':
     command => "wget https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/minimal-default/repository.json -O /tmp/repository.json",
-    path => '/usr/bin/wget'
+    path => '/usr/bin/wget',
   }->
   file { "${::fcrepo::fcrepo_configdir_real}/repository.json":
     source => "/tmp/repository.json",
@@ -55,11 +55,11 @@ class fcrepo::config {
   # Put in place Fedora config jgroups-fcrepo-tcp.xml
   exec { 'get jgroups-fcrepo-tcp.xml':
     command => "wget https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml -O /tmp/jgroups-fcrepo-tcp.xml",
-    path => '/usr/bin/wget'
+    path => '/usr/bin/wget',
   }->
   file { "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml":
     source => "/tmp/jgroups-fcrepo-tcp.xml",
-    target => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml"
+    target => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml",
     ensure => present,
     group  => $::fcrepo::group_real,
     owner  => $::fcrepo::user_real,
@@ -72,7 +72,7 @@ class fcrepo::config {
   }->
   file { "${::fcrepo::fcrepo_configdir_real}/infinispan.xml":
     source => "/tmp/infinispan.xml",
-    target => "${::fcrepo::fcrepo_configdir_real}/infinispan.xml"
+    target => "${::fcrepo::fcrepo_configdir_real}/infinispan.xml",
     ensure => present,
     group  => $::fcrepo::group_real,
     owner  => $::fcrepo::user_real,
