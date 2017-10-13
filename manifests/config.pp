@@ -40,7 +40,7 @@ class fcrepo::config {
   }->
   file { "${::fcrepo::fcrepo_configdir_real}/repository.json":
     source => "/tmp/repository.json",
-    target => "${::fcrepo::fcrepo_configdir_real}/repository.json",
+    #target => "${::fcrepo::fcrepo_configdir_real}/repository.json",
     ensure => present,
     group  => $::fcrepo::group_real,
     owner  => $::fcrepo::user_real,
@@ -59,7 +59,7 @@ class fcrepo::config {
   }->
   file { "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml":
     source => "/tmp/jgroups-fcrepo-tcp.xml",
-    target => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml",
+    #target => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml",
     ensure => present,
     group  => $::fcrepo::group_real,
     owner  => $::fcrepo::user_real,
@@ -72,7 +72,7 @@ class fcrepo::config {
   }->
   file { "${::fcrepo::fcrepo_configdir_real}/infinispan.xml":
     source => "/tmp/infinispan.xml",
-    target => "${::fcrepo::fcrepo_configdir_real}/infinispan.xml",
+    #target => "${::fcrepo::fcrepo_configdir_real}/infinispan.xml",
     ensure => present,
     group  => $::fcrepo::group_real,
     owner  => $::fcrepo::user_real,
