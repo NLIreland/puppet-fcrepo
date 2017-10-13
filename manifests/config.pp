@@ -20,6 +20,7 @@
 class fcrepo::config {
 
   include fcrepo
+  include wget
 
   # Create the config directory
   file { $::fcrepo::fcrepo_configdir_real:
@@ -34,9 +35,24 @@ class fcrepo::config {
   # Put in place Fedora config repository.json
   # It would be easier to use file for these, but file won't support https URLs until 
   # Puppet 4.4
-  exec { 'get repository.json':
-    command => "wget https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/minimal-default/repository.json -O /tmp/repository.json",
-    path => '/usr/bin',
+  
+  wget::fetch { "get repository.json":
+    source      => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/minimal-default/repository.json',
+    destination => '/tmp/repository.json',
+    timeout     => 0,
+    verbose     => false,
+  }->
+  wget::fetch { "get jgroups-fcrepo-tcp.xm":
+    source      => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml',
+    destination => '/tmp/jgroups-fcrepo-tcp.xml',
+    timeout     => 0,
+    verbose     => false,
+  }->
+  wget::fetch { 'get infinispan.xml':
+    source => "https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/infinispan/jdbc-mysql/infinispan.xml",
+    destination => '/tmp/infinispan.xml',
+    timeout     => 0,
+    verbose     => false,
   }->
   file { "${::fcrepo::fcrepo_configdir_real}/repository.json":
     source => "/tmp/repository.json",
@@ -53,10 +69,6 @@ class fcrepo::config {
     refreshonly => true,
   }->
   # Put in place Fedora config jgroups-fcrepo-tcp.xml
-  exec { 'get jgroups-fcrepo-tcp.xml':
-    command => "wget https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml -O /tmp/jgroups-fcrepo-tcp.xml",
-    path => '/usr/bin',
-  }->
   file { "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml":
     source => "/tmp/jgroups-fcrepo-tcp.xml",
     #target => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml",
@@ -66,10 +78,6 @@ class fcrepo::config {
     mode   => '0644',
   }->
   # Put in place Fedora config infinispan.xml
-  exec { 'get infinispan.xml':
-    command => "wget https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.1/fcrepo-configs/src/main/resources/config/infinispan/jdbc-mysql/infinispan.xml -O /tmp/infinispan.xml",
-    path => '/usr/bin'
-  }->
   file { "${::fcrepo::fcrepo_configdir_real}/infinispan.xml":
     source => "/tmp/infinispan.xml",
     #target => "${::fcrepo::fcrepo_configdir_real}/infinispan.xml",
