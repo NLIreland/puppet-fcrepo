@@ -1,4 +1,4 @@
-y# == Class: fcrepo::config
+# == Class: fcrepo::config
 #
 # Install the configuration files for Tomcat and Fedora.
 # Parameters are set in class fcrepo
