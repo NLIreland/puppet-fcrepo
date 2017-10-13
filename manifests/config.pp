@@ -1,4 +1,4 @@
-# == Class: fcrepo::config
+y# == Class: fcrepo::config
 #
 # Install the configuration files for Tomcat and Fedora.
 # Parameters are set in class fcrepo
@@ -57,7 +57,7 @@ class fcrepo::config {
   }
   
   # Put in place Fedora config jgroups-fcrepo-tcp.xml
-  staging::file { 'jgroups-fcrepo-tcp.xml':
+  staging::deploy { 'jgroups-fcrepo-tcp.xml':
     target  => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml",
     source  => $::fcrepo::fcrepo_jgroups_fcrepo_tcp_xml_real,
     require => File[$::fcrepo::fcrepo_configdir_real],
@@ -70,7 +70,7 @@ class fcrepo::config {
   }
   
   # Put in place Fedora config infinispan.xml
-  staging::file { 'infinispan.xml':
+  staging::deploy { 'infinispan.xml':
     target  => "${::fcrepo::fcrepo_configdir_real}/infinispan.xml",
     source  => $::fcrepo::fcrepo_infinispan_xml_real,
     require => File[$::fcrepo::fcrepo_configdir_real],
