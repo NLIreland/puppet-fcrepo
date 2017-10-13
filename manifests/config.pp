@@ -34,11 +34,15 @@ class fcrepo::config {
   # Put in place Fedora config repository.json
   # It would be easier to use file for these, but file won't support https URLs until 
   # Puppet 4.4
-  staging::file { 'repository.json':
-    target  => "${::fcrepo::fcrepo_configdir_real}/repository.json",
-    source  => $::fcrepo::fcrepo_repository_json_real,
-    require => File[$::fcrepo::fcrepo_configdir_real],
+  staging::deploy { 'repository.json':
+    source => $::fcrepo::fcrepo_repository_json_real,
+    target => "${::fcrepo::fcrepo_configdir_real}/repository.json",
   }->
+  #staging::file { 'repository.json':
+  #  target  => "${::fcrepo::fcrepo_configdir_real}/repository.json",
+  #  source  => $::fcrepo::fcrepo_repository_json_real,
+  #  require => File[$::fcrepo::fcrepo_configdir_real],
+  #}->
   file { "${::fcrepo::fcrepo_configdir_real}/repository.json":
     ensure => present,
     group  => $::fcrepo::group_real,
