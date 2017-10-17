@@ -41,9 +41,9 @@ class fcrepo::config {
     timeout     => 0,
     verbose     => false,
   }->
-  wget::fetch { 'get infinispan.xml':
+  wget::fetch { 'get repository.json':
     source => "${::fcrepo::fcrepo_jgroups_fcrepo_tcp_xml}",
-    destination => '/tmp/infinispan.xml',
+    destination => '/tmp/repository.json',
     timeout     => 0,
     verbose     => false,
   }->
@@ -56,10 +56,10 @@ class fcrepo::config {
     owner  => $::fcrepo::user_real,
     mode   => '0644',
   }->
-  # Put in place Fedora config infinispan.xml
+  # Put in place Fedora config repository.json
   file { "${::fcrepo::fcrepo_configdir_real}/infinispan.xml":
-    source => "/tmp/infinispan.xml",
-    #target => "${::fcrepo::fcrepo_configdir_real}/infinispan.xml",
+    source => "/tmp/repository.json",
+    #target => "${::fcrepo::fcrepo_configdir_real}/repository.json",
     ensure => present,
     group  => $::fcrepo::group_real,
     owner  => $::fcrepo::user_real,
