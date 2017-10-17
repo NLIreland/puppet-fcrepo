@@ -36,7 +36,7 @@ class fcrepo::config {
   # It would be easier to use file for these, but file won't support https URLs until 
   # Puppet 4.4
   wget::fetch { "get jgroups-fcrepo-tcp.xml":
-    source      => "${::fcrepo::fcrepo_jgroups_fcrepo_tcp_xml}",
+    source      => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.7.3/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml',
     destination => '/tmp/jgroups-fcrepo-tcp.xml',
     timeout     => 0,
     verbose     => false,
