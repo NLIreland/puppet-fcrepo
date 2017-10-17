@@ -35,7 +35,7 @@ class fcrepo::config {
   # Put in place Fedora config repository.json
   # It would be easier to use file for these, but file won't support https URLs until 
   # Puppet 4.4
-  wget::fetch { "get jgroups-fcrepo-tcp.xm":
+  wget::fetch { "get jgroups-fcrepo-tcp.xml":
     source      => "${::fcrepo::fcrepo_jgroups_fcrepo_tcp_xml}",
     destination => '/tmp/jgroups-fcrepo-tcp.xml',
     timeout     => 0,
