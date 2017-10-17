@@ -32,29 +32,14 @@ class fcrepo::config {
     require => [ File[$::fcrepo::fcrepo_sandbox_home_real] ],
   }
 
-  # Put in place Fedora config repository.json and jgroups
+  # Put in place Fedora config repository.json
   # It would be easier to use file for these, but file won't support https URLs until 
   # Puppet 4.4
-  wget::fetch { "get jgroups-fcrepo-tcp.xml":
-    source      => 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.7.3/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml',
-    destination => '/tmp/jgroups-fcrepo-tcp.xml',
-    timeout     => 0,
-    verbose     => false,
-  }->
   wget::fetch { 'get repository.json':
     source => "${::fcrepo::fcrepo_repository_json}",
     destination => '/tmp/repository.json',
     timeout     => 0,
     verbose     => false,
-  }->
-  # Put in place Fedora config jgroups-fcrepo-tcp.xml
-  file { "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml":
-    source => "/tmp/jgroups-fcrepo-tcp.xml",
-    #target => "${::fcrepo::fcrepo_configdir_real}/jgroups-fcrepo-tcp.xml",
-    ensure => present,
-    group  => $::fcrepo::group_real,
-    owner  => $::fcrepo::user_real,
-    mode   => '0644',
   }->
   # Put in place Fedora config repository.json
   file { "${::fcrepo::fcrepo_configdir_real}/repository.json":
