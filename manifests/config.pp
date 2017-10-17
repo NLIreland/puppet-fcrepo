@@ -35,11 +35,9 @@ class fcrepo::config {
   # Put in place Fedora config repository.json
   # It would be easier to use file for these, but file won't support https URLs until 
   # Puppet 4.4
-  wget::fetch { 'get repository.json':
-    source => "${::fcrepo::fcrepo_repository_json}",
-    destination => '/tmp/repository.json',
-    timeout     => 0,
-    verbose     => false,
+  exec { 'get repository.json':
+     command => "wget https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.7.3/fcrepo-configs/src/main/resources/config/jdbc-mysql/repository.json -O /tmp/repository.json",
+     path => '/usr/bin',
   }->
   # Put in place Fedora config repository.json
   file { "${::fcrepo::fcrepo_configdir_real}/repository.json":
