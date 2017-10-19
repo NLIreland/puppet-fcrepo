@@ -117,6 +117,7 @@ class fcrepo::params {
     $fcrepo_repository_json = 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.2/fcrepo-configs/src/main/resources/config/jdbc-mysql/repository.json'
     $fcrepo_jgroups_fcrepo_tcp_xml = 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.2/fcrepo-configs/src/main/resources/config/jgroups-fcrepo-tcp.xml'
     $fcrepo_warsource    = 'https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-4.6.2/fcrepo-webapp-4.6.2.war'
+    $fcrepo_infinispan_xml = 'https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.2/fcrepo-configs/src/main/resources/config/infinispan/jdbc-mysql/infinispan.xml'
     $fcrepo_db_host      = 'localhost'
     $fcrepo_db_port      = '3306'
     $fcrepo_db_username  = 'fcrepouser'
@@ -130,7 +131,7 @@ class fcrepo::params {
     $tomcat_http_port    = '8080'
     $tomcat_ajp_port     = '8009'
     $tomcat_redirect_port = '8443'
-    $tomcat_catalina_opts_xmx = '1024m'
-    $tomcat_catalina_opts_maxpermsize = '256m'
+    $tomcat_catalina_opts_xmx = '10024m'
+    $tomcat_catalina_opts_maxpermsize = '2256m'
     $tomcat_catalina_opts_multicastaddr = '192.168.254.254'
 }
