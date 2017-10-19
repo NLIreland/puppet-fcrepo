@@ -42,7 +42,18 @@ class fcrepo::config {
   # Put in place Fedora config repository.json
   file { "${::fcrepo::fcrepo_configdir_real}/repository.json":
     source => "/tmp/repository.json",
-    #target => "${::fcrepo::fcrepo_configdir_real}/repository.json",
+    ensure => present,
+    group  => $::fcrepo::group_real,
+    owner  => $::fcrepo::user_real,
+    mode   => '0644',
+  }
+  exec { 'get infinispan.xml':
+     command => "wget https://raw.githubusercontent.com/fcrepo4/fcrepo4/fcrepo-4.6.2/fcrepo-configs/src/main/resources/config/infinispan/jdbc-mysql/infinispan.xml -O /tmp/infinispan.xml",
+     path => '/usr/bin',
+  }->
+  # Put in place Fedora config infinispan.xml
+  file { "${::fcrepo::fcrepo_configdir_real}/infinispan.xml":
+    source => "/tmp/infinispan.xml",
     ensure => present,
     group  => $::fcrepo::group_real,
     owner  => $::fcrepo::user_real,
